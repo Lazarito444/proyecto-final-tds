@@ -1,5 +1,6 @@
 import 'package:financia_mobile/extensions/navigation_extensions.dart';
 import 'package:financia_mobile/modules/auth/sign_up_screen.dart';
+import 'package:financia_mobile/modules/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
@@ -32,7 +33,7 @@ class LoginScreen extends StatelessWidget {
                 width: double.infinity,
                 child: TextButton(
                   onPressed: () {
-                    context.push(SignUpScreen());
+                    context.push(DashboardScreen());
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 31, 133, 119),
