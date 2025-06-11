@@ -1,3 +1,4 @@
+import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
@@ -8,47 +9,96 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(backgroundColor: Colors.white),
       backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 5.sw),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              "Registro",
-              style: GoogleFonts.gabarito(
-                fontWeight: FontWeight.w700,
-                fontSize: 48,
-                color: const Color(0xFF113931),
-              ),
-            ),
+            Text("Registro", style: context.textStyles.titleLarge),
             const SizedBox(height: 35),
+            Text("Nombre completo", style: context.textStyles.labelMedium),
+            const SizedBox(height: 2),
             TextField(
               decoration: InputDecoration(
-                labelText: "Nombre completo",
-                border: OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(
+                    color: Colors.green.shade200,
+                    width: 3,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(
+                    color: Colors.green.shade400,
+                    width: 3,
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 25),
+            Text("Correo electrónico", style: context.textStyles.labelMedium),
+            const SizedBox(height: 2),
             TextField(
               decoration: InputDecoration(
-                labelText: "Correo electrónico",
-                border: OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(
+                    color: Colors.green.shade200,
+                    width: 3,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(
+                    color: Colors.green.shade400,
+                    width: 3,
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 25),
+            Text("Contraseña", style: context.textStyles.labelMedium),
+            const SizedBox(height: 2),
             TextField(
               decoration: InputDecoration(
-                labelText: "Contraseña",
-                border: OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(
+                    color: Colors.green.shade200,
+                    width: 3,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(
+                    color: Colors.green.shade400,
+                    width: 3,
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 25),
+            Text("Confirmar contraseña", style: context.textStyles.labelMedium),
+            const SizedBox(height: 2),
             TextField(
               decoration: InputDecoration(
-                labelText: "Confirmar contraseña",
-                border: OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(
+                    color: Colors.green.shade200,
+                    width: 3,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(
+                    color: Colors.green.shade400,
+                    width: 3,
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 25),
