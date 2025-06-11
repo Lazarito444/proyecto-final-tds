@@ -1,8 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:financia_mobile/modules/transaction/add_transaction.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
+
+  @override
+  _DashboardScreenState createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    if (index == 4) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => AddTransactionScreen()),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +37,6 @@ class DashboardScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-
       body: Column(
         children: [
           Container(
@@ -58,12 +78,10 @@ class DashboardScreen extends StatelessWidget {
               ],
             ),
           ),
-
           Expanded(
             child: Column(
               children: [
                 SizedBox(height: 24),
-                // Círculo con porcentaje
                 Center(
                   child: Container(
                     width: 120,
@@ -94,8 +112,6 @@ class DashboardScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 16),
-
-                // Leyenda de Ingresos y Egresos
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -137,8 +153,6 @@ class DashboardScreen extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 24),
-
-                // Título y transacciones
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24),
                   child: Align(
@@ -156,7 +170,6 @@ class DashboardScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 12),
-
                 Expanded(
                   child: ListView(
                     padding: EdgeInsets.symmetric(horizontal: 24),
@@ -192,10 +205,16 @@ class DashboardScreen extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
+        currentIndex: _selectedIndex,
         selectedItemColor: Color(0xFF4A9B8E),
         unselectedItemColor: Colors.grey,
-        selectedLabelStyle: GoogleFonts.gabarito(),
-        unselectedLabelStyle: GoogleFonts.gabarito(),
+        selectedLabelStyle: GoogleFonts.gabarito(
+          textStyle: TextStyle(fontSize: 10),
+        ),
+        unselectedLabelStyle: GoogleFonts.gabarito(
+          textStyle: TextStyle(fontSize: 10),
+        ),
+        onTap: _onItemTapped,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Presupuesto'),
           BottomNavigationBarItem(
@@ -210,15 +229,12 @@ class DashboardScreen extends StatelessWidget {
             icon: Icon(Icons.receipt),
             label: 'Recorrido',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.swap_horiz),
+            label: 'Transacciones',
+          ),
         ],
       ),
-      /*floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/add-transaction');
-        },
-        backgroundColor: Color(0xFF4A9B8E),
-        child: Icon(Icons.add, color: Colors.white),
-      ),*/
     );
   }
 }
