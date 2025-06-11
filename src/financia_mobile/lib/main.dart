@@ -1,3 +1,4 @@
+import 'package:financia_mobile/config/themes.dart';
 import 'package:financia_mobile/modules/auth/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,6 +21,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: LoginScreen());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: LoginScreen(),
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: ThemeMode.system,
+    );
   }
 }

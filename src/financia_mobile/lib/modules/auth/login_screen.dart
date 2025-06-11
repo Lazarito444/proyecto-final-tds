@@ -1,8 +1,8 @@
 import 'package:financia_mobile/extensions/navigation_extensions.dart';
+import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:financia_mobile/modules/auth/sign_up_screen.dart';
 import 'package:financia_mobile/modules/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -20,14 +20,7 @@ class LoginScreen extends StatelessWidget {
             children: <Widget>[
               SizedBox(height: 150, width: 150, child: Placeholder()),
               const SizedBox(height: 20),
-              Text(
-                "FinancIA",
-                style: GoogleFonts.gabarito(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 48,
-                  color: const Color(0xFF113931),
-                ),
-              ),
+              Text("FinancIA", style: context.textStyles.titleLarge),
               const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
@@ -48,9 +41,8 @@ class LoginScreen extends StatelessWidget {
                   ),
                   child: Text(
                     "Iniciar sesión",
-                    style: GoogleFonts.gabarito(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 24,
+                    style: context.textStyles.titleSmall!.copyWith(
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -70,15 +62,12 @@ class LoginScreen extends StatelessWidget {
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
-                      side: BorderSide(color: Colors.green.shade200, width: 2),
+                      side: BorderSide(color: Colors.green.shade200, width: 3),
                     ),
                   ),
                   child: Text(
                     "Regístrate",
-                    style: GoogleFonts.gabarito(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 24,
-                    ),
+                    style: context.textStyles.titleSmall,
                   ),
                 ),
               ),
