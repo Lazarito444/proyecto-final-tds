@@ -18,6 +18,29 @@ final ThemeData lightTheme = ThemeData(
     ),
     labelMedium: GoogleFonts.outfit(fontSize: 15.spa),
   ),
+  inputDecorationTheme: InputDecorationTheme(
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: Colors.green.shade200, width: 3),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: Colors.green.shade400, width: 3),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: Colors.red.shade400, width: 3),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: Colors.red.shade600, width: 3),
+    ),
+    errorStyle: GoogleFonts.outfit(
+      fontSize: 12.spa,
+      color: Colors.red,
+      fontWeight: FontWeight.w500,
+    ),
+  ),
 );
 
 final ThemeData darkTheme = ThemeData(
