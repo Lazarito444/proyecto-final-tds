@@ -1,6 +1,8 @@
+import 'package:financia_mobile/extensions/navigation_extensions.dart';
 import 'package:financia_mobile/extensions/theme_extensions.dart';
+import 'package:financia_mobile/modules/dashboard/dashboard_screen.dart';
+import 'package:financia_mobile/widgets/full_width_button.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -12,6 +14,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormFieldState> confirmPasswordKey = GlobalKey<FormFieldState>();
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -38,6 +41,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               TextFormField(
                 validator: _validateName,
                 controller: _fullNameController,
+                style: context.textStyles.labelSmall,
               ),
               SizedBox(height: 25),
               Text("Correo electrónico", style: context.textStyles.labelMedium),
@@ -45,6 +49,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               TextFormField(
                 validator: _validateEmail,
                 controller: _emailController,
+                style: context.textStyles.labelSmall,
               ),
               SizedBox(height: 25),
               Text("Contraseña", style: context.textStyles.labelMedium),
@@ -52,6 +57,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               TextFormField(
                 validator: _validatePassword,
                 controller: _passwordController,
+                style: context.textStyles.labelSmall,
+                onChanged: (_) => confirmPasswordKey.currentState?.validate(),
                 obscureText: true,
               ),
               SizedBox(height: 25),
@@ -61,35 +68,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               const SizedBox(height: 2),
               TextFormField(
+                key: confirmPasswordKey,
                 validator: _validatePasswordConfirmation,
                 controller: _passwordConfirmationController,
+                style: context.textStyles.labelSmall,
                 obscureText: true,
               ),
               SizedBox(height: 25),
-              SizedBox(
-                width: double.infinity,
-                child: TextButton(
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 31, 133, 119),
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: Text(
-                    "Crear cuenta",
-                    style: GoogleFonts.gabarito(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 24,
-                    ),
-                  ),
-                ),
-              ),
+              FullWidthButton(text: "Crear cuenta", onPressed: () {
+                context.push(DashboardScreen());
+              })
             ],
           ),
         ),
@@ -129,7 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     if (!passwordRegExp.hasMatch(value)) {
-      return "La contraseña debe tener al menos 6\ncaracteres, una mayúscula, una minúscula y un número";
+      return "La contraseña debe tener al menos\n6 caracteres, una mayúscula, una minúscula\ny un número";
     }
 
     return null;

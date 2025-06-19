@@ -1,27 +1,54 @@
 import 'package:financia_mobile/extensions/navigation_extensions.dart';
 import 'package:financia_mobile/extensions/theme_extensions.dart';
-import 'package:financia_mobile/modules/auth/sign_up_screen.dart';
 import 'package:financia_mobile/modules/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(backgroundColor: Colors.white),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.sw),
-        child: Center(
+        padding: EdgeInsetsGeometry.symmetric(horizontal: 5.sw),
+        child: Form(
+          key: formKey,
+          autovalidateMode: AutovalidateMode.onUnfocus,
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min, 
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(height: 150, width: 150, child: Placeholder()),
-              const SizedBox(height: 20),
-              Text("FinancIA", style: context.textStyles.titleLarge),
-              const SizedBox(height: 20),
+              Text("Bienvenido", style: context.textStyles.titleLarge),
+              const SizedBox(height: 35),
+              Text("Correo electrónico", style: context.textStyles.labelMedium),
+              const SizedBox(height: 2),
+              TextFormField(
+                validator: _validateEmail,
+                controller: _emailController,
+                style: context.textStyles.labelSmall,
+              ),
+              const SizedBox(height: 25),
+              Text("Contraseña", style: context.textStyles.labelMedium),
+              const SizedBox(height: 2),
+              TextFormField(
+                controller: _passwordController,
+                style: context.textStyles.labelSmall,
+                obscureText: true,
+              ),
+              const SizedBox(height: 40),
               SizedBox(
                 width: double.infinity,
                 child: TextButton(
@@ -29,7 +56,7 @@ class LoginScreen extends StatelessWidget {
                     context.push(DashboardScreen());
                   },
                   style: TextButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 31, 133, 119),
+                    backgroundColor: const Color.fromARGB(255, 31, 133, 119),
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
@@ -41,42 +68,29 @@ class LoginScreen extends StatelessWidget {
                   ),
                   child: Text(
                     "Iniciar sesión",
-                    style: context.textStyles.titleSmall!.copyWith(
-                      color: Colors.white,
+                    style: GoogleFonts.gabarito(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 24,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 15),
-              SizedBox(
-                width: double.infinity,
-                child: TextButton(
-                  onPressed: () {
-                    context.push(SignUpScreen());
-                  },
-                  style: TextButton.styleFrom(
-                    foregroundColor: const Color(0xFF113931),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      side: BorderSide(color: Colors.green.shade200, width: 3),
-                    ),
-                  ),
-                  child: Text(
-                    "Regístrate",
-                    style: context.textStyles.titleSmall,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 40),
-              const SizedBox(width: 200, height: 200, child: Placeholder()),
-            ],
-          ),
+          ],
+        ),
         ),
       ),
     );
+  }
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Ingrese su correo electrónico';
+    }
+    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
+    if (!emailRegex.hasMatch(value)) {
+      return 'Por favor ingrese un correo electrónico válido';
+    }
+
+    return null;
   }
 }

@@ -1,13 +1,17 @@
+import 'package:financia_mobile/extensions/theme_extensions.dart';
+import 'package:financia_mobile/widgets/full_width_button.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class AddTransactionScreen extends StatefulWidget {
+  const AddTransactionScreen({super.key});
+
   @override
-  _AgregarTransaccionScreenState createState() =>
-      _AgregarTransaccionScreenState();
+  State<AddTransactionScreen> createState() => _AgregarTransaccionScreenState();
 }
 
 class _AgregarTransaccionScreenState extends State<AddTransactionScreen> {
-  bool isIngreso = true;
+  bool isEarning = true;
   String categoria = '';
   double monto = 0.0;
   DateTime fecha = DateTime.now();
@@ -16,82 +20,43 @@ class _AgregarTransaccionScreenState extends State<AddTransactionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Agregar Transacción'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
+        backgroundColor: Colors.white,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.symmetric(horizontal: 5.sw),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Toggle Ingreso/Egreso
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isIngreso = true;
-                      });
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 12),
-                      decoration: BoxDecoration(
-                        color: isIngreso
-                            ? Colors.green[100]
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Ingreso',
-                          style: TextStyle(
-                            color: isIngreso ? Colors.green[800] : Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
+            Text('Agregar Transacción', style: context.textStyles.titleMedium,),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: SegmentedButton<bool>(
+                style: SegmentedButton.styleFrom(
+                  textStyle: context.textStyles.labelSmall,
+                  backgroundColor: Colors.green.shade200,
+                  selectedBackgroundColor: Colors.green.shade300,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: BorderSide(color: Colors.green.shade200, width: 2),
                   ),
                 ),
-                SizedBox(width: 8),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isIngreso = false;
-                      });
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 12),
-                      decoration: BoxDecoration(
-                        color: !isIngreso
-                            ? Colors.green[800]
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Egreso',
-                          style: TextStyle(
-                            color: !isIngreso ? Colors.white : Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                segments: const <ButtonSegment<bool>>[
+                  ButtonSegment(value: true, label: Text('Ingreso')),
+                  ButtonSegment(value: false, label: Text('Egreso')),
+                ],
+                selected: <bool>{isEarning},
+                onSelectionChanged: (selection) {
+                  setState(() {
+                    isEarning = selection.first;
+                  });
+                },
+              ),
             ),
             SizedBox(height: 16),
-
-            // Categoría y Monto
             TextField(
               decoration: InputDecoration(
                 labelText: 'Categoría',
@@ -102,7 +67,6 @@ class _AgregarTransaccionScreenState extends State<AddTransactionScreen> {
               },
             ),
             SizedBox(height: 16),
-
             TextField(
               decoration: InputDecoration(
                 labelText: 'Monto',
@@ -114,8 +78,6 @@ class _AgregarTransaccionScreenState extends State<AddTransactionScreen> {
               },
             ),
             SizedBox(height: 16),
-
-            // Fecha
             TextFormField(
               readOnly: true,
               decoration: InputDecoration(
@@ -142,8 +104,6 @@ class _AgregarTransaccionScreenState extends State<AddTransactionScreen> {
               },
             ),
             SizedBox(height: 16),
-
-            // Descripción
             TextField(
               decoration: InputDecoration(
                 labelText: 'Descripción',
@@ -155,24 +115,7 @@ class _AgregarTransaccionScreenState extends State<AddTransactionScreen> {
               },
             ),
             SizedBox(height: 24),
-
-            // Botón Guardar
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  print('Guardado');
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green[800],
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                ),
-                child: Text(
-                  'Guardar',
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
-              ),
-            ),
+            FullWidthButton(text: "Guardar", onPressed: (){})
           ],
         ),
       ),

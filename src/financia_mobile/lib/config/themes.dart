@@ -11,12 +11,20 @@ final ThemeData lightTheme = ThemeData(
       fontSize: 24.spa,
       color: const Color(0xFF113931),
     ),
+    titleMedium: GoogleFonts.gabarito(
+      fontWeight: FontWeight.w600,
+      fontSize: 20.spa,
+      color: const Color(0xFF113931),
+    ),
     titleSmall: GoogleFonts.gabarito(
       fontWeight: FontWeight.w600,
       fontSize: 16.spa,
       color: const Color(0xFF113931),
     ),
+    labelLarge: GoogleFonts.outfit(fontSize: 17.spa),
     labelMedium: GoogleFonts.outfit(fontSize: 15.spa),
+    labelSmall: GoogleFonts.outfit(fontSize: 14.spa),
+    
   ),
   inputDecorationTheme: InputDecorationTheme(
     enabledBorder: OutlineInputBorder(
