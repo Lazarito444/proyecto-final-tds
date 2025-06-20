@@ -10,7 +10,15 @@ namespace FinancIA.Infrastructure.Persistence
     {
         public static void AddPersistenceInfrastructure(this IServiceCollection services, IConfiguration config)
         {
-            services.AddIdentity<ApplicationUser, IdentityRole<int>>()
+            services.AddIdentity<ApplicationUser, IdentityRole<int>>(opt =>
+            {
+                opt.Password.RequireDigit = true;
+                opt.Password.RequireLowercase = true;
+                opt.Password.RequireUppercase = true;
+                opt.Password.RequiredLength = 6;
+
+                opt.User.RequireUniqueEmail = true;
+            })
                 .AddEntityFrameworkStores<ApplicationContext>()
                 .AddDefaultTokenProviders();
 

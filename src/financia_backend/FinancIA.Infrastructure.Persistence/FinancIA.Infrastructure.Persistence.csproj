@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Configurations\" />
+    <ProjectReference Include="..\FinancIA.Core.Domain\FinancIA.Core.Domain.csproj" />
   </ItemGroup>
 
 </Project>
