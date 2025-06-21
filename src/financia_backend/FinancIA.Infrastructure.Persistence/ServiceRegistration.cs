@@ -1,5 +1,6 @@
-﻿using FinancIA.Infrastructure.Persistence.Entities;
+﻿using FinancIA.Core.Application.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,17 +11,19 @@ namespace FinancIA.Infrastructure.Persistence
     {
         public static void AddPersistenceInfrastructure(this IServiceCollection services, IConfiguration config)
         {
-            services.AddIdentity<ApplicationUser, IdentityRole<int>>(opt =>
-            {
-                opt.Password.RequireDigit = true;
-                opt.Password.RequireLowercase = true;
-                opt.Password.RequireUppercase = true;
-                opt.Password.RequiredLength = 6;
 
-                opt.User.RequireUniqueEmail = true;
-            })
-                .AddEntityFrameworkStores<ApplicationContext>()
-                .AddDefaultTokenProviders();
+            //Identity
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options => {
+                options.Password.RequiredLength = 5;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireDigit = true;
+
+            }).AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders().
+            AddUserStore<UserStore<ApplicationUser, ApplicationRole, ApplicationContext, Guid>>().AddRoleStore<RoleStore<ApplicationRole, ApplicationContext, Guid>>();
+
+
 
             if (config.GetValue<bool>("UseInMemoryDatabase"))
             {
