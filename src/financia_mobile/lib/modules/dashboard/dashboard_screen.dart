@@ -1,3 +1,4 @@
+import 'package:financia_mobile/modules/analysis/analysis_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:financia_mobile/modules/transaction/add_transaction.dart';
@@ -17,7 +18,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
       _selectedIndex = index;
     });
 
-    if (index == 4) {
+    if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => AnalysisScreen()),
+      );
+    } else if (index == 4) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => AddTransactionScreen()),

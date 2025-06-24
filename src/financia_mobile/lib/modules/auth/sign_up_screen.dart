@@ -14,7 +14,8 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final GlobalKey<FormFieldState> confirmPasswordKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> confirmPasswordKey =
+      GlobalKey<FormFieldState>();
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -75,9 +76,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 obscureText: true,
               ),
               SizedBox(height: 25),
-              FullWidthButton(text: "Crear cuenta", onPressed: () {
-                context.push(DashboardScreen());
-              })
+              FullWidthButton(
+                text: "Crear cuenta",
+                onPressed: () {
+                  context.push(DashboardScreen());
+                },
+              ),
             ],
           ),
         ),

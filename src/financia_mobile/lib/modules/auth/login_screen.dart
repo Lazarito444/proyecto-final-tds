@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
           key: formKey,
           autovalidateMode: AutovalidateMode.onUnfocus,
           child: Column(
-            mainAxisSize: MainAxisSize.min, 
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text("Bienvenido", style: context.textStyles.titleLarge),
@@ -75,8 +75,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-          ],
-        ),
+            ],
+          ),
         ),
       ),
     );
