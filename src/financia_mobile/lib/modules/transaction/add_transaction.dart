@@ -21,15 +21,13 @@ class _AgregarTransaccionScreenState extends State<AddTransactionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-      ),
+      appBar: AppBar(backgroundColor: Colors.white),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 5.sw),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Agregar Transacción', style: context.textStyles.titleMedium,),
+            Text('Agregar Transacción', style: context.textStyles.titleMedium),
             const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
@@ -39,9 +37,9 @@ class _AgregarTransaccionScreenState extends State<AddTransactionScreen> {
                   backgroundColor: Colors.green.shade100,
                   selectedBackgroundColor: Colors.green.shade300,
                   padding: const EdgeInsets.symmetric(vertical: 14),
+                  side: BorderSide(color: context.colors.surface, width: 3),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
-                    side: BorderSide(color: Colors.green.shade200, width: 2),
                   ),
                 ),
                 segments: const <ButtonSegment<bool>>[
@@ -115,7 +113,7 @@ class _AgregarTransaccionScreenState extends State<AddTransactionScreen> {
               },
             ),
             SizedBox(height: 24),
-            FullWidthButton(text: "Guardar", onPressed: (){})
+            FullWidthButton(text: "Guardar", onPressed: () {}),
           ],
         ),
       ),
