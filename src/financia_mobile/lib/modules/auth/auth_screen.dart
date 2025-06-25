@@ -20,7 +20,10 @@ class AuthScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              SizedBox(height: 150, width: 150, child: Placeholder()),
+              SizedBox(height: 150, width: 70.sw, child: Image.asset(
+                "assets/img/logo_light.png",
+                fit: BoxFit.cover,
+              )),
               const SizedBox(height: 20),
               Text("FinancIA", style: context.textStyles.titleLarge),
               const SizedBox(height: 20),

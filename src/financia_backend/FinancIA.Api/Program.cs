@@ -1,15 +1,6 @@
 using FinancIA.Infrastructure.Persistence;
 using FinancIA.Core.Application;
-using FluentValidation;
-
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
-using FinancIA.Core.Application.Identity;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

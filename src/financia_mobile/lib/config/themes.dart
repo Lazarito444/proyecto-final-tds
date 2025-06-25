@@ -4,7 +4,7 @@ import 'package:sizer/sizer.dart';
 
 final ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
-  colorScheme: ColorScheme.light(),
+  colorScheme: ColorScheme.light(surface: Colors.white),
   textTheme: TextTheme(
     titleLarge: GoogleFonts.gabarito(
       fontWeight: FontWeight.w700,
@@ -24,7 +24,6 @@ final ThemeData lightTheme = ThemeData(
     labelLarge: GoogleFonts.outfit(fontSize: 17.spa),
     labelMedium: GoogleFonts.outfit(fontSize: 15.spa),
     labelSmall: GoogleFonts.outfit(fontSize: 14.spa),
-    
   ),
   inputDecorationTheme: InputDecorationTheme(
     enabledBorder: OutlineInputBorder(

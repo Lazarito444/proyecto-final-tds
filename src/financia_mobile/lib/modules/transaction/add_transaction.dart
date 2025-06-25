@@ -36,7 +36,7 @@ class _AgregarTransaccionScreenState extends State<AddTransactionScreen> {
               child: SegmentedButton<bool>(
                 style: SegmentedButton.styleFrom(
                   textStyle: context.textStyles.labelSmall,
-                  backgroundColor: Colors.green.shade200,
+                  backgroundColor: Colors.green.shade100,
                   selectedBackgroundColor: Colors.green.shade300,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
