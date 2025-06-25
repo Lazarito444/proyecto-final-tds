@@ -1,4 +1,5 @@
 import 'package:financia_mobile/modules/analysis/analysis_screen.dart';
+import 'package:financia_mobile/modules/transaction/finance_history.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:financia_mobile/modules/transaction/add_transaction.dart';
@@ -27,6 +28,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => AddTransactionScreen()),
+      );
+    } else if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HistorialScreen()),
       );
     }
   }
@@ -233,7 +239,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.receipt),
-            label: 'Recorrido',
+            label: 'Historial',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.swap_horiz),
