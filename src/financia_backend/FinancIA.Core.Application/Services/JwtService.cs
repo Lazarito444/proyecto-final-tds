@@ -1,17 +1,13 @@
-﻿using FinancIA.Core.Application.Dtos;
+﻿
+using FinancIA.Core.Application.Dtos;
 using FinancIA.Core.Application.Identity;
 using FinancIA.Core.Application.ServiceContracts;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace FinancIA.Core.Application.Services
 {
@@ -24,38 +20,55 @@ namespace FinancIA.Core.Application.Services
             _configuration = configuration;
         }
 
-        public AuthenticationReponse CreateJwtToke(ApplicationUser user)
+        public AuthenticationReponse CreateJwtToken(ApplicationUser user)
         {
-          DateTime expiraton =  DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration["Jwt:EXPIRATION_MINUTES"]));
 
-            Claim[] claims = new Claim[]
+            // En tu JwtService.cs
+            var expirationMinutes = Convert.ToDouble(_configuration["Jwt:EXPIRATION_MINUTES"] ?? "120");
+            var expiration = DateTime.UtcNow.AddMinutes(expirationMinutes);
+
+            // 2. Creación de claims
+            var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), //Jwt Unique Id
-                   new Claim(JwtRegisteredClaimNames.Iat,DateTime.UtcNow.ToString()),
-                   new Claim(ClaimTypes.NameIdentifier, user.Email),
-                   new Claim(ClaimTypes.Name, user.PersonName)
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),
+                new Claim(ClaimTypes.NameIdentifier, user.Email),
+                new Claim(ClaimTypes.Name, user.PersonName)
             };
 
+            // 3. Configuración de la clave de seguridad
+            var securityKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key no configurada")));
 
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(
-               Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var signingCredentials = new SigningCredentials(
+                securityKey,
+                SecurityAlgorithms.HmacSha256);
 
-            SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            // 4. Generación del token
+            var token = new JwtSecurityToken(
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
+                claims: claims,
+                expires: expiration,
+                signingCredentials: signingCredentials);
 
-            JwtSecurityToken tokenGenerator = new JwtSecurityToken(
-                _configuration["Jwt:Issuer"],
-                _configuration["Jwt:Audience"],
-                claims,
-                expires: expiraton,
-               signingCredentials: signingCredentials);
+            // 5. Escritura del token
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenString = tokenHandler.WriteToken(token);
 
-
-          JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-
-           string token = tokenHandler.WriteToken(tokenGenerator);
-
-            return new AuthenticationReponse() { Token = token, Email = user.Email, PersonName = user.PersonName, Expiration = expiraton };
+            // 6. Retorno de la respuesta
+            return new AuthenticationReponse
+            {
+                Token = tokenString,
+                Email = user.Email,
+                PersonName = user.PersonName,
+                Expiration = expiration
+            };
         }
     }
 }
+
+
+
+

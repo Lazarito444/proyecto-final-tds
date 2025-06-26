@@ -1,11 +1,13 @@
 ﻿using FinancIA.Core.Application.Dtos;
 using FinancIA.Core.Application.Identity;
 using FinancIA.Core.Application.ServiceContracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinancIA.Api.Controllers
 {
+    [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
     public class AccountController : Controller
@@ -51,7 +53,7 @@ namespace FinancIA.Api.Controllers
             {
                 //sign-in
                 _signInManager.SignInAsync(user, isPersistent: false);
-               var authenticationReponse = _jwtService.CreateJwtToke(user);
+               var authenticationReponse = _jwtService.CreateJwtToken(user);
                 return Ok(authenticationReponse);
             }
             else { 
@@ -97,7 +99,7 @@ namespace FinancIA.Api.Controllers
                 }
                 //sign-in
                 _signInManager.SignInAsync(user, isPersistent: false);
-                var authenticationReponse = _jwtService.CreateJwtToke(user);
+                var authenticationReponse = _jwtService.CreateJwtToken(user);
                 return Ok(authenticationReponse);
 
             }

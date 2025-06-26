@@ -10,6 +10,6 @@ namespace FinancIA.Core.Application.ServiceContracts
 {
     public interface IJwtService
     {
-        AuthenticationReponse CreateJwtToke(ApplicationUser user);
+        AuthenticationReponse CreateJwtToken(ApplicationUser user);
     }
 }
