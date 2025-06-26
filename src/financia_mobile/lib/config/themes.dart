@@ -4,7 +4,10 @@ import 'package:sizer/sizer.dart';
 
 final ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
-  colorScheme: ColorScheme.light(surface: Colors.white),
+  colorScheme: ColorScheme.light(
+    surface: Colors.white,
+    primary: Color.fromARGB(255, 31, 133, 119),
+  ),
   textTheme: TextTheme(
     titleLarge: GoogleFonts.gabarito(
       fontWeight: FontWeight.w700,

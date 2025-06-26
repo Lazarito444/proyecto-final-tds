@@ -29,13 +29,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    isFirstLaunch = true; // Temporarily set to false for testing purposes
+    isFirstLaunch = true; // Temporarily set to true for testing purposes
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: isFirstLaunch ? WelcomeScreen() : AuthScreen(),
       theme: lightTheme,
       darkTheme: darkTheme,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
     );
   }
 }

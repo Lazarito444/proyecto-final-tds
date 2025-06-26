@@ -1,4 +1,5 @@
 import 'package:financia_mobile/extensions/navigation_extensions.dart';
+import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:financia_mobile/modules/auth/auth_screen.dart';
 import 'package:financia_mobile/modules/welcome/onboarding_screen.dart';
 import 'package:financia_mobile/widgets/full_width_button.dart';
@@ -19,7 +20,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   final List<Widget> _pages = [
     OnboardingPage(
       title: 'Bienvenido',
-      description: 'Esta es una app para gestionar tus finanzas personales.',
+      description:
+          'FinancIA es la app que te ayuda a gestionar tus finanzas personales.',
       icon: Icons.monetization_on_outlined,
     ),
     OnboardingPage(
@@ -28,8 +30,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       icon: Icons.bar_chart,
     ),
     OnboardingPage(
-      title: 'Predicciones inteligentes',
-      description: 'La IA te ayuda a predecir tus finanzas futuras.',
+      title: 'Predicciones y sugerencias inteligentes',
+      description:
+          'Nuestra IA te ayuda a predecir tus financias futuras y a recibir recomendaciones para mejorar tus financias.',
       icon: Icons.auto_graph,
     ),
   ];
@@ -86,7 +89,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   width: _currentPage == index ? 12 : 8,
                   height: 8,
                   decoration: BoxDecoration(
-                    color: _currentPage == index ? Colors.blue : Colors.grey,
+                    color: _currentPage == index
+                        ? context.colors.primary
+                        : Colors.grey,
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
