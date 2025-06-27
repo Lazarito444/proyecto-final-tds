@@ -1,4 +1,4 @@
-'use server'
+
 
 import UserServices from '@/services/UserServices';
 

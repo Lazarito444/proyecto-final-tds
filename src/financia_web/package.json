@@ -16,6 +16,7 @@
     "@mui/material": "^7.1.2",
     "@mui/x-charts": "^8.5.3",
     "axios": "^1.10.0",
+    "framer-motion": "^12.19.2",
     "next": "15.3.4",
     "react": "^19.0.0",
     "react-content-loader": "^7.0.2",
