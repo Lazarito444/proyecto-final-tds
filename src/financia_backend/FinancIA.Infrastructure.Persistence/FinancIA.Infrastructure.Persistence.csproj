@@ -21,4 +21,8 @@
     <ProjectReference Include="..\FinancIA.Core.Domain\FinancIA.Core.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

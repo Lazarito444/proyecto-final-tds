@@ -1,13 +1,10 @@
-﻿namespace FinancIA.Core.Domain.Entities;
+﻿namespace FinancIA.Core.Application.Dtos.Transactions;
 
-public class Transaction
+public class CreateTransactionDto
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
-    public Guid UserId { get; set; }
     public Guid CategoryId { get; set; }
     public required string Description { get; set; }
     public decimal Amount { get; set; }
     public DateTime DateTime { get; set; }
-    public Category? Category { get; set; }
     public bool IsEarning { get; set; }
 }
