@@ -13,7 +13,7 @@ const Index = () => {
 </div>
 
 <div className="flex flex-col items-center justify-center gap-y-2">
- <button><Link href="/Login" className="bg-[rgb(31,133,119)] w-[200px] h-[50px] text-xl rounded-lg text-white font-medium cursor-pointer hover:opacity-80  flex items-center justify-center">Iniciar Sesión</Link></button>
+ <Link href="/Login" className="bg-[rgb(31,133,119)] w-[200px] h-[50px] text-xl rounded-lg text-white font-medium cursor-pointer hover:opacity-80  flex items-center justify-center">Iniciar Sesión</Link>
  <button><Link href="/Signup" className="w-[200px] h-[50px] text-xl rounded-lg text-[#113931] font-medium border border-green-200 cursor-pointer hover:bg-[rgb(31,133,119)] flex items-center justify-center hover:text-white transition-all ease-in-out delay-[0.6s]">Registrarse</Link></button>
 </div>
 </div>
