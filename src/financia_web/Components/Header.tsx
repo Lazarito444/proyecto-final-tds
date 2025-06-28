@@ -1,7 +1,7 @@
-import Link from 'next/link'
 import Image from 'next/image'
 import Profile from './Profile'
 import Links from './Links'
+import MobileHeader from './MobileHeader'
 
 const Header = () => {
 const links = [
@@ -26,13 +26,25 @@ const links = [
         href: '/sugerencias'
     }
 ]
+
   return (
     <>
-    <nav className='bg-white w-full h-16 flex items-center justify-between p-4'>
-        <Image src="/Logo.png" alt="logo" width={100} height={100} />
+      {/* Desktop Header */}
+      <nav className='bg-white w-full h-16 items-center justify-between p-4 hidden md:flex'>
+        <Image 
+          src="/Logo.png" 
+          alt="Logo de Financia" 
+          width={100} 
+          height={40}
+          priority
+          className="object-contain"
+        />
         <Links links={links} />
         <Profile />
       </nav>
+
+      {/* Mobile Header */}
+      <MobileHeader links={links} />
     </>
   )
 }

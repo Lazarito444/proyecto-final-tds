@@ -1,22 +1,30 @@
-import * as React from 'react';
-import { PieChart } from '@mui/x-charts';
+'use client'
+import PiechartSkeleton from '@/Skeleton/PiechartSkeleton';
+import dynamic from 'next/dynamic'
+
+const PieChart = dynamic(
+  () => import('@mui/x-charts').then((mod) => mod.PieChart),
+  {
+    loading: () => <PiechartSkeleton />,
+    ssr: false 
+  }
+);
 
 export default function BasicPie() {
   return (
-    <>
-    <PieChart
-      series={[
-        {
-          data: [
-            { id: 0, value: 10, label: 'series A' },
-            { id: 1, value: 15, label: 'series B' },
-            { id: 2, value: 20, label: 'series C' },
-          ],
-        },
-      ]}
-      width={200}
-      height={200}
-    />
-    </>
+    <div className="mt-8">
+      <PieChart
+        series={[
+          {
+            data: [
+              { id: 0, value: 1000, label: 'Gastos' },
+              { id: 1, value: 1000, label: 'Ingresos' },
+            ],
+          },
+        ]}
+        width={200}
+        height={200}
+      />
+    </div>
   );
 }
