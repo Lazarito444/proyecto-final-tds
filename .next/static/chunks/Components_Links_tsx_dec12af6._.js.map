@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///D:/Itla/Proyecto%20final/nextjsapp/Components/Links.tsx"],"sourcesContent":["'use client'\r\nimport Link from 'next/link'\r\nimport React from 'react'\r\nimport { usePathname } from 'next/navigation'\r\n\r\ntype Props = {\r\n    links: {\r\n        name: string\r\n        href: string\r\n    }[]\r\n}\r\n\r\nconst Links = (props: Props) => {\r\n    const pathname = usePathname()\r\n\r\n  return (\r\n    <ul className='flex items-center justify-center gap-x-8'>\r\n        {props.links.map((link) => (\r\n                <li className={`font-bold hover:text-green-700 transition-all duration-300 ${pathname === link.href ? 'text-green-700' : ''}`} key={link.name}>\r\n                <Link href={link.href}>{link.name}</Link>\r\n            </li>\r\n        ))}\r\n    </ul>\r\n  )\r\n}\r\n\r\nexport default Links"],"names":[],"mappings":";;;;AACA;AAEA;;;AAHA;;;AAYA,MAAM,QAAQ,CAAC;;IACX,MAAM,WAAW,CAAA,GAAA,qIAAA,CAAA,cAAW,AAAD;IAE7B,qBACE,6LAAC;QAAG,WAAU;kBACT,MAAM,KAAK,CAAC,GAAG,CAAC,CAAC,qBACV,6LAAC;gBAAG,WAAW,CAAC,2DAA2D,EAAE,aAAa,KAAK,IAAI,GAAG,mBAAmB,IAAI;0BAC7H,cAAA,6LAAC,+JAAA,CAAA,UAAI;oBAAC,MAAM,KAAK,IAAI;8BAAG,KAAK,IAAI;;;;;;eADmG,KAAK,IAAI;;;;;;;;;;AAM7J;GAZM;;QACe,qIAAA,CAAA,cAAW;;;KAD1B;uCAcS","debugId":null}}]
+}
