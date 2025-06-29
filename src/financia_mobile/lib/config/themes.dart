@@ -8,6 +8,19 @@ final ThemeData lightTheme = ThemeData(
     surface: Colors.white,
     primary: Color.fromARGB(255, 31, 133, 119),
   ),
+  progressIndicatorTheme: ProgressIndicatorThemeData(
+    color: Color.fromARGB(255, 31, 133, 119),
+    circularTrackColor: Colors.green.shade100,
+    linearTrackColor: Colors.green.shade100,
+  ),
+  snackBarTheme: SnackBarThemeData(
+    backgroundColor: Colors.red.shade800,
+    contentTextStyle: GoogleFonts.outfit(
+      fontSize: 14.spa,
+      color: Colors.white,
+      fontWeight: FontWeight.w500,
+    ),
+  ),
   textTheme: TextTheme(
     titleLarge: GoogleFonts.gabarito(
       fontWeight: FontWeight.w700,
