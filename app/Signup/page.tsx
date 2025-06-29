@@ -14,10 +14,11 @@ const SignUp = () => {
         e.preventDefault()
         const formData = new FormData(e.currentTarget);
         const data = {
-          fullName: formData.get('fullName') as string,
+          personName:"prueba1",
           email: formData.get('email') as string,
-          password: formData.get('password') as string,
-          passwordConfirmation:formData.get('confirmPassword') as string
+          phoneNumber:"515545",
+            password: formData.get('password') as string,
+            confirmPassword:formData.get('confirmPassword') as string
         }
          const response = await UserServices.registerUser(data)
         if(response.status === 200){
@@ -43,7 +44,7 @@ const SignUp = () => {
 
 <div className="flex flex-col items-center justify-center gap-y-2">
 <form onSubmit={handleSubmit} className='flex flex-col items-center justify-center gap-y-4'>
-      <TextField id="standard-basic" label="Nombre completo" variant="standard" name="fullName" className=' boder-b-[rgb(31,133,119)]' />
+      <TextField id="standard-basic" label="Nombre completo" variant="standard" name="name" className=' boder-b-[rgb(31,133,119)]' />
       <TextField id="standard-basic" label="Correo electrónico" variant="standard" type='email' name="email" />
       <TextField id="standard-basic" label="Contraseña" variant="standard" name="password" />
       <TextField id="standard-basic" label="Confirmar contraseña" variant="standard" name="confirmPassword" />
