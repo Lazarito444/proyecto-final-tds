@@ -7,6 +7,7 @@ import 'package:financia_mobile/providers/auth_provider.dart';
 import 'package:financia_mobile/providers/theme_mode_provider.dart';
 import 'package:financia_mobile/widgets/loading_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sizer/sizer.dart';
 
@@ -14,6 +15,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final bool isFirstLaunch =
       await AppPreferences.getFirstTimeRunningPreference();
+
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   runApp(
     ProviderScope(
