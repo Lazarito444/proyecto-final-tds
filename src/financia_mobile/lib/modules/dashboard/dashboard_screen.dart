@@ -1,6 +1,8 @@
+import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:financia_mobile/modules/analysis/analysis_screen.dart';
 import 'package:financia_mobile/modules/transaction/finance_history.dart';
 import 'package:financia_mobile/providers/auth_provider.dart';
+import 'package:financia_mobile/providers/theme_mode_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -44,15 +46,26 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(backgroundColor: Color(0xFFB8E6C1), elevation: 0),
+      appBar: AppBar(
+        backgroundColor: context.colors.primaryContainer,
+        elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () {
+              ref.read(themeModeProvider.notifier).setThemeMode(ThemeMode.dark);
+            },
+            icon: Icon(Icons.motion_photos_on_sharp),
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: Color(0xFFB8E6C1),
+              color: context.colors.primaryContainer,
+              // color: Color(0xFFB8E6C1),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(24),
                 bottomRight: Radius.circular(24),
@@ -68,7 +81,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     style: GoogleFonts.gabarito(
                       textStyle: TextStyle(
                         fontSize: 30,
-                        color: const Color(0xFF113931),
+                        color: context.colors.onSurface,
+                        // color: const Color(0xFF113931),
                       ),
                     ),
                   ),
@@ -80,7 +94,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     textStyle: TextStyle(
                       fontSize: 50,
                       fontWeight: FontWeight.bold,
-                      color: const Color(0xFF113931),
+                      color: context.colors.onSurface,
+                      // color: const Color(0xFF113931),
                     ),
                   ),
                 ),
@@ -97,7 +112,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     height: 120,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.white,
+                      color: context.colors.secondaryContainer,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black12,
@@ -113,7 +128,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                           textStyle: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF4A9B8E),
+                            color: context.colors.outline,
                           ),
                         ),
                       ),
@@ -172,7 +187,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         textStyle: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: context.colors.onSurfaceVariant,
                         ),
                       ),
                     ),
@@ -214,15 +229,15 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
+        backgroundColor: context.colors.secondaryContainer,
         currentIndex: _selectedIndex,
         selectedItemColor: Color(0xFF4A9B8E),
-        unselectedItemColor: Colors.grey,
+        unselectedItemColor: context.colors.outline,
         selectedLabelStyle: GoogleFonts.gabarito(
-          textStyle: TextStyle(fontSize: 10),
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
         ),
-        unselectedLabelStyle: GoogleFonts.gabarito(
-          textStyle: TextStyle(fontSize: 10),
-        ),
+        unselectedLabelStyle: GoogleFonts.gabarito(fontSize: 12),
         onTap: _onItemTapped,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Presupuesto'),
@@ -274,10 +289,15 @@ class TransactionItem extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: Color(0xFFE8F5F3),
+              color: context.colors.surfaceContainerLow,
+              // color: Color(0xFFE8F5F3),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(icon, color: Color(0xFF4A9B8E), size: 24),
+            child: Icon(
+              icon,
+              color: context.colors.surfaceContainerLowest,
+              size: 24,
+            ),
           ),
           SizedBox(width: 16),
           Expanded(
@@ -290,7 +310,7 @@ class TransactionItem extends StatelessWidget {
                     textStyle: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: Colors.black,
+                      color: context.colors.onSurface,
                     ),
                   ),
                 ),

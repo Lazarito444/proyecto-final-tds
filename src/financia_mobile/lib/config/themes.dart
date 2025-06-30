@@ -7,7 +7,16 @@ final ThemeData lightTheme = ThemeData(
   colorScheme: ColorScheme.light(
     surface: Colors.white,
     primary: Color.fromARGB(255, 31, 133, 119),
+    onSurface: Color(0xFF113931),
+    primaryContainer: Color(0xFFB8E6C1),
+    secondaryContainer: Colors.white,
+    tertiaryContainer: Colors.white,
+    onSurfaceVariant: Colors.black,
+    outline: Colors.grey.shade600,
+    surfaceContainerLow: Color(0xFFE8F5F3),
+    surfaceContainerLowest: Color(0xFF4A9B8E),
   ),
+  scaffoldBackgroundColor: Colors.white,
   progressIndicatorTheme: ProgressIndicatorThemeData(
     color: Color.fromARGB(255, 31, 133, 119),
     circularTrackColor: Colors.green.shade100,
@@ -68,5 +77,17 @@ final ThemeData lightTheme = ThemeData(
 
 final ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
-  colorScheme: ColorScheme.dark(),
+  colorScheme: ColorScheme.dark(
+    surface: Color(0xFF242425),
+    primary: Color(0xFF374050),
+    onSurface: Colors.white,
+    primaryContainer: Color(0xFF262726),
+    secondaryContainer: Color(0xFF1e2936),
+    tertiaryContainer: Color(0xFF1f1f1e),
+    onSurfaceVariant: Colors.white,
+    outline: Color(0xFFd1d5db),
+    surfaceContainerLow: Color(0xFF374050),
+    surfaceContainerLowest: Color(0xFFced2d8),
+  ),
+  scaffoldBackgroundColor: Color(0xFF131312),
 );
