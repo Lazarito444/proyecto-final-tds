@@ -38,11 +38,11 @@ public class AuthController : ControllerBase
 
         ApplicationUser? user = await _userManager.FindByEmailAsync(request.Email);
 
-        if (user is null) return BadRequest("Credenciales incorrectas");
+        if (user is null) return Unauthorized("Credenciales incorrectas");
 
         SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: false);
 
-        if (!result.Succeeded) return BadRequest("Credenciales incorrectas");
+        if (!result.Succeeded) return Unauthorized("Credenciales incorrectas");
 
         Claim[] claims =
         [
@@ -99,7 +99,7 @@ public class AuthController : ControllerBase
         ClaimsPrincipal principal = _jwtService.GetPrincipalFromExpiredToken(request.AccessToken);
         string? userIdString = principal.FindFirstValue(JwtRegisteredClaimNames.Sub);
 
-        if (userIdString == null) return BadRequest("Access token inválido");
+        if (userIdString == null) return Unauthorized("Access token inválido");
 
         Guid userId = Guid.Parse(userIdString);
         ApplicationUser? user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
@@ -117,11 +117,11 @@ public class AuthController : ControllerBase
     {
         string? userIdString = User.FindFirstValue(JwtRegisteredClaimNames.Sub);
 
-        if (userIdString == null) return BadRequest("Access token inválido");
+        if (userIdString == null) return Unauthorized("Access token inválido");
 
         Guid userId = Guid.Parse(userIdString);
 
-        _jwtService.RemoveUserRefreshTokens(userId);
+        await _jwtService.RemoveUserRefreshTokens(userId);
 
         return NoContent();
     }

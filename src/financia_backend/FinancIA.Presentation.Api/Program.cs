@@ -3,6 +3,7 @@ using FinancIA.Core.Application.Extensions;
 using FinancIA.Core.Domain.Settings;
 using FinancIA.Infrastructure.Persistence.Extensions;
 using FinancIA.Presentation.Api.Extensions;
+using FinancIA.Presentation.Api.Middlewares;
 using Microsoft.AspNetCore.Mvc;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -34,6 +35,8 @@ if (app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 app.UseCors("AllowAll");
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

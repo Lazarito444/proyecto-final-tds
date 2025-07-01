@@ -6,7 +6,9 @@ using FinancIA.Core.Application.Contracts.Repositories;
 using FinancIA.Core.Application.Contracts.Services;
 using FinancIA.Core.Application.Dtos.Auth;
 using FinancIA.Core.Domain.Entities;
+using FinancIA.Core.Domain.Exceptions;
 using FinancIA.Core.Domain.Settings;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -102,7 +104,7 @@ public class JwtService : IJwtService
         if (securityToken is not JwtSecurityToken jwtToken ||
             !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
         {
-            throw new SecurityTokenException("Invalid token");
+            throw new ApiException(StatusCodes.Status400BadRequest, "Token inválido");
         }
 
         return principal;
@@ -129,7 +131,7 @@ public class JwtService : IJwtService
         Guid userId = Guid.Parse(userIdString);
         RefreshToken? refreshTokenFromDb = await _refreshTokenRepository.GetBySpec(t => t.UserId == userId);
 
-        if (refreshTokenFromDb is null) throw new SecurityTokenException("Token inválido");
+        if (refreshTokenFromDb is null) throw new ApiException(StatusCodes.Status400BadRequest, "Token inválido");
 
         return await GenerateTokens(userId, principal.Claims.ToArray());
     }
