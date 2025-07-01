@@ -111,4 +111,18 @@ public class AuthController : ControllerBase
         SystemTokens tokens = await _jwtService.GenerateTokens(userId, principal.Claims.ToArray());
         return Ok(tokens);
     }
+
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        string? userIdString = User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+
+        if (userIdString == null) return BadRequest("Access token inválido");
+
+        Guid userId = Guid.Parse(userIdString);
+
+        _jwtService.RemoveUserRefreshTokens(userId);
+
+        return NoContent();
+    }
 }

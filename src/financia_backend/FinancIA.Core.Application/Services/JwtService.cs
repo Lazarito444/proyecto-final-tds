@@ -133,4 +133,13 @@ public class JwtService : IJwtService
 
         return await GenerateTokens(userId, principal.Claims.ToArray());
     }
+
+    public async Task RemoveUserRefreshTokens(Guid userId)
+    {
+        RefreshToken? refreshToken = await _refreshTokenRepository.GetBySpec(t => t.UserId == userId);
+
+        if (refreshToken is null) return;
+
+        await _refreshTokenRepository.DeleteAsync(refreshToken);
+    }
 }

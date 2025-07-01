@@ -12,4 +12,5 @@ public interface IJwtService
     Task<bool> HasValidRefreshToken(Guid userId);
     Task<bool> CheckUserToken(Guid userId, string refreshToken);
     Task<SystemTokens> Refresh(string refreshToken, string accessToken);
+    Task RemoveUserRefreshTokens(Guid userId);
 }
