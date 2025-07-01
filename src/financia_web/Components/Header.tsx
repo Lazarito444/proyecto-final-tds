@@ -24,6 +24,10 @@ const links = [
     {
         name: 'Sugerencias',
         href: '/sugerencias'
+    },
+    {
+      name:"Categorias",
+      href: '/categorias'
     }
 ]
 
