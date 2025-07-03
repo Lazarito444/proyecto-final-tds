@@ -4,6 +4,7 @@ import 'package:financia_mobile/modules/dashboard/dashboard_screen.dart';
 import 'package:financia_mobile/widgets/full_width_button.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:financia_mobile/generated/l10n.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -25,8 +26,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.white),
-      backgroundColor: Colors.white,
+      appBar: AppBar(backgroundColor: context.colors.surface),
+      backgroundColor: context.colors.surface,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 5.sw),
         child: Form(
@@ -35,9 +36,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("Registro", style: context.textStyles.titleLarge),
+              Text(S.of(context).sign_up, style: context.textStyles.titleLarge),
               const SizedBox(height: 35),
-              Text("Nombre completo", style: context.textStyles.labelMedium),
+              Text(
+                S.of(context).full_name,
+                style: context.textStyles.labelMedium,
+              ),
               const SizedBox(height: 2),
               TextFormField(
                 validator: _validateName,
@@ -45,7 +49,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 style: context.textStyles.labelSmall,
               ),
               SizedBox(height: 25),
-              Text("Correo electrónico", style: context.textStyles.labelMedium),
+              Text(S.of(context).email, style: context.textStyles.labelMedium),
               const SizedBox(height: 2),
               TextFormField(
                 validator: _validateEmail,
@@ -53,7 +57,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 style: context.textStyles.labelSmall,
               ),
               SizedBox(height: 25),
-              Text("Contraseña", style: context.textStyles.labelMedium),
+              Text(
+                S.of(context).password,
+                style: context.textStyles.labelMedium,
+              ),
               const SizedBox(height: 2),
               TextFormField(
                 validator: _validatePassword,
@@ -64,7 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               SizedBox(height: 25),
               Text(
-                "Confirmar contraseña",
+                S.of(context).confirm_password,
                 style: context.textStyles.labelMedium,
               ),
               const SizedBox(height: 2),
@@ -77,7 +84,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               SizedBox(height: 25),
               FullWidthButton(
-                text: "Crear cuenta",
+                text: S.of(context).create_account,
                 onPressed: () {
                   context.push(DashboardScreen());
                 },
@@ -91,11 +98,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   String? _validateName(String? value) {
     if (value == null || value.isEmpty) {
-      return "El nombre completo es obligatorio";
+      return S.of(context).name_required;
     }
 
     if (value.length < 3) {
-      return "El nombre completo debe tener 3\ncaracteres como mínimo";
+      return S.of(context).name_min_length;
     }
 
     return null;
@@ -105,7 +112,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final RegExp emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
     if (!emailRegExp.hasMatch(value ?? "")) {
-      return "Correo electrónico inválido";
+      return S.of(context).invalid_email;
     }
 
     return null;
@@ -117,11 +124,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
 
     if (value == null || value.isEmpty) {
-      return "La contraseña es obligatoria";
+      return S.of(context).password_required;
     }
 
     if (!passwordRegExp.hasMatch(value)) {
-      return "La contraseña debe tener al menos\n6 caracteres, una mayúscula, una minúscula\ny un número";
+      return S.of(context).invalid_password;
     }
 
     return null;
@@ -129,7 +136,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   String? _validatePasswordConfirmation(String? value) {
     if (_passwordController.text != _passwordConfirmationController.text) {
-      return "Las contraseñas no coinciden";
+      return S.of(context).passwords_not_match;
     }
 
     return null;

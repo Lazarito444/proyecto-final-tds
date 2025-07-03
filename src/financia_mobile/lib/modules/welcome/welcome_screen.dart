@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:financia_mobile/extensions/navigation_extensions.dart';
 import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:financia_mobile/modules/auth/auth_screen.dart';

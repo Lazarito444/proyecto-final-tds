@@ -1,5 +1,7 @@
+import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:financia_mobile/generated/l10n.dart';
 
 class HistorialScreen extends StatelessWidget {
   const HistorialScreen({super.key});
@@ -9,68 +11,59 @@ class HistorialScreen extends StatelessWidget {
     final movimientos = [
       Movimiento(
         icon: Icons.attach_money,
-        titulo: 'Salario',
-        fecha: '25 abr 2024',
+        titulo: S.of(context).salary,
+        fecha: S.of(context).apr_25,
         monto: 2000.00,
       ),
       Movimiento(
         icon: Icons.remove_circle_outline,
-        titulo: 'Supermercado',
-        fecha: '25 abr 2024',
+        titulo: S.of(context).supermarket,
+        fecha: S.of(context).apr_25,
         monto: -150.00,
       ),
       Movimiento(
         icon: Icons.swap_horiz,
-        titulo: 'Transferencia',
-        fecha: '24 abr 2024',
+        titulo: S.of(context).transfer,
+        fecha: S.of(context).apr_24,
         monto: 300.00,
       ),
       Movimiento(
         icon: Icons.restaurant,
-        titulo: 'Restaurante',
-        fecha: '23 abr 2024',
+        titulo: S.of(context).restaurant,
+        fecha: S.of(context).apr_23,
         monto: -45.00,
       ),
       Movimiento(
         icon: Icons.directions_bus,
-        titulo: 'Transporte',
-        fecha: '23 abr 2024',
+        titulo: S.of(context).transport,
+        fecha: S.of(context).apr_23,
         monto: -20.00,
       ),
     ];
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: context.colors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: context.colors.onSurface),
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: context.colors.surface,
+
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Historial de Movimientos',
-              style: GoogleFonts.gabarito(
-                textStyle: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF113931),
-                ),
-              ),
+              S.of(context).transaction_history,
+              style: context.textStyles.titleMedium,
             ),
             SizedBox(height: 8),
-            Text(
-              'abril 2024',
-              style: GoogleFonts.gabarito(
-                textStyle: TextStyle(fontSize: 16, color: Colors.black54),
-              ),
-            ),
+            Text(S.of(context).apr_2024, style: context.textStyles.titleMedium),
+
             SizedBox(height: 16),
             Expanded(
               child: ListView.builder(

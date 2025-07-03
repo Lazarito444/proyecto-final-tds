@@ -6,6 +6,7 @@ import 'package:financia_mobile/widgets/full_width_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
+import 'package:financia_mobile/generated/l10n.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
@@ -13,22 +14,26 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.colors.surface,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.sw),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              SizedBox(height: 150, width: 70.sw, child: Image.asset(
-                "assets/img/logo_light.png",
-                fit: BoxFit.cover,
-              )),
+              SizedBox(
+                height: 150,
+                width: 70.sw,
+                child: Image.asset(
+                  "assets/img/logo_light.png",
+                  fit: BoxFit.cover,
+                ),
+              ),
               const SizedBox(height: 20),
               Text("FinancIA", style: context.textStyles.titleLarge),
               const SizedBox(height: 20),
               FullWidthButton(
-                text: "Iniciar sesión",
+                text: S.of(context).login,
                 onPressed: () {
                   context.push(LoginScreen());
                 },
@@ -52,7 +57,7 @@ class AuthScreen extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    "Regístrate",
+                    S.of(context).sign_up,
                     style: context.textStyles.titleSmall,
                   ),
                 ),
@@ -62,7 +67,7 @@ class AuthScreen extends StatelessWidget {
                 "assets/svg/auth_illustration.svg",
                 width: 200,
                 height: 200,
-              )
+              ),
               // const SizedBox(width: 200, height: 200, child: Placeholder()),
             ],
           ),
