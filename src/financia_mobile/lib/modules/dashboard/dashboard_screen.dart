@@ -1,5 +1,6 @@
 import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:financia_mobile/modules/analysis/analysis_screen.dart';
+import 'package:financia_mobile/modules/settings/settings_screen.dart';
 import 'package:financia_mobile/modules/transaction/finance_history.dart';
 import 'package:financia_mobile/providers/auth_provider.dart';
 import 'package:financia_mobile/providers/theme_mode_provider.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:financia_mobile/modules/transaction/add_transaction.dart';
+import 'package:financia_mobile/generated/l10n.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -52,12 +54,17 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              ref.read(themeModeProvider.notifier).setThemeMode(ThemeMode.dark);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SettingsScreen()),
+              );
             },
-            icon: Icon(Icons.motion_photos_on_sharp),
+            icon: Icon(Icons.settings),
+            color: context.colors.onPrimaryContainer,
           ),
         ],
       ),
+
       body: Column(
         children: [
           Container(
@@ -77,7 +84,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Saldo actual',
+                    S.of(context).current_balance,
                     style: GoogleFonts.gabarito(
                       textStyle: TextStyle(
                         fontSize: 30,
@@ -151,7 +158,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         ),
                         SizedBox(width: 10),
                         Text(
-                          'Ingresos',
+                          S.of(context).income,
                           style: GoogleFonts.gabarito(fontSize: 18),
                         ),
                       ],
@@ -169,7 +176,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         ),
                         SizedBox(width: 10),
                         Text(
-                          'Egresos',
+                          S.of(context).expenses,
                           style: GoogleFonts.gabarito(fontSize: 18),
                         ),
                       ],
@@ -182,7 +189,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Últimas transacciones',
+                      S.of(context).latest_transactions,
                       style: GoogleFonts.gabarito(
                         textStyle: TextStyle(
                           fontSize: 22,
@@ -200,22 +207,22 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     children: [
                       TransactionItem(
                         icon: Icons.shopping_cart,
-                        title: 'Supermercado',
-                        subtitle: 'Egreso',
+                        title: S.of(context).supermarket,
+                        subtitle: S.of(context).expenses,
                         amount: '-\$0,00',
                         isNegative: true,
                       ),
                       TransactionItem(
                         icon: Icons.attach_money,
-                        title: 'Salario',
-                        subtitle: 'Ingreso',
+                        title: S.of(context).salary,
+                        subtitle: S.of(context).income,
                         amount: '+2,000,00',
                         isNegative: false,
                       ),
                       TransactionItem(
                         icon: Icons.directions_bus,
-                        title: 'Transporte',
-                        subtitle: 'Egreso',
+                        title: S.of(context).transport,
+                        subtitle: S.of(context).expenses,
                         amount: '-23,00',
                         isNegative: true,
                       ),
@@ -240,22 +247,25 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         unselectedLabelStyle: GoogleFonts.gabarito(fontSize: 12),
         onTap: _onItemTapped,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Presupuesto'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: S.of(context).budget,
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.analytics),
-            label: 'Análisis',
+            label: S.of(context).analysis,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add_circle, size: 32),
-            label: 'Sugerencias',
+            label: S.of(context).suggestions,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.receipt),
-            label: 'Historial',
+            label: S.of(context).history,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.swap_horiz),
-            label: 'Transacciones',
+            label: S.of(context).transactions,
           ),
         ],
       ),

@@ -2,6 +2,7 @@ import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:financia_mobile/widgets/full_width_button.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:financia_mobile/generated/l10n.dart';
 
 class AddTransactionScreen extends StatefulWidget {
   const AddTransactionScreen({super.key});
@@ -20,14 +21,17 @@ class _AgregarTransaccionScreenState extends State<AddTransactionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(backgroundColor: Colors.white),
+      backgroundColor: context.colors.surface,
+      appBar: AppBar(backgroundColor: context.colors.surface),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 5.sw),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Agregar Transacción', style: context.textStyles.titleMedium),
+            Text(
+              S.of(context).add_transaction,
+              style: context.textStyles.titleMedium,
+            ),
             const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
@@ -42,9 +46,12 @@ class _AgregarTransaccionScreenState extends State<AddTransactionScreen> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                segments: const <ButtonSegment<bool>>[
-                  ButtonSegment(value: true, label: Text('Ingreso')),
-                  ButtonSegment(value: false, label: Text('Egreso')),
+                segments: <ButtonSegment<bool>>[
+                  ButtonSegment(value: true, label: Text(S.of(context).income)),
+                  ButtonSegment(
+                    value: false,
+                    label: Text(S.of(context).expenses),
+                  ),
                 ],
                 selected: <bool>{isEarning},
                 onSelectionChanged: (selection) {
@@ -57,7 +64,7 @@ class _AgregarTransaccionScreenState extends State<AddTransactionScreen> {
             SizedBox(height: 16),
             TextField(
               decoration: InputDecoration(
-                labelText: 'Categoría',
+                labelText: S.of(context).category,
                 border: OutlineInputBorder(),
               ),
               onChanged: (value) {
@@ -67,7 +74,7 @@ class _AgregarTransaccionScreenState extends State<AddTransactionScreen> {
             SizedBox(height: 16),
             TextField(
               decoration: InputDecoration(
-                labelText: 'Monto',
+                labelText: S.of(context).amount,
                 border: OutlineInputBorder(),
               ),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
@@ -79,7 +86,7 @@ class _AgregarTransaccionScreenState extends State<AddTransactionScreen> {
             TextFormField(
               readOnly: true,
               decoration: InputDecoration(
-                labelText: 'Fecha',
+                labelText: S.of(context).date,
                 border: OutlineInputBorder(),
                 suffixIcon: Icon(Icons.calendar_today),
               ),
@@ -104,7 +111,7 @@ class _AgregarTransaccionScreenState extends State<AddTransactionScreen> {
             SizedBox(height: 16),
             TextField(
               decoration: InputDecoration(
-                labelText: 'Descripción',
+                labelText: S.of(context).description,
                 border: OutlineInputBorder(),
               ),
               maxLines: 2,
@@ -113,7 +120,7 @@ class _AgregarTransaccionScreenState extends State<AddTransactionScreen> {
               },
             ),
             SizedBox(height: 24),
-            FullWidthButton(text: "Guardar", onPressed: () {}),
+            FullWidthButton(text: S.of(context).save, onPressed: () {}),
           ],
         ),
       ),
@@ -121,20 +128,20 @@ class _AgregarTransaccionScreenState extends State<AddTransactionScreen> {
   }
 
   String _getMonthName(int month) {
-    const months = [
+    final months = [
       '',
-      'ene.',
-      'feb.',
-      'mar.',
-      'abr.',
-      'may.',
-      'jun.',
-      'jul.',
-      'ago.',
-      'sep.',
-      'oct.',
-      'nov.',
-      'dic.',
+      S.of(context).month_jan,
+      S.of(context).month_feb,
+      S.of(context).month_mar,
+      S.of(context).month_apr,
+      S.of(context).month_may,
+      S.of(context).month_jun,
+      S.of(context).month_jul,
+      S.of(context).month_aug,
+      S.of(context).month_sep,
+      S.of(context).month_oct,
+      S.of(context).month_nov,
+      S.of(context).month_dec,
     ];
     return months[month];
   }

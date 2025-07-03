@@ -1,5 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
-
+import 'package:financia_mobile/generated/l10n.dart';
 import 'package:dio/dio.dart';
 import 'package:financia_mobile/extensions/navigation_extensions.dart';
 import 'package:financia_mobile/extensions/theme_extensions.dart';
@@ -24,7 +24,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.colors.surface,
       appBar: AppBar(backgroundColor: Colors.white),
       body: Padding(
         padding: EdgeInsetsGeometry.symmetric(horizontal: 5.sw),
@@ -34,9 +34,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("Bienvenido", style: context.textStyles.titleLarge),
+              Text(S.of(context).welcome, style: context.textStyles.titleLarge),
               const SizedBox(height: 35),
-              Text("Correo electrónico", style: context.textStyles.labelMedium),
+              Text(S.of(context).email, style: context.textStyles.labelMedium),
               const SizedBox(height: 2),
               TextFormField(
                 validator: _validateEmail,
@@ -46,7 +46,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 style: context.textStyles.labelSmall,
               ),
               const SizedBox(height: 25),
-              Text("Contraseña", style: context.textStyles.labelMedium),
+              Text(
+                S.of(context).password,
+                style: context.textStyles.labelMedium,
+              ),
               const SizedBox(height: 2),
               TextFormField(
                 controller: _passwordController,
@@ -57,7 +60,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
               const SizedBox(height: 40),
               FullWidthButton(
-                text: "Iniciar sesión",
+                text: S.of(context).login,
                 onPressed: () async {
                   if (formKey.currentState?.validate() ?? false) {
                     String email = _emailController.text.trim();
@@ -81,7 +84,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ..hideCurrentSnackBar()
                       ..showSnackBar(
                         SnackBar(
-                          content: Text("Llene los campos correctamente"),
+                          content: Text(S.of(context).fill_fields_correctly),
                         ),
                       );
                   }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
+//Tema Claro
+
 final ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   colorScheme: ColorScheme.light(
@@ -75,19 +77,77 @@ final ThemeData lightTheme = ThemeData(
   ),
 );
 
+//Tema Oscuro
+
 final ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   colorScheme: ColorScheme.dark(
-    surface: Color(0xFF242425),
-    primary: Color(0xFF374050),
+    surface: const Color(0xFF242425),
+    primary: const Color(0xFF374050),
     onSurface: Colors.white,
-    primaryContainer: Color(0xFF262726),
-    secondaryContainer: Color(0xFF1e2936),
-    tertiaryContainer: Color(0xFF1f1f1e),
+    primaryContainer: const Color(0xFF262726),
+    secondaryContainer: const Color(0xFF1e2936),
+    tertiaryContainer: const Color(0xFF1f1f1e),
     onSurfaceVariant: Colors.white,
-    outline: Color(0xFFd1d5db),
-    surfaceContainerLow: Color(0xFF374050),
-    surfaceContainerLowest: Color(0xFFced2d8),
+    outline: const Color(0xFFd1d5db),
+    surfaceContainerLow: const Color(0xFF374050),
+    surfaceContainerLowest: const Color(0xFF1A1B1C),
   ),
-  scaffoldBackgroundColor: Color(0xFF131312),
+  scaffoldBackgroundColor: const Color(0xFF121212),
+  progressIndicatorTheme: ProgressIndicatorThemeData(
+    color: const Color(0xFF374050),
+    circularTrackColor: Colors.grey.shade700,
+    linearTrackColor: Colors.grey.shade700,
+  ),
+  snackBarTheme: SnackBarThemeData(
+    backgroundColor: Colors.red.shade800,
+    contentTextStyle: GoogleFonts.outfit(
+      fontSize: 14.spa,
+      color: Colors.white,
+      fontWeight: FontWeight.w500,
+    ),
+  ),
+  textTheme: TextTheme(
+    titleLarge: GoogleFonts.gabarito(
+      fontWeight: FontWeight.w700,
+      fontSize: 24.spa,
+      color: Colors.white,
+    ),
+    titleMedium: GoogleFonts.gabarito(
+      fontWeight: FontWeight.w600,
+      fontSize: 20.spa,
+      color: Colors.white,
+    ),
+    titleSmall: GoogleFonts.gabarito(
+      fontWeight: FontWeight.w600,
+      fontSize: 16.spa,
+      color: Colors.white,
+    ),
+    labelLarge: GoogleFonts.outfit(fontSize: 17.spa, color: Colors.white),
+    labelMedium: GoogleFonts.outfit(fontSize: 15.spa, color: Colors.white),
+    labelSmall: GoogleFonts.outfit(fontSize: 14.spa, color: Colors.white),
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: Colors.grey.shade600, width: 3),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: Colors.grey.shade300, width: 3),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: Colors.red.shade400, width: 3),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: Colors.red.shade600, width: 3),
+    ),
+    errorStyle: GoogleFonts.outfit(
+      fontSize: 12.spa,
+      color: Colors.red,
+      fontWeight: FontWeight.w500,
+    ),
+  ),
 );
