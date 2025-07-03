@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using FinancIA.Core.Application.Contracts.Services;
 using FinancIA.Core.Application.Identity;
+using FinancIA.Core.Domain.Exceptions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -50,11 +51,11 @@ public static class ProgramExtensions
                     var userManager = context.HttpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
                     var refreshTokenStore = context.HttpContext.RequestServices.GetRequiredService<IJwtService>();
 
-                    Guid userId = Guid.Parse(context.Principal.FindFirstValue(JwtRegisteredClaimNames.Sub)!);
+                    Guid userId = Guid.Parse(context.Principal!.FindFirstValue(JwtRegisteredClaimNames.Sub)!);
 
                     if (!await refreshTokenStore.HasValidRefreshToken(userId))
                     {
-                        context.Fail("El token es inválido porque no hay un refresh token activo.");
+                        throw new ApiException(StatusCodes.Status401Unauthorized, "El token es inválido porque no hay un refresh token activo.");
                     }
                 }
             };
