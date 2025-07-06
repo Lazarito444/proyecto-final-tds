@@ -1,4 +1,5 @@
-﻿using FinancIA.Core.Domain.Entities;
+﻿using FinancIA.Core.Application.Identity;
+using FinancIA.Core.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -21,5 +22,9 @@ public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
 
         builder.Property(t => t.Token)
             .HasColumnType("VARCHAR(250)");
+
+        builder.HasOne<ApplicationUser>()
+            .WithOne()
+            .HasForeignKey<RefreshToken>(t => t.UserId);
     }
 }

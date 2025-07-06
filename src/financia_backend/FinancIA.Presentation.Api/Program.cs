@@ -3,7 +3,9 @@ using FinancIA.Core.Application.Extensions;
 using FinancIA.Core.Domain.Settings;
 using FinancIA.Infrastructure.Persistence.Extensions;
 using FinancIA.Presentation.Api.Extensions;
+using FinancIA.Presentation.Api.Middlewares;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -32,8 +34,16 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseCors("AllowAll");
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "images")),
+    RequestPath = "/images",
+});
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
