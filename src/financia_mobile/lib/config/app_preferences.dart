@@ -78,4 +78,18 @@ class AppPreferences {
     final SharedPreferences prefs = await _prefs;
     await prefs.remove(key);
   }
+
+  // ========= NUEVO: Manejo de ThemeMode =========
+
+  static const String _keyThemeMode = 'theme_mode';
+
+  /// Guarda el theme mode ('light', 'dark', 'system')
+  static Future<void> setThemeMode(String mode) async {
+    await setStringPreference(_keyThemeMode, mode);
+  }
+
+  /// Obtiene el theme mode ('light', 'dark', 'system') o null si no existe
+  static Future<String?> getThemeMode() async {
+    return await getStringPreference(_keyThemeMode);
+  }
 }

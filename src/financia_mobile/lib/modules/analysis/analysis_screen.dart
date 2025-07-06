@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:financia_mobile/extensions/navigation_extensions.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:financia_mobile/generated/l10n.dart';
 
 class AnalysisScreen extends StatelessWidget {
   const AnalysisScreen({super.key});
@@ -18,7 +19,7 @@ class AnalysisScreen extends StatelessWidget {
           onPressed: () => context.pop(),
         ),
         title: Text(
-          'Análisis',
+          S.of(context).analysis,
           style: GoogleFonts.gabarito(
             textStyle: context.textStyles.headlineSmall?.copyWith(
               color: context.colors.onSurface,
@@ -48,7 +49,7 @@ class AnalysisScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Resumen de Junio',
+                    S.of(context).june_summary,
                     style: context.textStyles.bodyLarge?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -62,7 +63,7 @@ class AnalysisScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Ingresos',
+                            S.of(context).income,
                             style: context.textStyles.bodySmall?.copyWith(
                               color: Colors.white70,
                             ),
@@ -104,40 +105,43 @@ class AnalysisScreen extends StatelessWidget {
             const SizedBox(height: 24),
 
             // Gastos por categoría
-            Text('Gastos por Categoría', style: context.textStyles.titleMedium),
+            Text(
+              S.of(context).expenses_by_category,
+              style: context.textStyles.titleMedium,
+            ),
             const SizedBox(height: 16),
 
-            const CategoryExpenseItem(
+            CategoryExpenseItem(
               icon: Icons.shopping_cart,
-              category: 'Supermercado',
+              category: S.of(context).supermarket,
               amount: '\$1,250.00',
               percentage: 33,
               color: Color(0xFF4A9B8E),
             ),
-            const CategoryExpenseItem(
+            CategoryExpenseItem(
               icon: Icons.directions_car,
-              category: 'Transporte',
+              category: S.of(context).transport,
               amount: '\$850.00',
               percentage: 23,
               color: Color(0xFF7BC4B8),
             ),
-            const CategoryExpenseItem(
+            CategoryExpenseItem(
               icon: Icons.restaurant,
-              category: 'Restaurantes',
+              category: S.of(context).restaurants,
               amount: '\$650.00',
               percentage: 17,
               color: Color(0xFFB8E6C1),
             ),
-            const CategoryExpenseItem(
+            CategoryExpenseItem(
               icon: Icons.movie,
-              category: 'Entretenimiento',
+              category: S.of(context).entertainment,
               amount: '\$450.00',
               percentage: 12,
               color: Color(0xFFD4F1E8),
             ),
-            const CategoryExpenseItem(
+            CategoryExpenseItem(
               icon: Icons.more_horiz,
-              category: 'Otros',
+              category: S.of(context).other,
               amount: '\$550.00',
               percentage: 15,
               color: Color(0xFFE8F5F3),
@@ -146,7 +150,10 @@ class AnalysisScreen extends StatelessWidget {
             const SizedBox(height: 24),
 
             // Tendencia mensual
-            Text('Tendencia Mensual', style: context.textStyles.titleMedium),
+            Text(
+              S.of(context).monthly_trend,
+              style: context.textStyles.titleMedium,
+            ),
             const SizedBox(height: 16),
 
             Container(
@@ -161,17 +168,25 @@ class AnalysisScreen extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun']
-                        .map(
-                          (m) => Text(
-                            m,
-                            style: context.textStyles.bodySmall?.copyWith(
-                              color: Colors.grey,
-                              fontSize: 12,
-                            ),
-                          ),
-                        )
-                        .toList(),
+                    children:
+                        [
+                              S.of(context).month_jan,
+                              S.of(context).month_feb,
+                              S.of(context).month_mar,
+                              S.of(context).month_apr,
+                              S.of(context).month_may,
+                              S.of(context).month_jun,
+                            ]
+                            .map(
+                              (m) => Text(
+                                m,
+                                style: context.textStyles.bodySmall?.copyWith(
+                                  color: Colors.grey,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            )
+                            .toList(),
                   ),
                   const SizedBox(height: 16),
                   const Expanded(
@@ -194,18 +209,21 @@ class AnalysisScreen extends StatelessWidget {
             const SizedBox(height: 24),
 
             // Objetivos de Ahorro
-            Text('Objetivos de Ahorro', style: context.textStyles.titleMedium),
+            Text(
+              S.of(context).savings_goals,
+              style: context.textStyles.titleMedium,
+            ),
             const SizedBox(height: 16),
 
-            const SavingsGoalCard(
-              title: 'Vacaciones',
+            SavingsGoalCard(
+              title: S.of(context).vacation,
               current: 2500,
               target: 5000,
               color: Color(0xFF4A9B8E),
             ),
             const SizedBox(height: 12),
-            const SavingsGoalCard(
-              title: 'Fondo de Emergencia',
+            SavingsGoalCard(
+              title: S.of(context).emergency_fund,
               current: 8750,
               target: 15000,
               color: Color(0xFF7BC4B8),

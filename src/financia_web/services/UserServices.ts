@@ -8,12 +8,11 @@ class UserServices {
     user: RegisterUser
   ): Promise<AxiosResponse<AxiosResponse>> {
     try {
-      const response = await axios.post(`${API_URL}/Account/register`, {
+      const response = await axios.post(`${API_URL}/auth/register`, {
+        fullName: user.fullName,
         email: user.email,
         password: user.password,
-        personName: user.personName,
-        phoneNumber: user.phoneNumber,
-        confirmPassword: user.confirmPassword
+        passwordConfirmation: user.passwordConfirmation
           
       }, {
         headers: {
@@ -34,7 +33,7 @@ class UserServices {
     user: LoginUser
   ): Promise<AxiosResponse<AxiosResponse>> {
     try {
-      const response = await axios.post(`${API_URL}/Account/login`, {
+      const response = await axios.post(`${API_URL}/auth/authenticate`, {
         email: user.email,
         password: user.password
       }, {
