@@ -74,7 +74,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ScaffoldMessenger.of(context)
                         ..hideCurrentSnackBar()
                         ..showSnackBar(
-                          SnackBar(content: Text("Credenciales incorrectas")),
+                          SnackBar(
+                            content: Text(S.of(context).invalid_credentials),
+                          ),
                         );
                     }
 

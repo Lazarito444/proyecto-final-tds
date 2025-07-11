@@ -114,6 +114,36 @@ class S {
     return Intl.message('Get Started', name: 'get_started', desc: '', args: []);
   }
 
+  /// `Please type a valid email`
+  String get validations_login_email {
+    return Intl.message(
+      'Please type a valid email',
+      name: 'validations_login_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type your password`
+  String get validations_login_password {
+    return Intl.message(
+      'Type your password',
+      name: 'validations_login_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `That email is already taken`
+  String get validations_signup_email_taken {
+    return Intl.message(
+      'That email is already taken',
+      name: 'validations_signup_email_taken',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Next`
   String get next {
     return Intl.message('Next', name: 'next', desc: '', args: []);
@@ -404,10 +434,10 @@ class S {
     );
   }
 
-  /// `Full name must be at least\n3 characters long`
+  /// `Full name must be at least\n5 characters long`
   String get name_min_length {
     return Intl.message(
-      'Full name must be at least\n3 characters long',
+      'Full name must be at least\n5 characters long',
       name: 'name_min_length',
       desc: '',
       args: [],
@@ -434,10 +464,10 @@ class S {
     );
   }
 
-  /// `Password must be at least\n6 characters long, include an uppercase, a lowercase and a number`
+  /// `Password must be at least\n6 characters long, include an uppercase,\na lowercase and a number`
   String get invalid_password {
     return Intl.message(
-      'Password must be at least\n6 characters long, include an uppercase, a lowercase and a number',
+      'Password must be at least\n6 characters long, include an uppercase,\na lowercase and a number',
       name: 'invalid_password',
       desc: '',
       args: [],
@@ -599,10 +629,10 @@ class S {
     );
   }
 
-  /// `Confirm_password`
+  /// `Confirm password`
   String get confirm_password {
     return Intl.message(
-      'Confirm_password',
+      'Confirm password',
       name: 'confirm_password',
       desc: '',
       args: [],
