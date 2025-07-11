@@ -37,7 +37,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         padding: EdgeInsets.symmetric(horizontal: 5.sw),
         child: Form(
           key: formKey,
-          autovalidateMode: AutovalidateMode.onUnfocus,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -50,6 +49,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               const SizedBox(height: 2),
               TextFormField(
                 validator: _validateName,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 controller: _fullNameController,
                 style: context.textStyles.labelSmall,
               ),
@@ -58,6 +58,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               const SizedBox(height: 2),
               TextFormField(
                 validator: _validateEmail,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                keyboardType: TextInputType.emailAddress,
                 controller: _emailController,
                 style: context.textStyles.labelSmall,
               ),
@@ -69,6 +71,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               const SizedBox(height: 2),
               TextFormField(
                 validator: _validatePassword,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 controller: _passwordController,
                 style: context.textStyles.labelSmall,
                 onChanged: (_) => confirmPasswordKey.currentState?.validate(),
@@ -83,6 +86,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               TextFormField(
                 key: confirmPasswordKey,
                 validator: _validatePasswordConfirmation,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 controller: _passwordConfirmationController,
                 style: context.textStyles.labelSmall,
                 obscureText: true,
@@ -109,11 +113,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               passwordConfirmation: passwordConfirmation,
                             ),
                           );
-                      context.pop();
                     } on DioException catch (e) {
                       if ((e.response?.statusCode ?? 400) == 400) {
                         for (var error in e.response!.data) {
-                          if (error.errorMessage.contains("está registrado")) {
+                          if (error["errorMessage"].contains(
+                            "está registrado",
+                          )) {
                             ScaffoldMessenger.of(context)
                               ..hideCurrentSnackBar()
                               ..showSnackBar(
