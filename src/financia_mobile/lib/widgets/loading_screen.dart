@@ -1,3 +1,4 @@
+import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:flutter/material.dart';
 
 class LoadingScreen extends StatelessWidget {
@@ -6,7 +7,7 @@ class LoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.colors.surface,
       body: Center(child: CircularProgressIndicator()),
     );
   }
