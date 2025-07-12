@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:io';
+import 'package:financia_mobile/widgets/full_width_button.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:financia_mobile/extensions/theme_extensions.dart';
@@ -103,9 +104,9 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
           children: [
             Text(
               S.of(context).personal_data,
-              style: context.textStyles.titleMedium,
+              style: context.textStyles.titleLarge,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 30),
             GestureDetector(
               onTap: _pickImage,
               child: CircleAvatar(
@@ -123,7 +124,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                     : null,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 30),
             TextField(
               controller: _nameController,
               decoration: InputDecoration(
@@ -131,7 +132,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                 prefixIcon: Icon(Icons.person, color: context.colors.primary),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 25),
             ListTile(
               title: Text(
                 _birthDate == null
@@ -145,20 +146,25 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
               ),
               onTap: _pickDate,
             ),
-            const SizedBox(height: 16),
-            DropdownButtonFormField<String>(
+            const SizedBox(height: 25),
+            DropdownButtonFormField<int>(
               decoration: InputDecoration(
                 labelText: S.of(context).gender,
                 prefixIcon: Icon(Icons.wc, color: context.colors.primary),
               ),
-              value: selectedGender,
+              value: genders.indexOf(selectedGender!),
               items: genders.map((gender) {
-                return DropdownMenuItem(value: gender, child: Text(gender));
+                return DropdownMenuItem(
+                  value: genders.indexOf(gender),
+                  child: Text(gender, style: context.textStyles.labelMedium),
+                );
               }).toList(),
-              onChanged: (value) => setState(() => selectedGender = value),
+              onChanged: (value) =>
+                  setState(() => selectedGender = genders[value!]),
             ),
-            const SizedBox(height: 24),
-            ElevatedButton(
+            const SizedBox(height: 25),
+            FullWidthButton(
+              text: S.of(context).save,
               onPressed: () async {
                 await AppPreferences.setStringPreference(
                   'personal_name',
@@ -189,7 +195,6 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                   SnackBar(content: Text(S.of(context).data_saved)),
                 );
               },
-              child: Text(S.of(context).save),
             ),
           ],
         ),

@@ -61,7 +61,7 @@ class AuthNotifier extends Notifier<AuthState> {
       state = AuthState(status: AuthStatus.authenticated, tokens: tokens);
     } on DioException {
       state = AuthState(status: AuthStatus.unauthenticated);
-      throw Exception("Credenciales incorrectas");
+      rethrow;
     }
   }
 
