@@ -9,7 +9,7 @@ class LanguageSettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Locale? currentLocale = ref.watch(localeProvider);
+    final Locale? currentLocale = ref.watch(localeProvider);
 
     return Scaffold(
       backgroundColor: context.colors.surface,
@@ -26,28 +26,37 @@ class LanguageSettingsScreen extends ConsumerWidget {
         children: [
           Text(S.of(context).language, style: context.textStyles.titleLarge),
           const SizedBox(height: 20),
-          ListTile(
+          RadioListTile<Locale>(
+            value: const Locale('es'),
+            groupValue: currentLocale,
             title: Text(
               S.of(context).spanish,
               style: context.textStyles.labelMedium,
             ),
-            onTap: () {
-              ref.read(localeProvider.notifier).setLocale(const Locale('es'));
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Idioma cambiado a Español')),
-              );
+            onChanged: (Locale? value) {
+              if (value != null) {
+                ref.read(localeProvider.notifier).setLocale(value);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Idioma cambiado a Español')),
+                );
+              }
             },
           ),
-          ListTile(
+          RadioListTile<Locale>(
+            value: const Locale('en'),
+            groupValue: currentLocale,
+            activeColor: Theme.of(context).colorScheme.primary,
             title: Text(
               S.of(context).english,
               style: context.textStyles.labelMedium,
             ),
-            onTap: () {
-              ref.read(localeProvider.notifier).setLocale(const Locale('en'));
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Language switched to English')),
-              );
+            onChanged: (Locale? value) {
+              if (value != null) {
+                ref.read(localeProvider.notifier).setLocale(value);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Language switched to English')),
+                );
+              }
             },
           ),
         ],
