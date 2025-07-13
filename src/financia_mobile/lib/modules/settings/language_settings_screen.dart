@@ -9,6 +9,8 @@ class LanguageSettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    Locale? currentLocale = ref.watch(localeProvider);
+
     return Scaffold(
       backgroundColor: context.colors.surface,
       appBar: AppBar(
@@ -18,15 +20,16 @@ class LanguageSettingsScreen extends ConsumerWidget {
           icon: Icon(Icons.arrow_back, color: context.colors.onSurface),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(S.of(context).language),
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         children: [
+          Text(S.of(context).language, style: context.textStyles.titleLarge),
+          const SizedBox(height: 20),
           ListTile(
             title: Text(
               S.of(context).spanish,
-              style: context.textStyles.bodyLarge,
+              style: context.textStyles.labelMedium,
             ),
             onTap: () {
               ref.read(localeProvider.notifier).setLocale(const Locale('es'));
@@ -38,7 +41,7 @@ class LanguageSettingsScreen extends ConsumerWidget {
           ListTile(
             title: Text(
               S.of(context).english,
-              style: context.textStyles.bodyLarge,
+              style: context.textStyles.labelMedium,
             ),
             onTap: () {
               ref.read(localeProvider.notifier).setLocale(const Locale('en'));

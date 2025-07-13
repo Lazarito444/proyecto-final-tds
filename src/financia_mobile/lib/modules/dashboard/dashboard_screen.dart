@@ -3,7 +3,6 @@ import 'package:financia_mobile/modules/analysis/analysis_screen.dart';
 import 'package:financia_mobile/modules/settings/settings_screen.dart';
 import 'package:financia_mobile/modules/transaction/finance_history.dart';
 import 'package:financia_mobile/providers/auth_provider.dart';
-import 'package:financia_mobile/providers/theme_mode_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';

@@ -25,7 +25,7 @@ class SettingsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(S.of(context).settings, style: context.textStyles.titleMedium),
+            Text(S.of(context).settings, style: context.textStyles.titleLarge),
             const SizedBox(height: 20),
             Expanded(
               child: ListView(
@@ -33,7 +33,7 @@ class SettingsScreen extends StatelessWidget {
                   ListTile(
                     title: Text(
                       S.of(context).personal_data,
-                      style: context.textStyles.bodyLarge,
+                      style: context.textStyles.labelMedium,
                     ),
                     trailing: Icon(
                       Icons.arrow_forward_ios,
@@ -52,7 +52,7 @@ class SettingsScreen extends StatelessWidget {
                   ListTile(
                     title: Text(
                       S.of(context).theme,
-                      style: context.textStyles.bodyLarge,
+                      style: context.textStyles.labelMedium,
                     ),
                     trailing: Icon(
                       Icons.arrow_forward_ios,
@@ -71,7 +71,7 @@ class SettingsScreen extends StatelessWidget {
                   ListTile(
                     title: Text(
                       S.of(context).language,
-                      style: context.textStyles.bodyLarge,
+                      style: context.textStyles.labelMedium,
                     ),
                     trailing: Icon(
                       Icons.arrow_forward_ios,

@@ -115,7 +115,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "month_sep": MessageLookupByLibrary.simpleMessage("sep."),
     "monthly_trend": MessageLookupByLibrary.simpleMessage("Tendencia Mensual"),
     "name_min_length": MessageLookupByLibrary.simpleMessage(
-      "El nombre completo debe tener 3\ncaracteres como mínimo",
+      "El nombre completo debe tener 5\ncaracteres como mínimo",
     ),
     "name_required": MessageLookupByLibrary.simpleMessage(
       "El nombre completo es obligatorio",
@@ -154,6 +154,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "transfer": MessageLookupByLibrary.simpleMessage("Transferencia"),
     "transport": MessageLookupByLibrary.simpleMessage("Transporte"),
     "vacation": MessageLookupByLibrary.simpleMessage("Vacaciones"),
+    "validations_login_email": MessageLookupByLibrary.simpleMessage(
+      "Por favor ingrese un correo electrónico válido",
+    ),
+    "validations_login_password": MessageLookupByLibrary.simpleMessage(
+      "Ingrese su contraseña",
+    ),
+    "validations_signup_email_taken": MessageLookupByLibrary.simpleMessage(
+      "Ese email ya está en uso",
+    ),
     "welcome": MessageLookupByLibrary.simpleMessage("Bienvenido"),
   };
 }
