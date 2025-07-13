@@ -104,6 +104,33 @@ namespace FinancIA.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("FinancIA.Core.Domain.Entities.Budget", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("MaximumAmount")
+                        .HasColumnType("DECIMAL(13,4)");
+
+                    b.Property<DateOnly>("Month")
+                        .HasColumnType("DATE");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Budgets", (string)null);
+                });
+
             modelBuilder.Entity("FinancIA.Core.Domain.Entities.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -150,6 +177,35 @@ namespace FinancIA.Infrastructure.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("RefreshTokens", (string)null);
+                });
+
+            modelBuilder.Entity("FinancIA.Core.Domain.Entities.Saving", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("CurrentAmount")
+                        .HasColumnType("DECIMAL(13,4)");
+
+                    b.Property<DateOnly?>("Deadline")
+                        .HasColumnType("DATE");
+
+                    b.Property<decimal>("GoalAmount")
+                        .HasColumnType("DECIMAL(13,4)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(120)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Savings", (string)null);
                 });
 
             modelBuilder.Entity("FinancIA.Core.Domain.Entities.Transaction", b =>
@@ -320,6 +376,23 @@ namespace FinancIA.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("FinancIA.Core.Domain.Entities.Budget", b =>
+                {
+                    b.HasOne("FinancIA.Core.Domain.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("FinancIA.Core.Application.Identity.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("FinancIA.Core.Domain.Entities.Category", b =>
                 {
                     b.HasOne("FinancIA.Core.Application.Identity.ApplicationUser", null)
@@ -335,6 +408,15 @@ namespace FinancIA.Infrastructure.Persistence.Migrations
                         .WithOne()
                         .HasForeignKey("FinancIA.Core.Domain.Entities.RefreshToken", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FinancIA.Core.Domain.Entities.Saving", b =>
+                {
+                    b.HasOne("FinancIA.Core.Application.Identity.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 

@@ -1,9 +1,8 @@
 export interface RegisterUser {
-    personName: string;
-      email: string;
-      phoneNumber: string;
-      password: string;
-      confirmPassword: string;
+    fullName: string;
+    email: string;
+    password: string;
+    passwordConfirmation: string;
   }
   export interface LoginUser {
     email: string;
