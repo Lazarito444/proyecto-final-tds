@@ -1,6 +1,8 @@
 ﻿using FinancIA.Core.Application.Dtos.Account;
 using FinancIA.Core.Application.Identity;
 using FinancIA.Core.Domain.Enums;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -39,8 +41,18 @@ public class AccountController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateAccountInfo([FromRoute] Guid id, [FromForm] UpdateAccountRequest request)
+    public async Task<IActionResult> UpdateAccountInfo([FromRoute] Guid id, [FromForm] UpdateAccountRequest request, [FromServices] IValidator<UpdateAccountRequest> validator)
     {
+        ValidationResult validationResult = await validator.ValidateAsync(request);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(new
+            {
+                StatusCode = StatusCodes.Status400BadRequest,
+                Message = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage))
+            });
+        }
+
         ApplicationUser? user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
 
         if (user is null) return NotFound();

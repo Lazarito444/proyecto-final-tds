@@ -10,4 +10,5 @@ public class Transaction
     public DateTime DateTime { get; set; }
     public Category? Category { get; set; }
     public bool IsEarning { get; set; }
+    public string? ImagePath { get; set; }
 }

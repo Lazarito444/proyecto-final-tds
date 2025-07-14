@@ -17,8 +17,13 @@ public class BudgetConfiguration : IEntityTypeConfiguration<Budget>
         builder.Property(b => b.CategoryId)
             .IsRequired();
 
-        builder.Property(b => b.Month)
-            .HasColumnType("DATE")
+        builder.Property(b => b.StartDate)
+            .IsRequired();
+
+        builder.Property(b => b.EndDate)
+            .IsRequired();
+
+        builder.Property(b => b.IsRecurring)
             .IsRequired();
 
         builder.Property(b => b.MaximumAmount)
