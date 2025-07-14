@@ -100,6 +100,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "light": MessageLookupByLibrary.simpleMessage("Claro"),
     "login": MessageLookupByLibrary.simpleMessage("Iniciar sesión"),
+    "logout": MessageLookupByLibrary.simpleMessage("Cerrar sesión"),
     "male": MessageLookupByLibrary.simpleMessage("Masculino"),
     "month_apr": MessageLookupByLibrary.simpleMessage("abr."),
     "month_aug": MessageLookupByLibrary.simpleMessage("ago."),

@@ -89,5 +89,6 @@
   "data_saved": "Saved",
   "settings": "Settings",
   "description": "Description",
-  "budget": "Budget"
+  "budget": "Budget",
+  "logout": "Log out"
 }

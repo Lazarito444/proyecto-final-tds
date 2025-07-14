@@ -89,7 +89,6 @@
   "data_saved": "Datos guardados",
   "settings": "Configuración",
   "description": "Descripción",
-  "budget": "Presupuesto"
-
-
+  "budget": "Presupuesto",
+  "logout": "Cerrar sesión"
 }

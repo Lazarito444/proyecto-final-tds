@@ -668,6 +668,11 @@ class S {
   String get budget {
     return Intl.message('Budget', name: 'budget', desc: '', args: []);
   }
+
+  /// `Log out`
+  String get logout {
+    return Intl.message('Log out', name: 'logout', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
