@@ -9,6 +9,8 @@ class LanguageSettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final Locale? currentLocale = ref.watch(localeProvider);
+
     return Scaffold(
       backgroundColor: context.colors.surface,
       appBar: AppBar(
@@ -18,33 +20,43 @@ class LanguageSettingsScreen extends ConsumerWidget {
           icon: Icon(Icons.arrow_back, color: context.colors.onSurface),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(S.of(context).language),
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         children: [
-          ListTile(
+          Text(S.of(context).language, style: context.textStyles.titleLarge),
+          const SizedBox(height: 20),
+          RadioListTile<Locale>(
+            value: const Locale('es'),
+            groupValue: currentLocale,
             title: Text(
               S.of(context).spanish,
-              style: context.textStyles.bodyLarge,
+              style: context.textStyles.labelMedium,
             ),
-            onTap: () {
-              ref.read(localeProvider.notifier).setLocale(const Locale('es'));
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Idioma cambiado a Español')),
-              );
+            onChanged: (Locale? value) {
+              if (value != null) {
+                ref.read(localeProvider.notifier).setLocale(value);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Idioma cambiado a Español')),
+                );
+              }
             },
           ),
-          ListTile(
+          RadioListTile<Locale>(
+            value: const Locale('en'),
+            groupValue: currentLocale,
+            activeColor: Theme.of(context).colorScheme.primary,
             title: Text(
               S.of(context).english,
-              style: context.textStyles.bodyLarge,
+              style: context.textStyles.labelMedium,
             ),
-            onTap: () {
-              ref.read(localeProvider.notifier).setLocale(const Locale('en'));
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Language switched to English')),
-              );
+            onChanged: (Locale? value) {
+              if (value != null) {
+                ref.read(localeProvider.notifier).setLocale(value);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Language switched to English')),
+                );
+              }
             },
           ),
         ],

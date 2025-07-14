@@ -91,7 +91,7 @@ final ThemeData darkTheme = ThemeData(
     onSurfaceVariant: Colors.white,
     outline: const Color(0xFFd1d5db),
     surfaceContainerLow: const Color(0xFF374050),
-    surfaceContainerLowest: const Color(0xFF1A1B1C),
+    surfaceContainerLowest: const Color(0xFFd1d5db),
   ),
   scaffoldBackgroundColor: const Color(0xFF121212),
   progressIndicatorTheme: ProgressIndicatorThemeData(

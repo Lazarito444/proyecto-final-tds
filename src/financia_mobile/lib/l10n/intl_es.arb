@@ -7,6 +7,9 @@
   "smart_predictions": "Predicciones y sugerencias inteligentes",
   "ai_help": "Nuestra IA te ayuda a predecir tus financias futuras y a recibir recomendaciones para mejorar tus financias",
   "get_started": "Comenzar",
+  "validations_login_email": "Por favor ingrese un correo electrónico válido",
+  "validations_login_password": "Ingrese su contraseña",
+  "validations_signup_email_taken": "Ese email ya está en uso",
   "next": "Siguiente",
   "salary": "Salario",
   "supermarket": "Supermercado",
@@ -58,7 +61,7 @@
   "history": "Historial",
   "transactions": "Transacciones",
   "name_required": "El nombre completo es obligatorio",
-  "name_min_length": "El nombre completo debe tener 3\ncaracteres como mínimo",
+  "name_min_length": "El nombre completo debe tener 5\ncaracteres como mínimo",
   "invalid_email": "Correo electrónico inválido",
   "password_required": "La contraseña es obligatoria",
   "invalid_password": "La contraseña debe tener al menos\n6 caracteres, una mayúscula, una minúscula\ny un número",
@@ -86,7 +89,6 @@
   "data_saved": "Datos guardados",
   "settings": "Configuración",
   "description": "Descripción",
-  "budget": "Presupuesto"
-
-
+  "budget": "Presupuesto",
+  "logout": "Cerrar sesión"
 }

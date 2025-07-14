@@ -1,19 +1,24 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:dio/dio.dart';
 import 'package:financia_mobile/extensions/navigation_extensions.dart';
 import 'package:financia_mobile/extensions/theme_extensions.dart';
-import 'package:financia_mobile/modules/dashboard/dashboard_screen.dart';
+import 'package:financia_mobile/models/register_model.dart';
+import 'package:financia_mobile/providers/auth_provider.dart';
 import 'package:financia_mobile/widgets/full_width_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sizer/sizer.dart';
 import 'package:financia_mobile/generated/l10n.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<FormFieldState> confirmPasswordKey =
       GlobalKey<FormFieldState>();
@@ -32,7 +37,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         padding: EdgeInsets.symmetric(horizontal: 5.sw),
         child: Form(
           key: formKey,
-          autovalidateMode: AutovalidateMode.onUnfocus,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -45,6 +49,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(height: 2),
               TextFormField(
                 validator: _validateName,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 controller: _fullNameController,
                 style: context.textStyles.labelSmall,
               ),
@@ -53,6 +58,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(height: 2),
               TextFormField(
                 validator: _validateEmail,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                keyboardType: TextInputType.emailAddress,
                 controller: _emailController,
                 style: context.textStyles.labelSmall,
               ),
@@ -64,6 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(height: 2),
               TextFormField(
                 validator: _validatePassword,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 controller: _passwordController,
                 style: context.textStyles.labelSmall,
                 onChanged: (_) => confirmPasswordKey.currentState?.validate(),
@@ -78,6 +86,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               TextFormField(
                 key: confirmPasswordKey,
                 validator: _validatePasswordConfirmation,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 controller: _passwordConfirmationController,
                 style: context.textStyles.labelSmall,
                 obscureText: true,
@@ -85,8 +94,66 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(height: 25),
               FullWidthButton(
                 text: S.of(context).create_account,
-                onPressed: () {
-                  context.push(DashboardScreen());
+                onPressed: () async {
+                  if (formKey.currentState?.validate() ?? false) {
+                    String email = _emailController.text.trim();
+                    String fullName = _fullNameController.text.trim();
+                    String passwordConfirmation =
+                        _passwordConfirmationController.text.trim();
+                    String password = _passwordController.text.trim();
+
+                    try {
+                      await ref
+                          .read(authProvider.notifier)
+                          .register(
+                            RegisterModel(
+                              fullName: fullName,
+                              email: email,
+                              password: password,
+                              passwordConfirmation: passwordConfirmation,
+                            ),
+                          );
+                    } on DioException catch (e) {
+                      if ((e.response?.statusCode ?? 400) == 400) {
+                        for (var error in e.response!.data) {
+                          if (error["errorMessage"].contains(
+                            "está registrado",
+                          )) {
+                            ScaffoldMessenger.of(context)
+                              ..hideCurrentSnackBar()
+                              ..showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    S
+                                        .of(context)
+                                        .validations_signup_email_taken,
+                                  ),
+                                ),
+                              );
+                            return;
+                          }
+                        }
+                      }
+
+                      ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(
+                          SnackBar(
+                            content: Text(S.of(context).invalid_credentials),
+                          ),
+                        );
+                    }
+
+                    context.pop();
+                  } else {
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        SnackBar(
+                          content: Text(S.of(context).fill_fields_correctly),
+                        ),
+                      );
+                  }
                 },
               ),
             ],
@@ -101,7 +168,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return S.of(context).name_required;
     }
 
-    if (value.length < 3) {
+    if (value.length < 5) {
       return S.of(context).name_min_length;
     }
 

@@ -39,7 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "budget": MessageLookupByLibrary.simpleMessage("Budget"),
     "category": MessageLookupByLibrary.simpleMessage("Category"),
     "confirm_password": MessageLookupByLibrary.simpleMessage(
-      "Confirm_password",
+      "Confirm password",
     ),
     "control_expenses": MessageLookupByLibrary.simpleMessage(
       "Control your expenses",
@@ -85,7 +85,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Invalid email address",
     ),
     "invalid_password": MessageLookupByLibrary.simpleMessage(
-      "Password must be at least\n6 characters long, include an uppercase, a lowercase and a number",
+      "Password must be at least\n6 characters long, include an uppercase,\na lowercase and a number",
     ),
     "june_summary": MessageLookupByLibrary.simpleMessage("June Summary"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
@@ -94,6 +94,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "light": MessageLookupByLibrary.simpleMessage("Light"),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
+    "logout": MessageLookupByLibrary.simpleMessage("Log out"),
     "male": MessageLookupByLibrary.simpleMessage("Male"),
     "month_apr": MessageLookupByLibrary.simpleMessage("Apr"),
     "month_aug": MessageLookupByLibrary.simpleMessage("Aug"),
@@ -109,7 +110,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "month_sep": MessageLookupByLibrary.simpleMessage("Sep"),
     "monthly_trend": MessageLookupByLibrary.simpleMessage("Monthly Trend"),
     "name_min_length": MessageLookupByLibrary.simpleMessage(
-      "Full name must be at least\n3 characters long",
+      "Full name must be at least\n5 characters long",
     ),
     "name_required": MessageLookupByLibrary.simpleMessage(
       "Full name is required",
@@ -146,6 +147,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "transfer": MessageLookupByLibrary.simpleMessage("Transfer"),
     "transport": MessageLookupByLibrary.simpleMessage("Transport"),
     "vacation": MessageLookupByLibrary.simpleMessage("Vacation"),
+    "validations_login_email": MessageLookupByLibrary.simpleMessage(
+      "Please type a valid email",
+    ),
+    "validations_login_password": MessageLookupByLibrary.simpleMessage(
+      "Type your password",
+    ),
+    "validations_signup_email_taken": MessageLookupByLibrary.simpleMessage(
+      "That email is already taken",
+    ),
     "welcome": MessageLookupByLibrary.simpleMessage("Welcome"),
   };
 }

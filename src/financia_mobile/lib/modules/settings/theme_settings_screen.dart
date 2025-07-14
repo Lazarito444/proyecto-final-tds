@@ -25,11 +25,12 @@ class ThemeSettingsScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         children: [
-          Text(S.of(context).theme, style: context.textStyles.titleMedium),
+          Text(S.of(context).theme, style: context.textStyles.titleLarge),
+          const SizedBox(height: 20),
           RadioListTile<ThemeMode>(
             title: Text(
               S.of(context).light,
-              style: context.textStyles.bodyLarge,
+              style: context.textStyles.labelMedium,
             ),
             value: ThemeMode.light,
             groupValue: currentMode,
@@ -39,7 +40,7 @@ class ThemeSettingsScreen extends ConsumerWidget {
           RadioListTile<ThemeMode>(
             title: Text(
               S.of(context).dark,
-              style: context.textStyles.bodyLarge,
+              style: context.textStyles.labelMedium,
             ),
             value: ThemeMode.dark,
             groupValue: currentMode,
@@ -49,7 +50,7 @@ class ThemeSettingsScreen extends ConsumerWidget {
           RadioListTile<ThemeMode>(
             title: Text(
               S.of(context).system,
-              style: context.textStyles.bodyLarge,
+              style: context.textStyles.labelMedium,
             ),
             value: ThemeMode.system,
             groupValue: currentMode,

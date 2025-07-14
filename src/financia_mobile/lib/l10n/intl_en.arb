@@ -7,6 +7,9 @@
   "smart_predictions": "Smart predictions and suggestions",
   "ai_help": "Our AI helps you predict future finances and receive recommendations to improve your finances",
   "get_started": "Get Started",
+  "validations_login_email": "Please type a valid email",
+  "validations_login_password": "Type your password",
+  "validations_signup_email_taken": "That email is already taken",
   "next": "Next",
   "salary": "Salary",
   "supermarket": "Supermarket",
@@ -58,10 +61,10 @@
   "history": "History",
   "transactions": "Transactions",
   "name_required": "Full name is required",
-  "name_min_length": "Full name must be at least\n3 characters long",
+  "name_min_length": "Full name must be at least\n5 characters long",
   "invalid_email": "Invalid email address",
   "password_required": "Password is required",
-  "invalid_password": "Password must be at least\n6 characters long, include an uppercase, a lowercase and a number",
+  "invalid_password": "Password must be at least\n6 characters long, include an uppercase,\na lowercase and a number",
   "passwords_not_match": "Passwords do not match",
   "email": "Email",
   "password": "Password",
@@ -81,13 +84,11 @@
   "savings_goals": "Savings Goals",
   "vacation": "Vacation",
   "emergency_fund": "Emergency Fund",
-  "confirm_password": "Confirm_password",
+  "confirm_password": "Confirm password",
   "create_account": "Create account",
   "data_saved": "Saved",
   "settings": "Settings",
   "description": "Description",
-  "budget": "Budget"
-
-
-  
+  "budget": "Budget",
+  "logout": "Log out"
 }

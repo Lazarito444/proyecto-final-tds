@@ -25,7 +25,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.colors.surface,
-      appBar: AppBar(backgroundColor: Colors.white),
+      appBar: AppBar(backgroundColor: context.colors.surface),
       body: Padding(
         padding: EdgeInsetsGeometry.symmetric(horizontal: 5.sw),
         child: Form(
@@ -70,15 +70,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       await ref
                           .read(authProvider.notifier)
                           .login(email, password);
+
+                      context.pop();
                     } on DioException {
                       ScaffoldMessenger.of(context)
                         ..hideCurrentSnackBar()
                         ..showSnackBar(
-                          SnackBar(content: Text("Credenciales incorrectas")),
+                          SnackBar(
+                            content: Text(S.of(context).invalid_credentials),
+                          ),
                         );
                     }
-
-                    context.pop();
                   } else {
                     ScaffoldMessenger.of(context)
                       ..hideCurrentSnackBar()
