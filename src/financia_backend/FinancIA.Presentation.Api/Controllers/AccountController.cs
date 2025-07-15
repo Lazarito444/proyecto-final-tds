@@ -104,7 +104,7 @@ public class AccountController : ControllerBase
             throw new InvalidOperationException("El archivo excede el tamaño máximo permitido de 10 MB.");
         }
 
-        string baseFolder = Path.Combine(Directory.GetCurrentDirectory(), "images", id.ToString());
+        string baseFolder = Path.Combine(Directory.GetCurrentDirectory(), "images", "users", id.ToString());
 
         if (!Directory.Exists(baseFolder))
         {
@@ -121,7 +121,7 @@ public class AccountController : ControllerBase
         }
 
         // Ruta relativa que puedes guardar en base de datos
-        string relativePath = Path.Combine("images", id.ToString(), fileName);
+        string relativePath = Path.Combine("images", "users", id.ToString(), fileName);
 
         return relativePath.Replace("\\", "/");
     }

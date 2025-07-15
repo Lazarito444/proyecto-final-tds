@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 
 namespace FinancIA.Core.Application.Dtos.Transactions;
-
-public class CreateTransactionDto
+public class UpdateTransactionDto
 {
     public Guid CategoryId { get; set; }
     public required string Description { get; set; }

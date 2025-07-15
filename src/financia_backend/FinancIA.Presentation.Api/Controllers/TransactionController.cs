@@ -4,6 +4,8 @@ using AutoMapper;
 using FinancIA.Core.Application.Dtos.Transactions;
 using FinancIA.Core.Domain.Entities;
 using FinancIA.Infrastructure.Persistence;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -50,10 +52,25 @@ public class TransactionController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateTransaction([FromBody] CreateTransactionDto transactionDto)
+    public async Task<IActionResult> CreateTransaction([FromForm] CreateTransactionDto transactionDto, [FromServices] IValidator<CreateTransactionDto> validator)
     {
+        ValidationResult validationResult = await validator.ValidateAsync(transactionDto);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(new
+            {
+                StatusCode = StatusCodes.Status400BadRequest,
+                Message = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage))
+            });
+        }
+
         Transaction transaction = _mapper.Map<Transaction>(transactionDto);
         transaction.UserId = Guid.Parse(User.FindFirstValue(JwtRegisteredClaimNames.Sub)!);
+
+        if (transactionDto.Image is not null)
+        {
+            transaction.ImagePath = UploadPhoto(transaction.Id, transactionDto.Image);
+        }
 
         await _context.Transactions.AddAsync(transaction);
         await _context.SaveChangesAsync();
@@ -62,12 +79,28 @@ public class TransactionController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateTransaction([FromRoute] Guid id, [FromBody] CreateTransactionDto transactionDto)
+    public async Task<IActionResult> UpdateTransaction([FromRoute] Guid id, [FromForm] UpdateTransactionDto transactionDto, [FromServices] IValidator<UpdateTransactionDto> validator)
     {
+        ValidationResult validationResult = await validator.ValidateAsync(transactionDto);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(new
+            {
+                StatusCode = StatusCodes.Status400BadRequest,
+                Message = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage))
+            });
+        }
+
         Transaction? transaction = await _context.Transactions.FindAsync(id);
         if (transaction is null) return NotFound();
 
         _mapper.Map(transactionDto, transaction);
+
+        if (transactionDto.Image is not null)
+        {
+            transaction.ImagePath = UploadPhoto(transaction.Id, transactionDto.Image);
+        }
+
         await _context.SaveChangesAsync();
 
         return Ok(transaction);
@@ -84,4 +117,42 @@ public class TransactionController : ControllerBase
         return NoContent();
     }
 
+
+    private string UploadPhoto(Guid id, IFormFile file)
+    {
+        string[] allowedExtensions = [".jpg", ".png", ".jpeg"];
+        string extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+
+        if (string.IsNullOrEmpty(extension) || !allowedExtensions.Contains(extension))
+        {
+            throw new InvalidOperationException("Solo se permiten imágenes JPG y PNG.");
+        }
+
+        const long maxSizeInBytes = 10 * 1024 * 1024;
+        if (file.Length > maxSizeInBytes)
+        {
+            throw new InvalidOperationException("El archivo excede el tamaño máximo permitido de 10 MB.");
+        }
+
+        string baseFolder = Path.Combine(Directory.GetCurrentDirectory(), "images", "transactions", id.ToString());
+
+        if (!Directory.Exists(baseFolder))
+        {
+            Directory.CreateDirectory(baseFolder);
+        }
+        // Crear nombre único para la imagen
+        string fileName = $"{Guid.NewGuid()}{extension}";
+        string fullPath = Path.Combine(baseFolder, fileName);
+
+        // Guardar el archivo físicamente
+        using (FileStream stream = new FileStream(fullPath, FileMode.Create))
+        {
+            file.CopyTo(stream);
+        }
+
+        // Ruta relativa que puedes guardar en base de datos
+        string relativePath = Path.Combine("images", "transactions", id.ToString(), fileName);
+
+        return relativePath.Replace("\\", "/");
+    }
 }
