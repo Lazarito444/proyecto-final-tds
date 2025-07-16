@@ -39,6 +39,43 @@ public class TransactionController : ControllerBase
         return Ok(transactions);
     }
 
+    [HttpGet("filter")]
+    public async Task<IActionResult> GetAllUserTransactionsFiltered([FromQuery] TransactionQueryFilterParameters filter)
+    {
+        Guid userId = Guid.Parse(User.FindFirstValue(JwtRegisteredClaimNames.Sub)!);
+
+        IQueryable<Transaction> query = _context.Transactions
+            .Include(t => t.Category)
+            .Where(t => t.UserId == userId);
+
+        if (filter.CategoryId.HasValue)
+        {
+            query = query.Where(t => t.CategoryId == filter.CategoryId.Value);
+        }
+
+        if (filter.Earning.HasValue)
+        {
+            query = query.Where(t => t.IsEarning == filter.Earning.Value);
+        }
+
+        if (filter.FromDate.HasValue)
+        {
+            query = query.Where(t => t.DateTime >= filter.FromDate.Value);
+        }
+
+        if (filter.ToDate.HasValue)
+        {
+            query = query.Where(t => t.DateTime <= filter.ToDate.Value);
+        }
+
+        List<Transaction> transactions = await _context.Transactions
+            .Include(t => t.Category)
+            .Where(t => t.UserId == userId)
+            .ToListAsync();
+
+        return Ok(transactions);
+    }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetTransactionById([FromQuery] Guid id)
     {
@@ -117,6 +154,37 @@ public class TransactionController : ControllerBase
         return NoContent();
     }
 
+    [HttpGet("monthly-summary")]
+    public async Task<IActionResult> GetMonthlySummary([FromQuery] DateTime month)
+    {
+        Guid userId = Guid.Parse(User.FindFirstValue(JwtRegisteredClaimNames.Sub)!);
+
+        DateTime start = new DateTime(month.Year, month.Month, 1);
+        DateTime end = start.AddMonths(1).AddDays(-1);
+
+        List<Transaction> transactions = await _context.Transactions
+            .Include(t => t.Category)
+            .Where(t => t.UserId == userId && t.DateTime >= start && t.DateTime <= end)
+            .ToListAsync();
+
+        decimal totalIncome = transactions
+            .Where(t => t.Category!.IsEarningCategory)
+            .Sum(t => t.Amount);
+
+        decimal totalExpenses = transactions
+            .Where(t => !t.Category!.IsEarningCategory)
+            .Sum(t => t.Amount);
+
+        var summary = new
+        {
+            start.Year,
+            start.Month,
+            TotalIncome = totalIncome,
+            TotalExpenses = totalExpenses
+        };
+
+        return Ok(summary);
+    }
 
     private string UploadPhoto(Guid id, IFormFile file)
     {
