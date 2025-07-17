@@ -4,6 +4,8 @@ using AutoMapper;
 using FinancIA.Core.Application.Dtos.Budget;
 using FinancIA.Core.Domain.Entities;
 using FinancIA.Infrastructure.Persistence;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -49,8 +51,18 @@ public class BudgetController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateBudget([FromBody] CreateBudgetDto budgetDto)
+    public async Task<IActionResult> CreateBudget([FromBody] CreateBudgetDto budgetDto, [FromServices] IValidator<CreateBudgetDto> validator)
     {
+        ValidationResult validationResult = await validator.ValidateAsync(budgetDto);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(new
+            {
+                StatusCode = StatusCodes.Status400BadRequest,
+                Message = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage))
+            });
+        }
+
         Budget budget = _mapper.Map<Budget>(budgetDto);
         budget.UserId = Guid.Parse(User.FindFirstValue(JwtRegisteredClaimNames.Sub)!);
 
@@ -61,8 +73,18 @@ public class BudgetController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateBudget([FromRoute] Guid id, [FromBody] CreateBudgetDto budgetDto)
+    public async Task<IActionResult> UpdateBudget([FromRoute] Guid id, [FromBody] CreateBudgetDto budgetDto, [FromServices] IValidator<CreateBudgetDto> validator)
     {
+        ValidationResult validationResult = await validator.ValidateAsync(budgetDto);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(new
+            {
+                StatusCode = StatusCodes.Status400BadRequest,
+                Message = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage))
+            });
+        }
+
         Budget? budget = await _context.Budgets.FindAsync(id);
         if (budget is null) return NotFound();
 
