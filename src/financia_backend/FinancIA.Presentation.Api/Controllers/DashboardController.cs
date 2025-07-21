@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace FinancIA.Presentation.Api.Controllers;
 
 [Authorize]
+[ApiController]
 [Route("api/dashboard-data")]
 public class DashboardController : ControllerBase
 {
