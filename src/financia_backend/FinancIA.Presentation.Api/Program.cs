@@ -13,6 +13,7 @@ JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
 builder.Services.AddApplicationLayer();
 builder.Services.AddPersistenceLayer(builder.Configuration);
+builder.Services.SetupApiServices();
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetRequiredSection(nameof(JwtSettings)));
 builder.Services.Configure<ApiBehaviorOptions>(opt => opt.SuppressModelStateInvalidFilter = true);
 builder.Services.SetupCors();

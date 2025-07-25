@@ -13,6 +13,10 @@ namespace FinancIA.Presentation.Api.Extensions;
 
 public static class ProgramExtensions
 {
+    public static void SetupApiServices(this IServiceCollection services)
+    {
+        services.AddHttpClient();
+    }
     public static void SetupCors(this IServiceCollection services)
     {
         services.AddCors(opt => opt.AddPolicy("AllowAll", builder =>
