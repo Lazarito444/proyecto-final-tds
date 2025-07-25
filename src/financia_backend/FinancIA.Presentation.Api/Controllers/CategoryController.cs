@@ -4,6 +4,8 @@ using AutoMapper;
 using FinancIA.Core.Application.Dtos.Category;
 using FinancIA.Core.Domain.Entities;
 using FinancIA.Infrastructure.Persistence;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -51,8 +53,18 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto categoryDto)
+    public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto categoryDto, IValidator<CreateCategoryDto> validator)
     {
+        ValidationResult validationResult = await validator.ValidateAsync(categoryDto);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(new
+            {
+                StatusCode = StatusCodes.Status400BadRequest,
+                Message = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage))
+            });
+        }
+
         Category category = _mapper.Map<Category>(categoryDto);
         category.UserId = Guid.Parse(User.FindFirstValue(JwtRegisteredClaimNames.Sub)!);
 

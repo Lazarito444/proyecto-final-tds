@@ -3,6 +3,8 @@ using System.Security.Claims;
 using FinancIA.Core.Application.Contracts.Services;
 using FinancIA.Core.Application.Dtos.Auth;
 using FinancIA.Core.Application.Identity;
+using FinancIA.Core.Domain.Entities;
+using FinancIA.Infrastructure.Persistence;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
@@ -18,13 +20,15 @@ public class AuthController : ControllerBase
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly ApplicationDbContext _context;
     private readonly IJwtService _jwtService;
 
-    public AuthController(IJwtService jwtService, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+    public AuthController(IJwtService jwtService, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ApplicationDbContext context)
     {
         _jwtService = jwtService;
         _userManager = userManager;
         _signInManager = signInManager;
+        _context = context;
     }
 
     [HttpPost("authenticate")]
@@ -33,7 +37,11 @@ public class AuthController : ControllerBase
         ValidationResult validationResult = await validator.ValidateAsync(request);
         if (!validationResult.IsValid)
         {
-            return BadRequest(validationResult.Errors);
+            return BadRequest(new
+            {
+                StatusCode = StatusCodes.Status400BadRequest,
+                Message = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage))
+            });
         }
 
         ApplicationUser? user = await _userManager.FindByEmailAsync(request.Email);
@@ -47,7 +55,7 @@ public class AuthController : ControllerBase
         Claim[] claims =
         [
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email!),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Name, user.FullName)
         ];
@@ -62,7 +70,11 @@ public class AuthController : ControllerBase
         ValidationResult validationResult = await validator.ValidateAsync(request);
         if (!validationResult.IsValid)
         {
-            return BadRequest(validationResult.Errors);
+            return BadRequest(new
+            {
+                StatusCode = StatusCodes.Status400BadRequest,
+                Message = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage))
+            });
         }
 
         ApplicationUser newUser = new ApplicationUser
@@ -77,8 +89,11 @@ public class AuthController : ControllerBase
         IdentityResult result = await _userManager.CreateAsync(newUser, request.Password);
         if (!result.Succeeded)
         {
-            string errorMessages = string.Join(" | ", result.Errors.Select(e => e.Description));
-            return BadRequest("Algo salió mal: " + errorMessages);
+            return BadRequest(new
+            {
+                StatusCode = StatusCodes.Status400BadRequest,
+                Message = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage))
+            });
         }
 
         Claim[] claims =
@@ -90,6 +105,8 @@ public class AuthController : ControllerBase
         ];
 
         SystemTokens tokens = await _jwtService.GenerateTokens(newUser.Id, claims);
+
+        _ = SeedDefaultCategoriesAsync(newUser.Id);
         return Ok(tokens);
     }
 
@@ -124,5 +141,19 @@ public class AuthController : ControllerBase
         await _jwtService.RemoveUserRefreshTokens(userId);
 
         return NoContent();
+    }
+
+    private async Task SeedDefaultCategoriesAsync(Guid userId)
+    {
+        List<Category> categories = new List<Category>
+        {
+            new Category { Name = "Food", IsEarningCategory = false, ColorHex = "#FF6F00", IconName = "local_restaurant", UserId = userId },
+            new Category { Name = "Transport", IsEarningCategory = false, ColorHex = "#455A64", IconName = "directions_car", UserId = userId },
+            new Category { Name = "Salary", IsEarningCategory = true, ColorHex = "#2E7D32", IconName = "attach_money", UserId = userId },
+            new Category { Name = "Extra", IsEarningCategory = true, ColorHex = "#1976D2", IconName = "savings", UserId = userId }
+        };
+
+        await _context.Categories.AddRangeAsync(categories);
+        await _context.SaveChangesAsync();
     }
 }

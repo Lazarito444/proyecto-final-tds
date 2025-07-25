@@ -1,4 +1,5 @@
-﻿using FinancIA.Core.Domain.Exceptions;
+﻿using System.Text.Json;
+using FinancIA.Core.Domain.Exceptions;
 
 namespace FinancIA.Presentation.Api.Middlewares;
 
@@ -20,19 +21,31 @@ public class ExceptionMiddleware
         catch (ApiException apiException)
         {
             context.Response.StatusCode = apiException.StatusCode;
+            context.Response.ContentType = "application/json";
             await context.Response.WriteAsJsonAsync(new
             {
-                StatusCode = apiException.StatusCode,
-                Message = apiException.Message,
+                apiException.StatusCode,
+                apiException.Message,
+            });
+        }
+        catch (JsonException ex)
+        {
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsJsonAsync(new
+            {
+                StatusCode = 400,
+                Message = $"JSON mal formado: {ex.Message}"
             });
         }
         catch (Exception ex)
         {
             context.Response.StatusCode = 500;
+            context.Response.ContentType = "application/json";
             await context.Response.WriteAsJsonAsync(new
             {
                 StatusCode = 500,
-                Message = ex.Message,
+                ex.Message,
             });
         }
     }

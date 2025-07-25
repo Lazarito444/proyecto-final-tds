@@ -13,6 +13,7 @@ JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
 builder.Services.AddApplicationLayer();
 builder.Services.AddPersistenceLayer(builder.Configuration);
+builder.Services.SetupApiServices();
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetRequiredSection(nameof(JwtSettings)));
 builder.Services.Configure<ApiBehaviorOptions>(opt => opt.SuppressModelStateInvalidFilter = true);
 builder.Services.SetupCors();
@@ -22,6 +23,7 @@ builder.Services.SetupAuthentication(builder.Configuration);
 builder.Services.AddAuthorization();
 builder.Services.AddSwaggerGen();
 builder.Services.SetupSwagger();
+SetupImagesFolder();
 
 WebApplication app = builder.Build();
 
@@ -51,3 +53,12 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+void SetupImagesFolder()
+{
+    if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "images")))
+    {
+        Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "images"));
+    }
+}

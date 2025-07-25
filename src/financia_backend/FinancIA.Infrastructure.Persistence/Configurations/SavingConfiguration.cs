@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FinancIA.Infrastructure.Persistence.Configurations;
-public class SavingsConfiguration : IEntityTypeConfiguration<Saving>
+public class SavingConfiguration : IEntityTypeConfiguration<Saving>
 {
     public void Configure(EntityTypeBuilder<Saving> builder)
     {
@@ -18,7 +18,7 @@ public class SavingsConfiguration : IEntityTypeConfiguration<Saving>
             .IsRequired()
             .HasColumnType("VARCHAR(120)");
 
-        builder.Property(s => s.GoalAmount)
+        builder.Property(s => s.TargetAmount)
             .IsRequired()
             .HasColumnType("DECIMAL(13,4)");
 
@@ -26,9 +26,8 @@ public class SavingsConfiguration : IEntityTypeConfiguration<Saving>
             .IsRequired()
             .HasColumnType("DECIMAL(13,4)");
 
-        builder.Property(s => s.Deadline)
-            .IsRequired(false)
-            .HasColumnType("DATE");
+        builder.Property(s => s.TargetDate)
+            .IsRequired(false);
 
         builder.HasOne<ApplicationUser>()
             .WithMany()

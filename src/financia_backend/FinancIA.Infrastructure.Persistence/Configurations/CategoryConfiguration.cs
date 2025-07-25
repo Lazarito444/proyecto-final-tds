@@ -20,6 +20,18 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
             .IsRequired()
             .HasColumnType("VARCHAR(200)");
 
+        builder.Property(c => c.IsEarningCategory)
+            .IsRequired()
+            .HasDefaultValue(false);
+
+        builder.Property(c => c.ColorHex)
+            .IsRequired()
+            .HasMaxLength(12);
+
+        builder.Property(c => c.IconName)
+            .IsRequired()
+            .HasMaxLength(80);
+
         builder.HasOne<ApplicationUser>()
             .WithMany()
             .HasForeignKey(c => c.UserId)
