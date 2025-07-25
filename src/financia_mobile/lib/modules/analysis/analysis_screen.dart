@@ -21,7 +21,7 @@ class AnalysisScreen extends StatelessWidget {
         title: Text(
           S.of(context).analysis,
           style: GoogleFonts.gabarito(
-            textStyle: context.textStyles.headlineSmall?.copyWith(
+            textStyle: context.textStyles.titleMedium?.copyWith(
               color: context.colors.onSurface,
               fontSize: 27,
             ),

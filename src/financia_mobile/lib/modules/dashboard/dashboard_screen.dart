@@ -2,11 +2,12 @@ import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:financia_mobile/modules/analysis/analysis_screen.dart';
 import 'package:financia_mobile/modules/settings/settings_screen.dart';
 import 'package:financia_mobile/modules/transaction/finance_history.dart';
-import 'package:financia_mobile/providers/auth_provider.dart';
+//import 'package:financia_mobile/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:financia_mobile/modules/transaction/add_transaction.dart';
+import 'package:financia_mobile/modules/ai_suggestions/ai_suggestions_screen.dart';
 import 'package:financia_mobile/generated/l10n.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
@@ -30,7 +31,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         MaterialPageRoute(builder: (context) => AnalysisScreen()),
       );
     } else if (index == 2) {
-      await ref.read(authProvider.notifier).logout();
+      //await ref.read(authProvider.notifier).logout();
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => AISuggestionsScreen()),
+      );
     } else if (index == 4) {
       Navigator.push(
         context,
@@ -41,7 +46,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         context,
         MaterialPageRoute(builder: (context) => HistorialScreen()),
       );
-    }
+    } 
   }
 
   @override
