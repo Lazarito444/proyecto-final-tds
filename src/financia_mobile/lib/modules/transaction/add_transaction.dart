@@ -1,148 +1,188 @@
-import 'package:financia_mobile/extensions/theme_extensions.dart';
-import 'package:financia_mobile/widgets/full_width_button.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
-import 'package:financia_mobile/generated/l10n.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:dio/dio.dart';
+import 'package:financia_mobile/config/app_preferences.dart';
+import 'package:financia_mobile/models/transaction_model.dart';
+import 'package:financia_mobile/services/transaction_service.dart';
+import 'package:financia_mobile/extensions/theme_extensions.dart';
 
-class AddTransactionScreen extends StatefulWidget {
+class AddTransactionScreen extends ConsumerStatefulWidget {
   const AddTransactionScreen({super.key});
 
   @override
-  State<AddTransactionScreen> createState() => _AgregarTransaccionScreenState();
+  ConsumerState<AddTransactionScreen> createState() =>
+      _AddTransactionScreenState();
 }
 
-class _AgregarTransaccionScreenState extends State<AddTransactionScreen> {
-  bool isEarning = true;
-  String categoria = '';
-  double monto = 0.0;
-  DateTime fecha = DateTime.now();
-  String descripcion = '';
+class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
+  DateTime _selectedDate = DateTime.now();
+  bool _localIsEarning = false; // Renombrado aquí
+  String? _selectedCategoryId;
+  File? _imageFile;
+
+  List<Map<String, dynamic>> _categories = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCategories();
+  }
+
+  Future<void> _loadCategories() async {
+    try {
+      final token = await AppPreferences.getStringPreference('accessToken');
+      final dio = Dio(
+        BaseOptions(
+          baseUrl: 'http://10.0.0.13:5189/api/',
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      final response = await dio.get('category');
+      setState(() {
+        _categories = List<Map<String, dynamic>>.from(response.data);
+      });
+    } catch (e) {
+      debugPrint('Error al cargar categorías: $e');
+    }
+  }
+
+  Future<void> _pickImage() async {
+    final picked = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (picked != null) {
+      setState(() {
+        _imageFile = File(picked.path);
+      });
+    }
+  }
+
+  Future<void> _submitTransaction() async {
+    if (!_formKey.currentState!.validate() || _selectedCategoryId == null) {
+      return;
+    }
+
+    final transaction = TransactionModel(
+      categoryId: _selectedCategoryId!,
+      description: _descriptionController.text,
+      amount: double.parse(_amountController.text),
+      dateTime: _selectedDate,
+      isEarning: _localIsEarning, // Cambiado aquí también
+      imageFile: _imageFile,
+    );
+
+    try {
+      await TransactionService().createTransaction(transaction);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("✅ Transacción creada exitosamente")),
+        );
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text("❌ Error: ${e.toString()}")));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.colors.surface,
-      appBar: AppBar(backgroundColor: context.colors.surface),
+      appBar: AppBar(
+        title: Text(
+          "Agregar Transacción",
+          style: context.textStyles.titleMedium?.copyWith(
+            color: context.colors.onSurface,
+            fontSize: 30,
+          ),
+        ),
+      ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 5.sw),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              S.of(context).add_transaction,
-              style: context.textStyles.titleMedium,
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              child: SegmentedButton<bool>(
-                style: SegmentedButton.styleFrom(
-                  textStyle: context.textStyles.labelSmall,
-                  backgroundColor: Colors.green.shade100,
-                  selectedBackgroundColor: Colors.green.shade300,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  side: BorderSide(color: context.colors.surface, width: 3),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                segments: <ButtonSegment<bool>>[
-                  ButtonSegment(value: true, label: Text(S.of(context).income)),
-                  ButtonSegment(
-                    value: false,
-                    label: Text(S.of(context).expenses),
+        padding: const EdgeInsets.all(16),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            children: [
+              TextFormField(
+                controller: _descriptionController,
+                decoration: const InputDecoration(labelText: 'Descripción'),
+                validator: (val) =>
+                    val == null || val.isEmpty ? 'Campo requerido' : null,
+              ),
+              const SizedBox(height: 12),
+              TextFormField(
+                controller: _amountController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(labelText: 'Monto'),
+                validator: (val) =>
+                    val == null || val.isEmpty ? 'Campo requerido' : null,
+              ),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<String>(
+                value: _selectedCategoryId,
+                items: _categories.map((cat) {
+                  return DropdownMenuItem<String>(
+                    value: cat['id'],
+                    child: Text(cat['name']),
+                  );
+                }).toList(),
+                onChanged: (val) => setState(() => _selectedCategoryId = val),
+                decoration: const InputDecoration(labelText: 'Categoría'),
+                validator: (val) =>
+                    val == null ? 'Selecciona una categoría' : null,
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  const Text("¿Es ingreso?"),
+                  Switch(
+                    value: _localIsEarning,
+                    onChanged: (val) => setState(() => _localIsEarning = val),
                   ),
                 ],
-                selected: <bool>{isEarning},
-                onSelectionChanged: (selection) {
-                  setState(() {
-                    isEarning = selection.first;
-                  });
+              ),
+              const SizedBox(height: 12),
+              Text("Fecha: ${_selectedDate.toLocal()}"),
+              ElevatedButton(
+                onPressed: () async {
+                  final picked = await showDatePicker(
+                    context: context,
+                    initialDate: _selectedDate,
+                    firstDate: DateTime(2020),
+                    lastDate: DateTime(2100),
+                  );
+                  if (picked != null) {
+                    setState(() => _selectedDate = picked);
+                  }
                 },
+                child: const Text("Seleccionar Fecha"),
               ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              decoration: InputDecoration(
-                labelText: S.of(context).category,
-                border: OutlineInputBorder(),
+              const SizedBox(height: 12),
+              if (_imageFile != null)
+                Image.file(_imageFile!, height: 100, fit: BoxFit.cover),
+              ElevatedButton(
+                onPressed: _pickImage,
+                child: const Text("Seleccionar Imagen"),
               ),
-              onChanged: (value) {
-                categoria = value;
-              },
-            ),
-            SizedBox(height: 16),
-            TextField(
-              decoration: InputDecoration(
-                labelText: S.of(context).amount,
-                border: OutlineInputBorder(),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _submitTransaction,
+                child: const Text("Guardar Transacción"),
               ),
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              onChanged: (value) {
-                monto = double.tryParse(value) ?? 0.0;
-              },
-            ),
-            SizedBox(height: 16),
-            TextFormField(
-              readOnly: true,
-              decoration: InputDecoration(
-                labelText: S.of(context).date,
-                border: OutlineInputBorder(),
-                suffixIcon: Icon(Icons.calendar_today),
-              ),
-              controller: TextEditingController(
-                text:
-                    '${fecha.day} ${_getMonthName(fecha.month)} ${fecha.year}',
-              ),
-              onTap: () async {
-                DateTime? picked = await showDatePicker(
-                  context: context,
-                  initialDate: fecha,
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime(2100),
-                );
-                if (picked != null) {
-                  setState(() {
-                    fecha = picked;
-                  });
-                }
-              },
-            ),
-            SizedBox(height: 16),
-            TextField(
-              decoration: InputDecoration(
-                labelText: S.of(context).description,
-                border: OutlineInputBorder(),
-              ),
-              maxLines: 2,
-              onChanged: (value) {
-                descripcion = value;
-              },
-            ),
-            SizedBox(height: 24),
-            FullWidthButton(text: S.of(context).save, onPressed: () {}),
-          ],
+            ],
+          ),
         ),
       ),
     );
-  }
-
-  String _getMonthName(int month) {
-    final months = [
-      '',
-      S.of(context).month_jan,
-      S.of(context).month_feb,
-      S.of(context).month_mar,
-      S.of(context).month_apr,
-      S.of(context).month_may,
-      S.of(context).month_jun,
-      S.of(context).month_jul,
-      S.of(context).month_aug,
-      S.of(context).month_sep,
-      S.of(context).month_oct,
-      S.of(context).month_nov,
-      S.of(context).month_dec,
-    ];
-    return months[month];
   }
 }
