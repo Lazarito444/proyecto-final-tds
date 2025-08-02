@@ -673,6 +673,16 @@ class S {
   String get logout {
     return Intl.message('Log out', name: 'logout', desc: '', args: []);
   }
+
+  get select_category => null;
+
+  get loading => null;
+
+  String? get select_image => null;
+
+  get required_field => null;
+
+  String? get invalid_number => null;
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
