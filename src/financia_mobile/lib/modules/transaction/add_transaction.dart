@@ -3,11 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import 'package:financia_mobile/config/app_preferences.dart';
 import 'package:financia_mobile/models/transaction_model.dart';
-import 'package:financia_mobile/services/transaction_service.dart';
+import 'package:financia_mobile/providers/transaction_provider.dart';
 import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:financia_mobile/widgets/full_width_button.dart';
 import 'package:sizer/sizer.dart';
 import 'package:financia_mobile/generated/l10n.dart';
+import 'package:intl/intl.dart';
 
 class AddTransactionScreen extends ConsumerStatefulWidget {
   const AddTransactionScreen({super.key});
@@ -28,7 +29,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   String? _selectedCategoryId;
 
   List<Map<String, dynamic>> _categories = [];
-  bool _isLoading = false;
+  final bool _isLoading = false;
   bool _isCategoriesLoaded = false;
   bool _isDateControllerInitialized = false;
 
@@ -53,8 +54,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   }
 
   void _updateDateController() {
-    _dateController.text =
-        '${_selectedDate.day} ${_getMonthName(_selectedDate.month)} ${_selectedDate.year}';
+    final locale = Localizations.localeOf(context).toString();
+    final dateFormat = DateFormat('d MMM yyyy', locale);
+    _dateController.text = dateFormat.format(_selectedDate);
   }
 
   Future<void> _loadCategories() async {
@@ -82,7 +84,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("❌ Error al cargar categorías: ${e.toString()}"),
+            content: Text(
+              "❌ ${S.of(context).error_loading_categories}: ${e.toString()}",
+            ),
           ),
         );
       }
@@ -90,16 +94,16 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   }
 
   Future<void> _submitTransaction() async {
-    if (!_formKey.currentState!.validate() || _selectedCategoryId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("❌ Por favor completa todos los campos")),
-      );
+    if (ref.read(transactionProvider).status == TransactionStatus.loading) {
       return;
     }
 
-    setState(() {
-      _isLoading = true;
-    });
+    if (!_formKey.currentState!.validate() || _selectedCategoryId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("❌ ${S.of(context).please_fill_all_fields}")),
+      );
+      return;
+    }
 
     final transaction = TransactionModel(
       categoryId: _selectedCategoryId!,
@@ -110,46 +114,29 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       imageFile: null,
     );
 
-    try {
-      await TransactionService().createTransaction(transaction);
+    final transactionNotifier = ref.read(transactionProvider.notifier);
+    await transactionNotifier.createTransaction(transaction);
+    
+    final transactionState = ref.read(transactionProvider);
+
+    if (transactionState.status == TransactionStatus.success) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("✅ Transacción creada exitosamente")),
+          SnackBar(
+            content: Text(
+              "✅ ${S.of(context).transaction_created_successfully}",
+            ),
+          ),
         );
         Navigator.of(context).pop();
       }
-    } catch (e) {
+    } else if (transactionState.status == TransactionStatus.error) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text("❌ Error: ${e.toString()}")));
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("❌ Error: ${transactionState.errorMessage}")),
+        );
       }
     }
-  }
-
-  String _getMonthName(int month) {
-    final months = [
-      '',
-      S.of(context).month_jan,
-      S.of(context).month_feb,
-      S.of(context).month_mar,
-      S.of(context).month_apr,
-      S.of(context).month_may,
-      S.of(context).month_jun,
-      S.of(context).month_jul,
-      S.of(context).month_aug,
-      S.of(context).month_sep,
-      S.of(context).month_oct,
-      S.of(context).month_nov,
-      S.of(context).month_dec,
-    ];
-    return months[month];
   }
 
   @override
@@ -161,7 +148,10 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
+    final transactionStatus = ref.watch(transactionProvider).status;
+    final bool isLoading = transactionStatus == TransactionStatus.loading;
+
     return Scaffold(
       backgroundColor: context.colors.surface,
       appBar: AppBar(backgroundColor: context.colors.surface),
@@ -222,7 +212,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 }).toList(),
                 onChanged: (val) => setState(() => _selectedCategoryId = val),
                 validator: (val) =>
-                    val == null ? 'Selecciona una categoría' : null,
+                    val == null ? S.of(context).select_a_category : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -236,10 +226,10 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 ),
                 validator: (val) {
                   if (val == null || val.isEmpty) {
-                    return 'Campo requerido';
+                    return S.of(context).field_is_required;
                   }
                   if (double.tryParse(val) == null) {
-                    return 'Ingresa un número válido';
+                    return S.of(context).enter_a_valid_number;
                   }
                   return null;
                 },
@@ -276,8 +266,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                   border: const OutlineInputBorder(),
                 ),
                 maxLines: 2,
-                validator: (val) =>
-                    val == null || val.isEmpty ? 'Campo requerido' : null,
+                validator: (val) => val == null || val.isEmpty
+                    ? S.of(context).field_is_required
+                    : null,
               ),
               const SizedBox(height: 24),
               FullWidthButton(
@@ -288,7 +279,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                         await _submitTransaction();
                       },
               ),
-              if (_isLoading)
+              if (isLoading)
                 const Padding(
                   padding: EdgeInsets.only(top: 16),
                   child: Center(child: CircularProgressIndicator()),

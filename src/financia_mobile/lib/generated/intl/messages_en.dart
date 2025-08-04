@@ -157,5 +157,26 @@ class MessageLookup extends MessageLookupByLibrary {
       "That email is already taken",
     ),
     "welcome": MessageLookupByLibrary.simpleMessage("Welcome"),
+    "transaction_created_successfully": MessageLookupByLibrary.simpleMessage(
+      "Transaction created successfully",
+    ),
+    "please_fill_all_fields": MessageLookupByLibrary.simpleMessage(
+      "Please complete all fieldss",
+    ),
+    "select_a_category": MessageLookupByLibrary.simpleMessage(
+      "Please select a category",
+    ),
+    "field_is_required": MessageLookupByLibrary.simpleMessage(
+      "Field is required",
+    ),
+    "enter_a_valid_number": MessageLookupByLibrary.simpleMessage(
+      "Enter a valid number",
+    ),
+    "error_loading_categories": MessageLookupByLibrary.simpleMessage(
+      "Error loading categorie",
+    ),
+    "no_transactions": MessageLookupByLibrary.simpleMessage(
+      "There are no transactions",
+    ),
   };
 }

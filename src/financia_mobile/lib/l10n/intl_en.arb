@@ -90,5 +90,12 @@
   "settings": "Settings",
   "description": "Description",
   "budget": "Budget",
-  "logout": "Log out"
+  "logout": "Log out",
+  "transaction_created_successfully": "Transaction created successfully",
+  "please_fill_all_fields": "Please complete all fields",
+  "select_a_category": "Please select a category",
+  "field_is_required": "Field is required",
+  "enter_a_valid_number": "Enter a valid number",
+  "error_loading_categories": "Error loading categories" ,
+  "no_transactions": "There are no transactions" 
 }

@@ -674,6 +674,78 @@ class S {
     return Intl.message('Log out', name: 'logout', desc: '', args: []);
   }
 
+  /// `Transaction created successfully`
+  String get transaction_created_successfully {
+    return Intl.message(
+      'Transaction created successfully',
+      name: 'transaction_created_successfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please complete all fields`
+  String get please_fill_all_fields {
+    return Intl.message(
+      'Please complete all fields',
+      name: 'please_fill_all_fields',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select a category`
+  String get select_a_category {
+    return Intl.message(
+      'Please select a category',
+      name: 'select_a_category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Field is required`
+  String get field_is_required {
+    return Intl.message(
+      'Field is required',
+      name: 'field_is_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a valid number`
+  String get enter_a_valid_number {
+    return Intl.message(
+      'Enter a valid number',
+      name: 'enter_a_valid_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error loading categories`
+  String get error_loading_categories {
+    return Intl.message(
+      'Error loading categories',
+      name: 'error_loading_categories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no transactions`
+  String get no_transactions {
+    return Intl.message(
+      'There are no transactions',
+      name: 'no_transactions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  
+
   get select_category => null;
 
   get loading => null;
@@ -683,6 +755,11 @@ class S {
   get required_field => null;
 
   String? get invalid_number => null;
+
+  get error_loading_data => null;
+
+  get no_category => null;  
+  
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

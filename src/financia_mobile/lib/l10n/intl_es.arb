@@ -90,5 +90,12 @@
   "settings": "Configuración",
   "description": "Descripción",
   "budget": "Presupuesto",
-  "logout": "Cerrar sesión"
+  "logout": "Cerrar sesión",
+  "transaction_created_successfully": "Transacción creada exitosamente",
+  "please_fill_all_fields": "Por favor completa todos los campos",
+  "select_a_category": "Selecciona una categoría",
+  "field_is_required": "Campo requerido",
+  "enter_a_valid_number": "Ingresa un número válido",
+  "error_loading_categories": "Error al cargar categorías",
+  "no_transactions": "No hay transacciones"
 }
