@@ -35,7 +35,9 @@ class TransactionService {
       );
 
       if (response.statusCode != 200 && response.statusCode != 201) {
-        throw Exception("Error al crear transacción");
+        throw Exception(
+          "Error al crear transacción: ${response.statusMessage}",
+        );
       }
     } on DioException catch (e) {
       throw Exception("Error al crear transacción: ${e.message}");
