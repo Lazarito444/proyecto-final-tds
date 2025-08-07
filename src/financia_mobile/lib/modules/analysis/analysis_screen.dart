@@ -1,11 +1,149 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:financia_mobile/extensions/navigation_extensions.dart';
+import 'package:financia_mobile/models/analysis_model.dart';
+import 'package:financia_mobile/services/analysis_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:financia_mobile/generated/l10n.dart';
 
-class AnalysisScreen extends StatelessWidget {
+class AnalysisScreen extends ConsumerStatefulWidget {
   const AnalysisScreen({super.key});
+
+  @override
+  ConsumerState<AnalysisScreen> createState() => _AnalysisScreenState();
+}
+
+class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
+  final AnalysisService _analysisService = AnalysisService();
+  AnalysisData? _analysisData;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAnalysisData();
+  }
+
+  Future<void> _loadAnalysisData() async {
+    if (!mounted) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final data = await _analysisService.getCompleteAnalysis();
+      if (mounted) {
+        setState(() {
+          _analysisData = data;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error al cargar análisis: ${e.toString()}")),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _showAddGoalDialog() async {
+    if (!mounted) return;
+
+    final titleController = TextEditingController();
+    final targetController = TextEditingController();
+    final descriptionController = TextEditingController();
+
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Nuevo Objetivo de Ahorro'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: titleController,
+              decoration: const InputDecoration(
+                labelText: 'Título del objetivo',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: targetController,
+              decoration: const InputDecoration(
+                labelText: 'Monto objetivo',
+                border: OutlineInputBorder(),
+                prefixText: '\$',
+              ),
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: descriptionController,
+              decoration: const InputDecoration(
+                labelText: 'Descripción (opcional)',
+                border: OutlineInputBorder(),
+              ),
+              maxLines: 2,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: const Text('Cancelar'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              if (titleController.text.isNotEmpty &&
+                  targetController.text.isNotEmpty) {
+                try {
+                  await _analysisService.createSavingsGoal(
+                    title: titleController.text,
+                    targetAmount: double.parse(targetController.text),
+                    description: descriptionController.text,
+                  );
+                  if (dialogContext.mounted) {
+                    Navigator.of(dialogContext).pop(true);
+                  }
+                } catch (e) {
+                  if (dialogContext.mounted) {
+                    ScaffoldMessenger.of(dialogContext).showSnackBar(
+                      SnackBar(content: Text("Error al crear objetivo: $e")),
+                    );
+                  }
+                }
+              }
+            },
+            child: const Text('Crear'),
+          ),
+        ],
+      ),
+    );
+
+    if (result == true && mounted) {
+      _loadAnalysisData(); // Recargar datos
+    }
+  }
+
+  IconData _getCategoryIcon(String categoryName) {
+    switch (categoryName) {
+      case 'Food':
+        return Icons.restaurant;
+      case 'Transport':
+        return Icons.directions_bus;
+      default:
+        return Icons.money_off;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,231 +166,213 @@ class AnalysisScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : RefreshIndicator(
+              onRefresh: _loadAnalysisData,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: _analysisData != null
+                    ? _buildAnalysisContent()
+                    : _buildEmptyState(),
+              ),
+            ),
+    );
+  }
+
+  Widget _buildAnalysisContent() {
+    final data = _analysisData!;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Resumen mensual
+        _buildMonthlySummaryCard(data.currentMonthSummary),
+        const SizedBox(height: 24),
+
+        // Gastos por categoría
+        if (data.expensesByCategory.isNotEmpty) ...[
+          Text(
+            S.of(context).expenses_by_category,
+            style: context.textStyles.titleMedium,
+          ),
+          const SizedBox(height: 16),
+          ...data.expensesByCategory
+              .where((expense) => !expense.isEarningCategory)
+              .map((expense) => _buildCategoryExpenseItem(expense)),
+          const SizedBox(height: 24),
+        ],
+
+        // Tendencia mensual
+        Text(
+          S.of(context).monthly_trend,
+          style: context.textStyles.titleMedium,
+        ),
+        const SizedBox(height: 16),
+        _buildMonthlyTrendChart(data.monthlyTrends),
+        const SizedBox(height: 24),
+
+        // Objetivos de Ahorro
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Resumen mensual
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF4A9B8E), Color(0xFF5CB7A6)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    S.of(context).june_summary,
-                    style: context.textStyles.bodyLarge?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            S.of(context).income,
-                            style: context.textStyles.bodySmall?.copyWith(
-                              color: Colors.white70,
-                            ),
-                          ),
-                          Text(
-                            '\$12,500.00',
-                            style: context.textStyles.bodyLarge?.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            'Gastos',
-                            style: context.textStyles.bodySmall?.copyWith(
-                              color: Colors.white70,
-                            ),
-                          ),
-                          Text(
-                            '\$3,750.00',
-                            style: context.textStyles.bodyLarge?.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+            Expanded(
+              child: Text(
+                S.of(context).savings_goals,
+                style: context.textStyles.titleMedium,
               ),
             ),
-            const SizedBox(height: 24),
-
-            // Gastos por categoría
-            Text(
-              S.of(context).expenses_by_category,
-              style: context.textStyles.titleMedium,
-            ),
-            const SizedBox(height: 16),
-
-            CategoryExpenseItem(
-              icon: Icons.shopping_cart,
-              category: S.of(context).supermarket,
-              amount: '\$1,250.00',
-              percentage: 33,
-              color: Color(0xFF4A9B8E),
-            ),
-            CategoryExpenseItem(
-              icon: Icons.directions_car,
-              category: S.of(context).transport,
-              amount: '\$850.00',
-              percentage: 23,
-              color: Color(0xFF7BC4B8),
-            ),
-            CategoryExpenseItem(
-              icon: Icons.restaurant,
-              category: S.of(context).restaurants,
-              amount: '\$650.00',
-              percentage: 17,
-              color: Color(0xFFB8E6C1),
-            ),
-            CategoryExpenseItem(
-              icon: Icons.movie,
-              category: S.of(context).entertainment,
-              amount: '\$450.00',
-              percentage: 12,
-              color: Color(0xFFD4F1E8),
-            ),
-            CategoryExpenseItem(
-              icon: Icons.more_horiz,
-              category: S.of(context).other,
-              amount: '\$550.00',
-              percentage: 15,
-              color: Color(0xFFE8F5F3),
-            ),
-
-            const SizedBox(height: 24),
-
-            // Tendencia mensual
-            Text(
-              S.of(context).monthly_trend,
-              style: context.textStyles.titleMedium,
-            ),
-            const SizedBox(height: 16),
-
-            Container(
-              height: 200,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF8FFFE),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade200),
+            IconButton(
+              onPressed: _showAddGoalDialog,
+              icon: Icon(
+                Icons.add_circle_outline,
+                color: context.colors.primary,
               ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children:
-                        [
-                              S.of(context).month_jan,
-                              S.of(context).month_feb,
-                              S.of(context).month_mar,
-                              S.of(context).month_apr,
-                              S.of(context).month_may,
-                              S.of(context).month_jun,
-                            ]
-                            .map(
-                              (m) => Text(
-                                m,
-                                style: context.textStyles.bodySmall?.copyWith(
-                                  color: Colors.grey,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            )
-                            .toList(),
-                  ),
-                  const SizedBox(height: 16),
-                  const Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        ChartBar(height: 60, color: Color(0xFFB8E6C1)),
-                        ChartBar(height: 80, color: Color(0xFF7BC4B8)),
-                        ChartBar(height: 100, color: Color(0xFF4A9B8E)),
-                        ChartBar(height: 120, color: Color(0xFF4A9B8E)),
-                        ChartBar(height: 40, color: Color(0xFFD4F1E8)),
-                        ChartBar(height: 20, color: Color(0xFFE8F5F3)),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 24),
-
-            // Objetivos de Ahorro
-            Text(
-              S.of(context).savings_goals,
-              style: context.textStyles.titleMedium,
-            ),
-            const SizedBox(height: 16),
-
-            SavingsGoalCard(
-              title: S.of(context).vacation,
-              current: 2500,
-              target: 5000,
-              color: Color(0xFF4A9B8E),
-            ),
-            const SizedBox(height: 12),
-            SavingsGoalCard(
-              title: S.of(context).emergency_fund,
-              current: 8750,
-              target: 15000,
-              color: Color(0xFF7BC4B8),
+              tooltip: 'Agregar objetivo',
             ),
           ],
         ),
+        const SizedBox(height: 16),
+
+        if (data.savingsGoals.isEmpty)
+          _buildEmptySavingsGoals()
+        else
+          ...data.savingsGoals.map(
+            (goal) => Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: _buildSavingsGoalCard(goal),
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildEmptySavingsGoals() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(32),
+      decoration: BoxDecoration(
+        color: context.colors.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: context.colors.outline.withValues(alpha: 0.2),
+        ),
+      ),
+      child: Column(
+        children: [
+          Icon(Icons.savings_outlined, size: 48, color: context.colors.outline),
+          const SizedBox(height: 16),
+          Text(
+            'No tienes objetivos de ahorro',
+            style: context.textStyles.titleSmall?.copyWith(
+              color: context.colors.outline,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Crea tu primer objetivo de ahorro para comenzar a planificar tus metas financieras',
+            style: context.textStyles.bodySmall?.copyWith(
+              color: context.colors.outline,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton.icon(
+            onPressed: _showAddGoalDialog,
+            icon: const Icon(Icons.add),
+            label: const Text('Crear objetivo'),
+          ),
+        ],
       ),
     );
   }
-}
 
-class CategoryExpenseItem extends StatelessWidget {
-  final IconData icon;
-  final String category;
-  final String amount;
-  final int percentage;
-  final Color color;
+  Widget _buildMonthlySummaryCard(MonthlySummary summary) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Color(0xFF4A9B8E), Color(0xFF5CB7A6)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Resumen de ${summary.month}',
+            style: context.textStyles.bodyLarge?.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      S.of(context).income,
+                      style: context.textStyles.bodySmall?.copyWith(
+                        color: Colors.white70,
+                      ),
+                    ),
+                    Text(
+                      '\$${summary.totalIncome.toStringAsFixed(2)}',
+                      style: context.textStyles.bodyLarge?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Gastos',
+                      style: context.textStyles.bodySmall?.copyWith(
+                        color: Colors.white70,
+                      ),
+                    ),
+                    Text(
+                      '\$${summary.totalExpenses.toStringAsFixed(2)}',
+                      style: context.textStyles.bodyLarge?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 
-  const CategoryExpenseItem({
-    super.key,
-    required this.icon,
-    required this.category,
-    required this.amount,
-    required this.percentage,
-    required this.color,
-  });
+  Widget _buildCategoryExpenseItem(CategoryExpense expense) {    
+    final colors = [
+      const Color(0xFF4A9B8E),
+      const Color(0xFF7BC4B8),
+      const Color(0xFFB8E6C1),
+      const Color(0xFFD4F1E8),
+      const Color(0xFFE8F5F3),
+    ];
 
-  @override
-  Widget build(BuildContext context) {
+    final colorIndex = expense.categoryName.hashCode % colors.length;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Row(
@@ -261,10 +381,14 @@ class CategoryExpenseItem extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: color.withAlpha(51),
+              color: colors[colorIndex].withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(icon, color: color, size: 24),
+            child: Icon(
+              _getCategoryIcon(expense.categoryName),
+              color: colors[colorIndex],
+              size: 24,
+            ),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -272,7 +396,7 @@ class CategoryExpenseItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  category,
+                  expense.categoryName,
                   style: context.textStyles.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: context.colors.onSurface,
@@ -287,10 +411,10 @@ class CategoryExpenseItem extends StatelessWidget {
                   ),
                   child: FractionallySizedBox(
                     alignment: Alignment.centerLeft,
-                    widthFactor: percentage / 100,
+                    widthFactor: expense.percentage / 100,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: color,
+                        color: colors[colorIndex],
                         borderRadius: BorderRadius.circular(3),
                       ),
                     ),
@@ -299,24 +423,247 @@ class CategoryExpenseItem extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: 12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                amount,
+                '\$${expense.totalAmount.toStringAsFixed(2)}',
                 style: context.textStyles.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                   color: context.colors.onSurface,
                 ),
               ),
               Text(
-                '$percentage%',
+                '${expense.percentage.toInt()}%',
                 style: context.textStyles.bodySmall?.copyWith(
                   color: Colors.grey.shade600,
                 ),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMonthlyTrendChart(List<MonthlyTrend> trends) {
+    if (trends.isEmpty) {
+      return Container(
+        height: 200,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF8FFFE),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade200),
+        ),
+        child: const Center(
+          child: Text('No hay datos de tendencias disponibles'),
+        ),
+      );
+    }
+
+    final maxAmount = trends
+        .map((t) => t.amount)
+        .reduce((a, b) => a > b ? a : b);
+
+    return Container(
+      height: 200,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FFFE),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: trends
+                .map(
+                  (trend) => Expanded(
+                    child: Text(
+                      trend.month.substring(0, 3),
+                      style: context.textStyles.bodySmall?.copyWith(
+                        color: Colors.grey,
+                        fontSize: 12,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+          const SizedBox(height: 16),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: trends.map((trend) {
+                final height = maxAmount > 0
+                    ? (trend.amount / maxAmount) * 120
+                    : 20.0;
+                return ChartBar(height: height, color: const Color(0xFF4A9B8E));
+              }).toList(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSavingsGoalCard(SavingsGoal goal) {
+    final colors = [
+      const Color(0xFF4A9B8E),
+      const Color(0xFF7BC4B8),
+      const Color(0xFFB8E6C1),
+    ];
+
+    final color = colors[goal.title.hashCode % colors.length];
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  goal.title,
+                  style: context.textStyles.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: context.colors.onSurface,
+                  ),
+                ),
+              ),
+              Row(
+                children: [
+                  Text(
+                    '${goal.progressPercentage}%',
+                    style: context.textStyles.bodySmall?.copyWith(
+                      color: color,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  PopupMenuButton<String>(
+                    onSelected: (value) async {
+                      if (value == 'delete') {
+                        final confirm = await showDialog<bool>(
+                          context: context,
+                          builder: (dialogContext) => AlertDialog(
+                            title: const Text('Eliminar objetivo'),
+                            content: Text(
+                              '¿Estás seguro de que quieres eliminar "${goal.title}"?',
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.of(dialogContext).pop(false),
+                                child: const Text('Cancelar'),
+                              ),
+                              ElevatedButton(
+                                onPressed: () =>
+                                    Navigator.of(dialogContext).pop(true),
+                                child: const Text('Eliminar'),
+                              ),
+                            ],
+                          ),
+                        );
+
+                        if (confirm == true && mounted) {
+                          try {
+                            await _analysisService.deleteSavingsGoal(goal.id);
+                            _loadAnalysisData();
+                          } catch (e) {
+                            if (mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("Error al eliminar: $e"),
+                                ),
+                              );
+                            }
+                          }
+                        }
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      const PopupMenuItem(
+                        value: 'delete',
+                        child: Row(
+                          children: [
+                            Icon(Icons.delete, color: Colors.red),
+                            SizedBox(width: 8),
+                            Text('Eliminar'),
+                          ],
+                        ),
+                      ),
+                    ],
+                    child: Icon(
+                      Icons.more_vert,
+                      size: 16,
+                      color: context.colors.outline,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            '\$${goal.currentAmount.toInt()} de \$${goal.targetAmount.toInt()}',
+            style: context.textStyles.bodySmall?.copyWith(
+              color: Colors.grey.shade600,
+            ),
+          ),
+          const SizedBox(height: 8),
+          LinearProgressIndicator(
+            value: goal.progress,
+            backgroundColor: Colors.grey.shade200,
+            valueColor: AlwaysStoppedAnimation(color),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Container(
+      padding: const EdgeInsets.all(32),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.analytics_outlined,
+            size: 64,
+            color: context.colors.outline,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'No hay datos de análisis disponibles',
+            style: context.textStyles.titleMedium?.copyWith(
+              color: context.colors.outline,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Agrega algunas transacciones para ver tu análisis financiero',
+            style: context.textStyles.bodyMedium?.copyWith(
+              color: context.colors.outline,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: _loadAnalysisData,
+            child: const Text('Reintentar'),
           ),
         ],
       ),
@@ -338,72 +685,6 @@ class ChartBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(4),
-      ),
-    );
-  }
-}
-
-class SavingsGoalCard extends StatelessWidget {
-  final String title;
-  final double current;
-  final double target;
-  final Color color;
-
-  const SavingsGoalCard({
-    super.key,
-    required this.title,
-    required this.current,
-    required this.target,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final progress = current / target;
-
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: color.withAlpha(25),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withAlpha(76)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: context.textStyles.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: context.colors.onSurface,
-                ),
-              ),
-              Text(
-                '${(progress * 100).toInt()}%',
-                style: context.textStyles.bodySmall?.copyWith(
-                  color: color,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            '\$${current.toInt()} de \$${target.toInt()}',
-            style: context.textStyles.bodySmall?.copyWith(
-              color: Colors.grey.shade600,
-            ),
-          ),
-          const SizedBox(height: 8),
-          LinearProgressIndicator(
-            value: progress,
-            backgroundColor: Colors.grey.shade200,
-            valueColor: AlwaysStoppedAnimation(color),
-          ),
-        ],
       ),
     );
   }
