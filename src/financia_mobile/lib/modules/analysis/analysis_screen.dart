@@ -133,8 +133,7 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
       _loadAnalysisData(); // Recargar datos
     }
   }
-
-  // Función para obtener el ícono de la categoría, usando solo las categorías que proporcionaste
+  
   IconData _getCategoryIcon(String categoryName) {
     switch (categoryName) {
       case 'Food':
