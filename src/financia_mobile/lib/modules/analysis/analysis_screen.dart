@@ -134,6 +134,18 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
     }
   }
 
+  // Función para obtener el ícono de la categoría, usando solo las categorías que proporcionaste
+  IconData _getCategoryIcon(String categoryName) {
+    switch (categoryName) {
+      case 'Food':
+        return Icons.restaurant;
+      case 'Transport':
+        return Icons.directions_bus;      
+      default:
+        return Icons.money_off;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -352,6 +364,7 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
   }
 
   Widget _buildCategoryExpenseItem(CategoryExpense expense) {
+    // Definimos una lista de colores
     final colors = [
       const Color(0xFF4A9B8E),
       const Color(0xFF7BC4B8),
@@ -360,16 +373,8 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
       const Color(0xFFE8F5F3),
     ];
 
-    final icons = [
-      Icons.shopping_cart,
-      Icons.directions_car,
-      Icons.restaurant,
-      Icons.movie,
-      Icons.more_horiz,
-    ];
-
+    // Asignamos un color según el nombre de la categoría
     final colorIndex = expense.categoryName.hashCode % colors.length;
-    final iconIndex = expense.categoryName.hashCode % icons.length;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
@@ -382,7 +387,12 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
               color: colors[colorIndex].withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(icons[iconIndex], color: colors[colorIndex], size: 24),
+            // Usamos la función para obtener el ícono correcto
+            child: Icon(
+              _getCategoryIcon(expense.categoryName),
+              color: colors[colorIndex],
+              size: 24,
+            ),
           ),
           const SizedBox(width: 16),
           Expanded(

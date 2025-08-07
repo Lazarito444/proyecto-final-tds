@@ -77,14 +77,14 @@ class Transaction {
   }
 
   IconData get toIconData {
-    switch (iconName) {
-      case 'Salary':
+    switch (categoryName.toLowerCase()) {
+      case 'salary':
         return Icons.attach_money;
-      case 'Food':
+      case 'food':
         return Icons.restaurant;
-      case 'Transport':
+      case 'transport':
         return Icons.directions_bus;
-      case 'Extra':
+      case 'extra':
         return Icons.attach_money;
       default:
         return Icons.money;
