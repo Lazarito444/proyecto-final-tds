@@ -362,8 +362,7 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
     );
   }
 
-  Widget _buildCategoryExpenseItem(CategoryExpense expense) {
-    // Definimos una lista de colores
+  Widget _buildCategoryExpenseItem(CategoryExpense expense) {    
     final colors = [
       const Color(0xFF4A9B8E),
       const Color(0xFF7BC4B8),
