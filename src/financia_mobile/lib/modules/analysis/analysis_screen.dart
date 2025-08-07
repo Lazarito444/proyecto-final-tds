@@ -133,13 +133,13 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
       _loadAnalysisData(); // Recargar datos
     }
   }
-  
+
   IconData _getCategoryIcon(String categoryName) {
     switch (categoryName) {
       case 'Food':
         return Icons.restaurant;
       case 'Transport':
-        return Icons.directions_bus;      
+        return Icons.directions_bus;
       default:
         return Icons.money_off;
     }
@@ -372,7 +372,6 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
       const Color(0xFFE8F5F3),
     ];
 
-    // Asignamos un color según el nombre de la categoría
     final colorIndex = expense.categoryName.hashCode % colors.length;
 
     return Padding(
@@ -386,7 +385,6 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
               color: colors[colorIndex].withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(12),
             ),
-            // Usamos la función para obtener el ícono correcto
             child: Icon(
               _getCategoryIcon(expense.categoryName),
               color: colors[colorIndex],
