@@ -1,3 +1,4 @@
+// ignore_for_file: unused_import
 import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:financia_mobile/modules/analysis/analysis_screen.dart';
 import 'package:financia_mobile/modules/settings/settings_screen.dart';
@@ -9,7 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:financia_mobile/modules/transaction/add_transaction.dart';
 import 'package:financia_mobile/modules/ai_suggestions/ai_suggestions_screen.dart';
 import 'package:financia_mobile/generated/l10n.dart';
-import 'package:financia_mobile/models/dashboard_model.dart'; 
+import 'package:financia_mobile/models/dashboard_model.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -84,6 +85,18 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         ),
         data: (data) {
           final currentBalance = data.earnings - data.expenses;
+          String circleText;
+          Color circleTextColor = context.colors.onSurface;
+
+          if (data.earnings == 0 && data.expenses == 0) {
+            circleText = '0%';
+          } else if (data.earnings > 0) {
+            final percentage = (currentBalance / data.earnings) * 100;
+            circleText = '${percentage.toStringAsFixed(0)}%';
+          } else {
+            circleText = '0%';
+          }
+
           return Column(
             children: [
               Container(
@@ -129,6 +142,47 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 child: Column(
                   children: [
                     const SizedBox(height: 24),
+                    Center(
+                      child: Container(
+                        width: 120,
+                        height: 120,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: context.colors.secondaryContainer,
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 6,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: CustomPaint(
+                          painter: CircleBorderPainter(
+                            earnings: data.earnings,
+                            expenses: data.expenses,
+                            incomeColor: const Color(0xFF4A9B8E),
+                            expenseColor: const Color(0xFFB8E6C1),
+                            borderColor: context.colors.outline,
+                            strokeWidth: 6.0,
+                          ),
+                          child: Center(
+                            child: Text(
+                              circleText,
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.gabarito(
+                                textStyle: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: circleTextColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
