@@ -42,7 +42,11 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Error al cargar análisis: ${e.toString()}")),
+          SnackBar(
+            content: Text(
+              "${S.of(context).analysis_error_load} ${e.toString()}",
+            ),
+          ),
         );
       }
     } finally {
@@ -64,22 +68,22 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
     final result = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Nuevo Objetivo de Ahorro'),
+        title: Text(S.of(context).new_saving_goal),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: titleController,
-              decoration: const InputDecoration(
-                labelText: 'Título del objetivo',
+              decoration: InputDecoration(
+                labelText: S.of(context).goal_title,
                 border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16),
             TextField(
               controller: targetController,
-              decoration: const InputDecoration(
-                labelText: 'Monto objetivo',
+              decoration: InputDecoration(
+                labelText: S.of(context).target_amount,
                 border: OutlineInputBorder(),
                 prefixText: '\$',
               ),
@@ -88,8 +92,8 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
             const SizedBox(height: 16),
             TextField(
               controller: descriptionController,
-              decoration: const InputDecoration(
-                labelText: 'Descripción (opcional)',
+              decoration: InputDecoration(
+                labelText: S.of(context).description_analysis,
                 border: OutlineInputBorder(),
               ),
               maxLines: 2,
@@ -99,7 +103,7 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text('Cancelar'),
+            child: Text(S.of(context).cancel),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -117,13 +121,15 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
                 } catch (e) {
                   if (dialogContext.mounted) {
                     ScaffoldMessenger.of(dialogContext).showSnackBar(
-                      SnackBar(content: Text("Error al crear objetivo: $e")),
+                      SnackBar(
+                        content: Text("${S.of(context).error_create_goal} $e"),
+                      ),
                     );
                   }
                 }
               }
             },
-            child: const Text('Crear'),
+            child: Text(S.of(context).create),
           ),
         ],
       ),
@@ -228,7 +234,7 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
                 Icons.add_circle_outline,
                 color: context.colors.primary,
               ),
-              tooltip: 'Agregar objetivo',
+              tooltip: S.of(context).add_goal,
             ),
           ],
         ),
@@ -263,14 +269,14 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
           Icon(Icons.savings_outlined, size: 48, color: context.colors.outline),
           const SizedBox(height: 16),
           Text(
-            'No tienes objetivos de ahorro',
+            S.of(context).no_savings_goals,
             style: context.textStyles.titleSmall?.copyWith(
               color: context.colors.outline,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Crea tu primer objetivo de ahorro para comenzar a planificar tus metas financieras',
+            S.of(context).create_first_goal,
             style: context.textStyles.bodySmall?.copyWith(
               color: context.colors.outline,
             ),
@@ -280,7 +286,7 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
           ElevatedButton.icon(
             onPressed: _showAddGoalDialog,
             icon: const Icon(Icons.add),
-            label: const Text('Crear objetivo'),
+            label: Text(S.of(context).create_goal),
           ),
         ],
       ),
@@ -303,7 +309,7 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Resumen de ${summary.month}',
+            S.of(context).monthly_summary_text(summary.getTranslatedMonthName(context)),
             style: context.textStyles.bodyLarge?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -339,7 +345,7 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      'Gastos',
+                      S.of(context).expenses_2,
                       style: context.textStyles.bodySmall?.copyWith(
                         color: Colors.white70,
                       ),
@@ -362,7 +368,7 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
     );
   }
 
-  Widget _buildCategoryExpenseItem(CategoryExpense expense) {    
+  Widget _buildCategoryExpenseItem(CategoryExpense expense) {
     final colors = [
       const Color(0xFF4A9B8E),
       const Color(0xFF7BC4B8),
@@ -457,9 +463,7 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: Colors.grey.shade200),
         ),
-        child: const Center(
-          child: Text('No hay datos de tendencias disponibles'),
-        ),
+        child: Center(child: Text(S.of(context).no_trends)),
       );
     }
 
@@ -482,8 +486,8 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
             children: trends
                 .map(
                   (trend) => Expanded(
-                    child: Text(
-                      trend.month.substring(0, 3),
+                    child: Text(                      
+                      trend.getTranslatedMonthName(context).substring(0, 3),
                       style: context.textStyles.bodySmall?.copyWith(
                         color: Colors.grey,
                         fontSize: 12,
@@ -558,20 +562,20 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
                         final confirm = await showDialog<bool>(
                           context: context,
                           builder: (dialogContext) => AlertDialog(
-                            title: const Text('Eliminar objetivo'),
+                            title: Text(S.of(context).delete_goal),
                             content: Text(
-                              '¿Estás seguro de que quieres eliminar "${goal.title}"?',
+                              '${S.of(context).delete_goal_ask} "${goal.title}"?',
                             ),
                             actions: [
                               TextButton(
                                 onPressed: () =>
                                     Navigator.of(dialogContext).pop(false),
-                                child: const Text('Cancelar'),
+                                child: Text(S.of(context).cancel),
                               ),
                               ElevatedButton(
                                 onPressed: () =>
                                     Navigator.of(dialogContext).pop(true),
-                                child: const Text('Eliminar'),
+                                child: Text(S.of(context).delete),
                               ),
                             ],
                           ),
@@ -585,7 +589,9 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
                             if (mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text("Error al eliminar: $e"),
+                                  content: Text(
+                                    "${S.of(context).error_to_delete} $e",
+                                  ),
                                 ),
                               );
                             }
@@ -594,13 +600,13 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
                       }
                     },
                     itemBuilder: (context) => [
-                      const PopupMenuItem(
+                      PopupMenuItem(
                         value: 'delete',
                         child: Row(
                           children: [
                             Icon(Icons.delete, color: Colors.red),
                             SizedBox(width: 8),
-                            Text('Eliminar'),
+                            Text(S.of(context).delete),
                           ],
                         ),
                       ),
@@ -646,7 +652,7 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
           ),
           const SizedBox(height: 16),
           Text(
-            'No hay datos de análisis disponibles',
+            S.of(context).no_analysis_data,
             style: context.textStyles.titleMedium?.copyWith(
               color: context.colors.outline,
             ),
@@ -654,7 +660,7 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Agrega algunas transacciones para ver tu análisis financiero',
+            S.of(context).add_transactions_analysis,
             style: context.textStyles.bodyMedium?.copyWith(
               color: context.colors.outline,
             ),
@@ -663,7 +669,7 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: _loadAnalysisData,
-            child: const Text('Reintentar'),
+            child: Text(S.of(context).retry),
           ),
         ],
       ),

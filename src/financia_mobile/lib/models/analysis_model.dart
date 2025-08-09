@@ -1,3 +1,37 @@
+import 'package:flutter/material.dart';
+import 'package:financia_mobile/generated/l10n.dart';
+
+String _getTranslatedMonthName(BuildContext context, String month) {
+  switch (month) {
+    case 'Enero':
+      return S.of(context).january;
+    case 'Febrero':
+      return S.of(context).february;
+    case 'Marzo':
+      return S.of(context).march;
+    case 'Abril':
+      return S.of(context).april;
+    case 'Mayo':
+      return S.of(context).may;
+    case 'Junio':
+      return S.of(context).june;
+    case 'Julio':
+      return S.of(context).july;
+    case 'Agosto':
+      return S.of(context).august;
+    case 'Septiembre':
+      return S.of(context).september;
+    case 'Octubre':
+      return S.of(context).october;
+    case 'Noviembre':
+      return S.of(context).november;
+    case 'Diciembre':
+      return S.of(context).december;
+    default:
+      return month;
+  }
+}
+
 class MonthlySummary {
   final double totalIncome;
   final double totalExpenses;
@@ -18,6 +52,10 @@ class MonthlySummary {
       month: json['month'] ?? '',
       year: json['year'] ?? DateTime.now().year,
     );
+  }
+
+  String getTranslatedMonthName(BuildContext context) {
+    return _getTranslatedMonthName(context, month);
   }
 
   double get balance => totalIncome - totalExpenses;
@@ -62,6 +100,10 @@ class MonthlyTrend {
       year: json['year'] ?? DateTime.now().year,
       amount: (json['amount'] ?? 0.0).toDouble(),
     );
+  }
+
+  String getTranslatedMonthName(BuildContext context) {    
+    return _getTranslatedMonthName(context, month);
   }
 }
 

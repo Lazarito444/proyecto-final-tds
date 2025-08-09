@@ -3,6 +3,9 @@ import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:financia_mobile/modules/analysis/analysis_screen.dart';
 import 'package:financia_mobile/modules/settings/settings_screen.dart';
 import 'package:financia_mobile/modules/transaction/finance_history.dart';
+import 'package:financia_mobile/modules/budgets/budgets_screen.dart';
+import 'package:financia_mobile/modules/savings/savings_screen.dart';
+import 'package:financia_mobile/modules/categories/categories_screen.dart';
 import 'package:financia_mobile/services/dashboard_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,7 +29,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     setState(() {
       _selectedIndex = index;
     });
-
     if (index == 1) {
       Navigator.push(
         context,
@@ -51,14 +53,24 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     }
   }
 
+  void _navigateToScreen(Widget screen) {
+    Navigator.pop(context); // Cerrar el drawer
+    Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
+  }
+
   @override
   Widget build(BuildContext context) {
     final dashboardDataAsyncValue = ref.watch(dashboardDataProvider);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: context.colors.primaryContainer,
         elevation: 0,
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(Icons.menu, color: context.colors.onPrimaryContainer),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -71,6 +83,31 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             color: context.colors.onPrimaryContainer,
           ),
         ],
+      ),
+      drawer: Drawer(
+        backgroundColor: context.colors.surface,
+        child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 40),
+          children: [
+            _buildDrawerItem(
+              icon: Icons.category,
+              title: 'Categorías',
+              onTap: () => _navigateToScreen(const CategoriesScreen()),
+            ),
+            const SizedBox(height: 8),
+            _buildDrawerItem(
+              icon: Icons.savings,
+              title: 'Ahorros',
+              onTap: () => _navigateToScreen(const SavingsScreen()),
+            ),
+            const SizedBox(height: 8),
+            _buildDrawerItem(
+              icon: Icons.account_balance,
+              title: 'Presupuestos',
+              onTap: () => _navigateToScreen(const BudgetsScreen()),
+            ),
+          ],
+        ),
       ),
       body: dashboardDataAsyncValue.when(
         loading: () => Center(
@@ -87,7 +124,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           final currentBalance = data.earnings - data.expenses;
           String circleText;
           Color circleTextColor = context.colors.onSurface;
-
           if (data.earnings == 0 && data.expenses == 0) {
             circleText = '0%';
           } else if (data.earnings > 0) {
@@ -96,7 +132,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           } else {
             circleText = '0%';
           }
-
           return Column(
             children: [
               Container(
@@ -294,6 +329,36 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             label: S.of(context).suggestions,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildDrawerItem({
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      child: ListTile(
+        leading: Icon(icon, color: context.colors.onSurface, size: 32), 
+        title: Text(
+          title,
+          style: GoogleFonts.gabarito(
+            textStyle: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: context.colors.onSurface,
+            ),
+          ),
+        ),
+        onTap: onTap,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 12,
+        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        tileColor: context.colors.surfaceContainerLow,
       ),
     );
   }

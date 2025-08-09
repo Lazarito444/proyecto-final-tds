@@ -744,22 +744,460 @@ class S {
     );
   }
 
-  
+  /// `Financial AI`
+  String get financial_ai {
+    return Intl.message(
+      'Financial AI',
+      name: 'financial_ai',
+      desc: '',
+      args: [],
+    );
+  }
 
-  get select_category => null;
+  /// `Suggestions`
+  String get suggestions_tab {
+    return Intl.message(
+      'Suggestions',
+      name: 'suggestions_tab',
+      desc: '',
+      args: [],
+    );
+  }
 
-  get loading => null;
+  /// `Predictions`
+  String get predictions_tab {
+    return Intl.message(
+      'Predictions',
+      name: 'predictions_tab',
+      desc: '',
+      args: [],
+    );
+  }
 
-  String? get select_image => null;
+  /// `AI Chat`
+  String get ai_chat_tab {
+    return Intl.message('AI Chat', name: 'ai_chat_tab', desc: '', args: []);
+  }
 
-  get required_field => null;
+  /// `Error loading suggestions`
+  String get error_loading_suggestions {
+    return Intl.message(
+      'Error loading suggestions',
+      name: 'error_loading_suggestions',
+      desc: '',
+      args: [],
+    );
+  }
 
-  String? get invalid_number => null;
+  /// `Could not load suggestions`
+  String get no_suggestions_loaded {
+    return Intl.message(
+      'Could not load suggestions',
+      name: 'no_suggestions_loaded',
+      desc: '',
+      args: [],
+    );
+  }
 
-  get error_loading_data => null;
+  /// `Additional Suggestions`
+  String get additional_suggestions {
+    return Intl.message(
+      'Additional Suggestions',
+      name: 'additional_suggestions',
+      desc: '',
+      args: [],
+    );
+  }
 
-  get no_category => null;  
-  
+  /// `Additional Prediction`
+  String get additional_predictions {
+    return Intl.message(
+      'Additional Prediction',
+      name: 'additional_predictions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error loading predictions`
+  String get error_loading_predictions {
+    return Intl.message(
+      'Error loading predictions',
+      name: 'error_loading_predictions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not load predictions`
+  String get no_predictions_loaded {
+    return Intl.message(
+      'Could not load predictions',
+      name: 'no_predictions_loaded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error: Could not process your message. Please try again.`
+  String get chat_processing_error {
+    return Intl.message(
+      'Error: Could not process your message. Please try again.',
+      name: 'chat_processing_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Suggestion`
+  String get main_ai_suggestion {
+    return Intl.message(
+      'Suggestion',
+      name: 'main_ai_suggestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Prediction`
+  String get main_prediction {
+    return Intl.message(
+      'Prediction',
+      name: 'main_prediction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ask something about your finances...`
+  String get ask_about_finances_hint {
+    return Intl.message(
+      'Ask something about your finances...',
+      name: 'ask_about_finances_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To generate personalized suggestions, you need to record some transactions first. Start by adding your income and expenses!`
+  String get no_transactions_suggestions_main {
+    return Intl.message(
+      'To generate personalized suggestions, you need to record some transactions first. Start by adding your income and expenses!',
+      name: 'no_transactions_suggestions_main',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Record your monthly income`
+  String get no_transactions_suggestions_side1 {
+    return Intl.message(
+      'Record your monthly income',
+      name: 'no_transactions_suggestions_side1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note your main expenses`
+  String get no_transactions_suggestions_side2 {
+    return Intl.message(
+      'Note your main expenses',
+      name: 'no_transactions_suggestions_side2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Categorize your transactions correctly`
+  String get no_transactions_suggestions_side3 {
+    return Intl.message(
+      'Categorize your transactions correctly',
+      name: 'no_transactions_suggestions_side3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To generate accurate financial predictions, you need to have a transaction history. Start by recording your financial movements!`
+  String get no_transactions_predictions_main {
+    return Intl.message(
+      'To generate accurate financial predictions, you need to have a transaction history. Start by recording your financial movements!',
+      name: 'no_transactions_predictions_main',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Record at least one month of transactions`
+  String get no_transactions_predictions_side1 {
+    return Intl.message(
+      'Record at least one month of transactions',
+      name: 'no_transactions_predictions_side1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Include both income and expenses`
+  String get no_transactions_predictions_side2 {
+    return Intl.message(
+      'Include both income and expenses',
+      name: 'no_transactions_predictions_side2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maintain a consistent record for better predictions`
+  String get no_transactions_predictions_side3 {
+    return Intl.message(
+      'Maintain a consistent record for better predictions',
+      name: 'no_transactions_predictions_side3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To help you with personalized financial queries, you need to have transactions recorded in your account. Please add some transactions first, and then you can ask specific questions about your finances.`
+  String get no_transactions_chat_response {
+    return Intl.message(
+      'To help you with personalized financial queries, you need to have transactions recorded in your account. Please add some transactions first, and then you can ask specific questions about your finances.',
+      name: 'no_transactions_chat_response',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error loading analysis:`
+  String get analysis_error_load {
+    return Intl.message(
+      'Error loading analysis:',
+      name: 'analysis_error_load',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Saving Goal`
+  String get new_saving_goal {
+    return Intl.message(
+      'New Saving Goal',
+      name: 'new_saving_goal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Goal Title`
+  String get goal_title {
+    return Intl.message('Goal Title', name: 'goal_title', desc: '', args: []);
+  }
+
+  /// `Target amount`
+  String get target_amount {
+    return Intl.message(
+      'Target amount',
+      name: 'target_amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Description (optional)`
+  String get description_analysis {
+    return Intl.message(
+      'Description (optional)',
+      name: 'description_analysis',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message('Cancel', name: 'cancel', desc: '', args: []);
+  }
+
+  /// `Error creating goal:`
+  String get error_create_goal {
+    return Intl.message(
+      'Error creating goal:',
+      name: 'error_create_goal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create`
+  String get create {
+    return Intl.message('Create', name: 'create', desc: '', args: []);
+  }
+
+  /// `Add goal`
+  String get add_goal {
+    return Intl.message('Add goal', name: 'add_goal', desc: '', args: []);
+  }
+
+  /// `You don't have savings goals`
+  String get no_savings_goals {
+    return Intl.message(
+      'You don\'t have savings goals',
+      name: 'no_savings_goals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create your first savings goal to start planning your financial goals.`
+  String get create_first_goal {
+    return Intl.message(
+      'Create your first savings goal to start planning your financial goals.',
+      name: 'create_first_goal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create goal`
+  String get create_goal {
+    return Intl.message('Create goal', name: 'create_goal', desc: '', args: []);
+  }
+
+  /// `There is no trend data available`
+  String get no_trends {
+    return Intl.message(
+      'There is no trend data available',
+      name: 'no_trends',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete goal`
+  String get delete_goal {
+    return Intl.message('Delete goal', name: 'delete_goal', desc: '', args: []);
+  }
+
+  /// `Are you sure you want to delete?`
+  String get delete_goal_ask {
+    return Intl.message(
+      'Are you sure you want to delete?',
+      name: 'delete_goal_ask',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get delete {
+    return Intl.message('Delete', name: 'delete', desc: '', args: []);
+  }
+
+  /// `Error deleting:`
+  String get error_to_delete {
+    return Intl.message(
+      'Error deleting:',
+      name: 'error_to_delete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No analysis data available`
+  String get no_analysis_data {
+    return Intl.message(
+      'No analysis data available',
+      name: 'no_analysis_data',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add some transactions to see your financial analysis`
+  String get add_transactions_analysis {
+    return Intl.message(
+      'Add some transactions to see your financial analysis',
+      name: 'add_transactions_analysis',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retry`
+  String get retry {
+    return Intl.message('Retry', name: 'retry', desc: '', args: []);
+  }
+
+  /// `Summary of {month}`
+  String monthly_summary_text(Object month) {
+    return Intl.message(
+      'Summary of $month',
+      name: 'monthly_summary_text',
+      desc: '',
+      args: [month],
+    );
+  }
+
+  /// `January`
+  String get january {
+    return Intl.message('January', name: 'january', desc: '', args: []);
+  }
+
+  /// `February`
+  String get february {
+    return Intl.message('February', name: 'february', desc: '', args: []);
+  }
+
+  /// `March`
+  String get march {
+    return Intl.message('March', name: 'march', desc: '', args: []);
+  }
+
+  /// `April`
+  String get april {
+    return Intl.message('April', name: 'april', desc: '', args: []);
+  }
+
+  /// `May`
+  String get may {
+    return Intl.message('May', name: 'may', desc: '', args: []);
+  }
+
+  /// `June`
+  String get june {
+    return Intl.message('June', name: 'june', desc: '', args: []);
+  }
+
+  /// `July`
+  String get july {
+    return Intl.message('July', name: 'july', desc: '', args: []);
+  }
+
+  /// `August`
+  String get august {
+    return Intl.message('August', name: 'august', desc: '', args: []);
+  }
+
+  /// `September`
+  String get september {
+    return Intl.message('September', name: 'september', desc: '', args: []);
+  }
+
+  /// `October`
+  String get october {
+    return Intl.message('October', name: 'october', desc: '', args: []);
+  }
+
+  /// `November`
+  String get november {
+    return Intl.message('November', name: 'november', desc: '', args: []);
+  }
+
+  /// `December`
+  String get december {
+    return Intl.message('December', name: 'december', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

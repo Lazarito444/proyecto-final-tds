@@ -1,3 +1,4 @@
+import 'package:financia_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:financia_mobile/extensions/theme_extensions.dart';
@@ -61,7 +62,9 @@ class _AISuggestionsScreenState extends ConsumerState<AISuggestionsScreen>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("Error al cargar sugerencias: ${e.toString()}"),
+            content: Text(
+              "${S.of(context).error_loading_suggestions}: ${e.toString()}",
+            ),
           ),
         );
       }
@@ -86,7 +89,9 @@ class _AISuggestionsScreenState extends ConsumerState<AISuggestionsScreen>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("Error al cargar predicciones: ${e.toString()}"),
+            content: Text(
+              "${S.of(context).error_loading_predictions}: ${e.toString()}",
+            ),
           ),
         );
       }
@@ -131,7 +136,7 @@ class _AISuggestionsScreenState extends ConsumerState<AISuggestionsScreen>
       setState(() {
         _chatMessages.add(
           ChatMessage(
-            message: "Error: No pude procesar tu mensaje. Intenta de nuevo.",
+            message: S.of(context).chat_processing_error,
             isUser: false,
             timestamp: DateTime.now(),
           ),
@@ -167,13 +172,16 @@ class _AISuggestionsScreenState extends ConsumerState<AISuggestionsScreen>
           icon: Icon(Icons.arrow_back, color: context.colors.onSurface),
           onPressed: () => context.pop(),
         ),
-        title: Text('IA Financiera', style: context.textStyles.titleMedium),
+        title: Text(
+          S.of(context).financial_ai,
+          style: context.textStyles.titleMedium,
+        ),
         bottom: TabBar(
           controller: _tabController,
-          tabs: const [
-            Tab(text: 'Sugerencias'),
-            Tab(text: 'Predicciones'),
-            Tab(text: 'Chat IA'),
+          tabs: [
+            Tab(text: S.of(context).suggestions_tab),
+            Tab(text: S.of(context).predictions_tab),
+            Tab(text: S.of(context).ai_chat_tab),
           ],
         ),
       ),
@@ -202,7 +210,7 @@ class _AISuggestionsScreenState extends ConsumerState<AISuggestionsScreen>
               _buildMainSuggestionCard(context, _suggestions!.mainSuggestion),
               const SizedBox(height: 24),
               Text(
-                'Sugerencias Adicionales',
+                S.of(context).additional_suggestions,
                 style: context.textStyles.titleMedium,
               ),
               const SizedBox(height: 16),
@@ -210,9 +218,7 @@ class _AISuggestionsScreenState extends ConsumerState<AISuggestionsScreen>
                 (suggestion) => _buildSideSuggestionCard(context, suggestion),
               ),
             ] else
-              const Center(
-                child: Text('No se pudieron cargar las sugerencias'),
-              ),
+              Center(child: Text(S.of(context).no_suggestions_loaded)),
           ],
         ),
       ),
@@ -233,7 +239,7 @@ class _AISuggestionsScreenState extends ConsumerState<AISuggestionsScreen>
               _buildMainPredictionCard(context, _predictions!.mainPrediction),
               const SizedBox(height: 24),
               Text(
-                'Predicciones Adicionales',
+                S.of(context).additional_predictions,
                 style: context.textStyles.titleMedium,
               ),
               const SizedBox(height: 16),
@@ -241,9 +247,7 @@ class _AISuggestionsScreenState extends ConsumerState<AISuggestionsScreen>
                 (prediction) => _buildSidePredictionCard(context, prediction),
               ),
             ] else
-              const Center(
-                child: Text('No se pudieron cargar las predicciones'),
-              ),
+              Center(child: Text(S.of(context).no_predictions_loaded)),
           ],
         ),
       ),
@@ -296,7 +300,7 @@ class _AISuggestionsScreenState extends ConsumerState<AISuggestionsScreen>
               const Icon(Icons.auto_awesome, color: Colors.white, size: 24),
               const SizedBox(width: 8),
               Text(
-                'Sugerencia Principal de IA',
+                S.of(context).main_ai_suggestion,
                 style: context.textStyles.labelMedium?.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
@@ -340,7 +344,7 @@ class _AISuggestionsScreenState extends ConsumerState<AISuggestionsScreen>
               const Icon(Icons.trending_up, color: Colors.white, size: 24),
               const SizedBox(width: 8),
               Text(
-                'Predicción Principal',
+                S.of(context).main_prediction,
                 style: context.textStyles.labelMedium?.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
@@ -529,7 +533,7 @@ class _AISuggestionsScreenState extends ConsumerState<AISuggestionsScreen>
             child: TextField(
               controller: _chatController,
               decoration: InputDecoration(
-                hintText: 'Pregunta algo sobre tus finanzas...',
+                hintText: S.of(context).ask_about_finances_hint,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(24),
                 ),
