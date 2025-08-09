@@ -20,39 +20,81 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(month) => "Summary of ${month}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "add_and_classify": MessageLookupByLibrary.simpleMessage(
       "Add and classify your expenses easily.",
     ),
+    "add_goal": MessageLookupByLibrary.simpleMessage("Add goal"),
     "add_transaction": MessageLookupByLibrary.simpleMessage("Add Transaction"),
+    "add_transactions_analysis": MessageLookupByLibrary.simpleMessage(
+      "Add some transactions to see your financial analysis",
+    ),
+    "additional_predictions": MessageLookupByLibrary.simpleMessage(
+      "Additional Prediction",
+    ),
+    "additional_suggestions": MessageLookupByLibrary.simpleMessage(
+      "Additional Suggestions",
+    ),
+    "ai_chat_tab": MessageLookupByLibrary.simpleMessage("AI Chat"),
     "ai_help": MessageLookupByLibrary.simpleMessage(
       "Our AI helps you predict future finances and receive recommendations to improve your finances",
     ),
     "amount": MessageLookupByLibrary.simpleMessage("Amount"),
     "analysis": MessageLookupByLibrary.simpleMessage("Analysis"),
+    "analysis_error_load": MessageLookupByLibrary.simpleMessage(
+      "Error loading analysis:",
+    ),
     "apr_2024": MessageLookupByLibrary.simpleMessage("April 2024"),
     "apr_23": MessageLookupByLibrary.simpleMessage("Apr 23 2024"),
     "apr_24": MessageLookupByLibrary.simpleMessage("Apr 24 2024"),
     "apr_25": MessageLookupByLibrary.simpleMessage("Apr 25 2024"),
+    "april": MessageLookupByLibrary.simpleMessage("April"),
+    "ask_about_finances_hint": MessageLookupByLibrary.simpleMessage(
+      "Ask something about your finances...",
+    ),
+    "august": MessageLookupByLibrary.simpleMessage("August"),
     "birth_date": MessageLookupByLibrary.simpleMessage("Birth Date"),
     "budget": MessageLookupByLibrary.simpleMessage("Budget"),
+    "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "category": MessageLookupByLibrary.simpleMessage("Category"),
+    "chat_processing_error": MessageLookupByLibrary.simpleMessage(
+      "Error: Could not process your message. Please try again.",
+    ),
     "confirm_password": MessageLookupByLibrary.simpleMessage(
       "Confirm password",
     ),
     "control_expenses": MessageLookupByLibrary.simpleMessage(
       "Control your expenses",
     ),
+    "create": MessageLookupByLibrary.simpleMessage("Create"),
     "create_account": MessageLookupByLibrary.simpleMessage("Create account"),
+    "create_first_goal": MessageLookupByLibrary.simpleMessage(
+      "Create your first savings goal to start planning your financial goals.",
+    ),
+    "create_goal": MessageLookupByLibrary.simpleMessage("Create goal"),
     "current_balance": MessageLookupByLibrary.simpleMessage("Current Balance"),
     "dark": MessageLookupByLibrary.simpleMessage("Dark"),
     "data_saved": MessageLookupByLibrary.simpleMessage("Saved"),
     "date": MessageLookupByLibrary.simpleMessage("Date"),
+    "december": MessageLookupByLibrary.simpleMessage("December"),
+    "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+    "delete_goal": MessageLookupByLibrary.simpleMessage("Delete goal"),
+    "delete_goal_ask": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to delete?",
+    ),
     "description": MessageLookupByLibrary.simpleMessage("Description"),
+    "description_analysis": MessageLookupByLibrary.simpleMessage(
+      "Description (optional)",
+    ),
     "email": MessageLookupByLibrary.simpleMessage("Email"),
     "emergency_fund": MessageLookupByLibrary.simpleMessage("Emergency Fund"),
     "english": MessageLookupByLibrary.simpleMessage("English"),
+    "enter_a_valid_number": MessageLookupByLibrary.simpleMessage(
+      "Enter a valid number",
+    ),
     "enter_email": MessageLookupByLibrary.simpleMessage("Enter your email"),
     "enter_password": MessageLookupByLibrary.simpleMessage(
       "Enter your password",
@@ -61,18 +103,37 @@ class MessageLookup extends MessageLookupByLibrary {
       "Please enter a valid email address",
     ),
     "entertainment": MessageLookupByLibrary.simpleMessage("Entertainment"),
+    "error_create_goal": MessageLookupByLibrary.simpleMessage(
+      "Error creating goal:",
+    ),
+    "error_loading_categories": MessageLookupByLibrary.simpleMessage(
+      "Error loading categories",
+    ),
+    "error_loading_predictions": MessageLookupByLibrary.simpleMessage(
+      "Error loading predictions",
+    ),
+    "error_loading_suggestions": MessageLookupByLibrary.simpleMessage(
+      "Error loading suggestions",
+    ),
+    "error_to_delete": MessageLookupByLibrary.simpleMessage("Error deleting:"),
     "expenses": MessageLookupByLibrary.simpleMessage("Expenses"),
     "expenses_2": MessageLookupByLibrary.simpleMessage("Expenses"),
     "expenses_by_category": MessageLookupByLibrary.simpleMessage(
       "Expenses by Category",
     ),
+    "february": MessageLookupByLibrary.simpleMessage("February"),
     "female": MessageLookupByLibrary.simpleMessage("Female"),
+    "field_is_required": MessageLookupByLibrary.simpleMessage(
+      "Field is required",
+    ),
     "fill_fields_correctly": MessageLookupByLibrary.simpleMessage(
       "Please fill out the fields correctly",
     ),
+    "financial_ai": MessageLookupByLibrary.simpleMessage("Financial AI"),
     "full_name": MessageLookupByLibrary.simpleMessage("Full Name"),
     "gender": MessageLookupByLibrary.simpleMessage("Gender"),
     "get_started": MessageLookupByLibrary.simpleMessage("Get Started"),
+    "goal_title": MessageLookupByLibrary.simpleMessage("Goal Title"),
     "history": MessageLookupByLibrary.simpleMessage("History"),
     "income": MessageLookupByLibrary.simpleMessage("Income"),
     "intro_text": MessageLookupByLibrary.simpleMessage(
@@ -87,6 +148,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalid_password": MessageLookupByLibrary.simpleMessage(
       "Password must be at least\n6 characters long, include an uppercase,\na lowercase and a number",
     ),
+    "january": MessageLookupByLibrary.simpleMessage("January"),
+    "july": MessageLookupByLibrary.simpleMessage("July"),
+    "june": MessageLookupByLibrary.simpleMessage("June"),
     "june_summary": MessageLookupByLibrary.simpleMessage("June Summary"),
     "language": MessageLookupByLibrary.simpleMessage("Language"),
     "latest_transactions": MessageLookupByLibrary.simpleMessage(
@@ -95,7 +159,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "light": MessageLookupByLibrary.simpleMessage("Light"),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "logout": MessageLookupByLibrary.simpleMessage("Log out"),
+    "main_ai_suggestion": MessageLookupByLibrary.simpleMessage("Suggestion"),
+    "main_prediction": MessageLookupByLibrary.simpleMessage("Prediction"),
     "male": MessageLookupByLibrary.simpleMessage("Male"),
+    "march": MessageLookupByLibrary.simpleMessage("March"),
+    "may": MessageLookupByLibrary.simpleMessage("May"),
     "month_apr": MessageLookupByLibrary.simpleMessage("Apr"),
     "month_aug": MessageLookupByLibrary.simpleMessage("Aug"),
     "month_dec": MessageLookupByLibrary.simpleMessage("Dec"),
@@ -108,6 +176,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "month_nov": MessageLookupByLibrary.simpleMessage("Nov"),
     "month_oct": MessageLookupByLibrary.simpleMessage("Oct"),
     "month_sep": MessageLookupByLibrary.simpleMessage("Sep"),
+    "monthly_summary_text": m0,
     "monthly_trend": MessageLookupByLibrary.simpleMessage("Monthly Trend"),
     "name_min_length": MessageLookupByLibrary.simpleMessage(
       "Full name must be at least\n5 characters long",
@@ -115,7 +184,55 @@ class MessageLookup extends MessageLookupByLibrary {
     "name_required": MessageLookupByLibrary.simpleMessage(
       "Full name is required",
     ),
+    "new_saving_goal": MessageLookupByLibrary.simpleMessage("New Saving Goal"),
     "next": MessageLookupByLibrary.simpleMessage("Next"),
+    "no_analysis_data": MessageLookupByLibrary.simpleMessage(
+      "No analysis data available",
+    ),
+    "no_predictions_loaded": MessageLookupByLibrary.simpleMessage(
+      "Could not load predictions",
+    ),
+    "no_savings_goals": MessageLookupByLibrary.simpleMessage(
+      "You don\'t have savings goals",
+    ),
+    "no_suggestions_loaded": MessageLookupByLibrary.simpleMessage(
+      "Could not load suggestions",
+    ),
+    "no_transactions": MessageLookupByLibrary.simpleMessage(
+      "There are no transactions",
+    ),
+    "no_transactions_chat_response": MessageLookupByLibrary.simpleMessage(
+      "To help you with personalized financial queries, you need to have transactions recorded in your account. Please add some transactions first, and then you can ask specific questions about your finances.",
+    ),
+    "no_transactions_predictions_main": MessageLookupByLibrary.simpleMessage(
+      "To generate accurate financial predictions, you need to have a transaction history. Start by recording your financial movements!",
+    ),
+    "no_transactions_predictions_side1": MessageLookupByLibrary.simpleMessage(
+      "Record at least one month of transactions",
+    ),
+    "no_transactions_predictions_side2": MessageLookupByLibrary.simpleMessage(
+      "Include both income and expenses",
+    ),
+    "no_transactions_predictions_side3": MessageLookupByLibrary.simpleMessage(
+      "Maintain a consistent record for better predictions",
+    ),
+    "no_transactions_suggestions_main": MessageLookupByLibrary.simpleMessage(
+      "To generate personalized suggestions, you need to record some transactions first. Start by adding your income and expenses!",
+    ),
+    "no_transactions_suggestions_side1": MessageLookupByLibrary.simpleMessage(
+      "Record your monthly income",
+    ),
+    "no_transactions_suggestions_side2": MessageLookupByLibrary.simpleMessage(
+      "Note your main expenses",
+    ),
+    "no_transactions_suggestions_side3": MessageLookupByLibrary.simpleMessage(
+      "Categorize your transactions correctly",
+    ),
+    "no_trends": MessageLookupByLibrary.simpleMessage(
+      "There is no trend data available",
+    ),
+    "november": MessageLookupByLibrary.simpleMessage("November"),
+    "october": MessageLookupByLibrary.simpleMessage("October"),
     "other": MessageLookupByLibrary.simpleMessage("Other"),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
     "password_required": MessageLookupByLibrary.simpleMessage(
@@ -125,11 +242,20 @@ class MessageLookup extends MessageLookupByLibrary {
       "Passwords do not match",
     ),
     "personal_data": MessageLookupByLibrary.simpleMessage("Personal Data"),
+    "please_fill_all_fields": MessageLookupByLibrary.simpleMessage(
+      "Please complete all fields",
+    ),
+    "predictions_tab": MessageLookupByLibrary.simpleMessage("Predictions"),
     "restaurant": MessageLookupByLibrary.simpleMessage("Restaurant"),
     "restaurants": MessageLookupByLibrary.simpleMessage("Restaurants"),
+    "retry": MessageLookupByLibrary.simpleMessage("Retry"),
     "salary": MessageLookupByLibrary.simpleMessage("Salary"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
     "savings_goals": MessageLookupByLibrary.simpleMessage("Savings Goals"),
+    "select_a_category": MessageLookupByLibrary.simpleMessage(
+      "Please select a category",
+    ),
+    "september": MessageLookupByLibrary.simpleMessage("September"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "sign_up": MessageLookupByLibrary.simpleMessage("Sign Up"),
     "smart_predictions": MessageLookupByLibrary.simpleMessage(
@@ -137,9 +263,14 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "spanish": MessageLookupByLibrary.simpleMessage("Spanish"),
     "suggestions": MessageLookupByLibrary.simpleMessage("Suggestions"),
+    "suggestions_tab": MessageLookupByLibrary.simpleMessage("Suggestions"),
     "supermarket": MessageLookupByLibrary.simpleMessage("Supermarket"),
     "system": MessageLookupByLibrary.simpleMessage("System"),
+    "target_amount": MessageLookupByLibrary.simpleMessage("Target amount"),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
+    "transaction_created_successfully": MessageLookupByLibrary.simpleMessage(
+      "Transaction created successfully",
+    ),
     "transaction_history": MessageLookupByLibrary.simpleMessage(
       "Transaction History",
     ),
@@ -157,26 +288,5 @@ class MessageLookup extends MessageLookupByLibrary {
       "That email is already taken",
     ),
     "welcome": MessageLookupByLibrary.simpleMessage("Welcome"),
-    "transaction_created_successfully": MessageLookupByLibrary.simpleMessage(
-      "Transaction created successfully",
-    ),
-    "please_fill_all_fields": MessageLookupByLibrary.simpleMessage(
-      "Please complete all fieldss",
-    ),
-    "select_a_category": MessageLookupByLibrary.simpleMessage(
-      "Please select a category",
-    ),
-    "field_is_required": MessageLookupByLibrary.simpleMessage(
-      "Field is required",
-    ),
-    "enter_a_valid_number": MessageLookupByLibrary.simpleMessage(
-      "Enter a valid number",
-    ),
-    "error_loading_categories": MessageLookupByLibrary.simpleMessage(
-      "Error loading categorie",
-    ),
-    "no_transactions": MessageLookupByLibrary.simpleMessage(
-      "There are no transactions",
-    ),
   };
 }

@@ -1,10 +1,10 @@
-import 'dart:convert'; // Importar para JSON encoding/decoding
+import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:financia_mobile/config/app_preferences.dart';
 import 'package:financia_mobile/models/analysis_model.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // Importar shared_preferences
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AnalysisService {
   final Dio dio = Dio(
@@ -40,7 +40,6 @@ class AnalysisService {
     final now = DateTime.now();
 
     try {
-      // Usar el endpoint de transacciones existente para calcular el resumen
       final response = await dio.get(
         'transaction',
         options: Options(
@@ -62,7 +61,6 @@ class AnalysisService {
           final isEarning = transaction['isEarning'] ?? false;
           final dateTime = DateTime.tryParse(transaction['dateTime'] ?? '');
 
-          // Filtrar solo transacciones del mes actual
           if (dateTime != null &&
               dateTime.year == now.year &&
               dateTime.month == now.month) {
@@ -85,7 +83,6 @@ class AnalysisService {
       }
     } catch (e) {
       debugPrint('Error obteniendo resumen mensual: $e');
-      // Retornar datos por defecto si hay error
       return MonthlySummary(
         totalIncome: 0.0,
         totalExpenses: 0.0,
@@ -99,7 +96,6 @@ class AnalysisService {
     final token = await AppPreferences.getStringPreference('accessToken');
 
     try {
-      // Obtener transacciones y categorías
       final transactionsResponse = await dio.get(
         'transaction',
         options: Options(
@@ -124,14 +120,10 @@ class AnalysisService {
           categoriesResponse.statusCode == 200) {
         final List<dynamic> transactions = transactionsResponse.data;
         final List<dynamic> categories = categoriesResponse.data;
-
-        // Crear mapa de categorías
         final Map<String, Map<String, dynamic>> categoryMap = {};
         for (var category in categories) {
           categoryMap[category['id']] = category;
         }
-
-        // Calcular gastos por categoría para el mes actual
         final Map<String, double> expensesByCategory = {};
         double totalExpenses = 0.0;
         final now = DateTime.now();
@@ -142,7 +134,6 @@ class AnalysisService {
           final categoryId = transaction['categoryId'] ?? '';
           final dateTime = DateTime.tryParse(transaction['dateTime'] ?? '');
 
-          // Filtrar solo gastos del mes actual
           if (!isEarning &&
               dateTime != null &&
               dateTime.year == now.year &&
@@ -154,7 +145,6 @@ class AnalysisService {
           }
         }
 
-        // Convertir a lista de CategoryExpense
         List<CategoryExpense> result = [];
         expensesByCategory.forEach((categoryId, amount) {
           final category = categoryMap[categoryId];
@@ -174,7 +164,6 @@ class AnalysisService {
           }
         });
 
-        // Ordenar por monto descendente
         result.sort((a, b) => b.totalAmount.compareTo(a.totalAmount));
 
         return result;
@@ -205,7 +194,6 @@ class AnalysisService {
         final List<dynamic> transactions = response.data;
         final now = DateTime.now();
 
-        // Calcular gastos por mes para los últimos 6 meses
         Map<String, double> monthlyExpenses = {};
 
         for (int i = 5; i >= 0; i--) {
@@ -229,7 +217,6 @@ class AnalysisService {
           }
         }
 
-        // Convertir a lista de MonthlyTrend
         List<MonthlyTrend> trends = [];
         for (int i = 5; i >= 0; i--) {
           final targetDate = DateTime(now.year, now.month - i, 1);
@@ -266,7 +253,7 @@ class AnalysisService {
   }) async {
     final newGoal = SavingsGoal(
       id: DateTime.now().millisecondsSinceEpoch
-          .toString(), // Generar un ID único
+          .toString(), 
       title: title,
       currentAmount: currentAmount,
       targetAmount: targetAmount,
@@ -326,7 +313,7 @@ class AnalysisService {
         MonthlyTrend(
           month: _getMonthName(date.month),
           year: date.year,
-          amount: 1000.0 + (i * 200), // Datos de ejemplo
+          amount: 1000.0 + (i * 200), 
         ),
       );
     }
