@@ -77,6 +77,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "create_goal": MessageLookupByLibrary.simpleMessage("Create goal"),
     "current_balance": MessageLookupByLibrary.simpleMessage("Current Balance"),
     "dark": MessageLookupByLibrary.simpleMessage("Dark"),
+    "dashboard_drawer_budgets": MessageLookupByLibrary.simpleMessage("Budgets"),
+    "dashboard_drawer_categories": MessageLookupByLibrary.simpleMessage(
+      "Categories",
+    ),
+    "dashboard_drawer_savings": MessageLookupByLibrary.simpleMessage("Savings"),
     "data_saved": MessageLookupByLibrary.simpleMessage("Saved"),
     "date": MessageLookupByLibrary.simpleMessage("Date"),
     "december": MessageLookupByLibrary.simpleMessage("December"),

@@ -177,5 +177,8 @@
   "savings_amount_to_add": "Cantidad a agregar",
   "savings_add_money_button": "Agregar",
   "savings_delete_saving": "Eliminar Meta",
-  "savings_delete_saving_confirmation": "¿Estás seguro de que deseas eliminar "
+  "savings_delete_saving_confirmation": "¿Estás seguro de que deseas eliminar ",
+  "dashboard_drawer_categories": "Categorías",
+  "dashboard_drawer_savings": "Ahorros",
+  "dashboard_drawer_budgets": "Presupuestos"
 }

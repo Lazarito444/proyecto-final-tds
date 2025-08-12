@@ -91,19 +91,19 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           children: [
             _buildDrawerItem(
               icon: Icons.category,
-              title: 'Categorías',
+              title: S.of(context).dashboard_drawer_categories,
               onTap: () => _navigateToScreen(const CategoriesScreen()),
             ),
             const SizedBox(height: 8),
             _buildDrawerItem(
               icon: Icons.savings,
-              title: 'Ahorros',
+              title: S.of(context).dashboard_drawer_savings,
               onTap: () => _navigateToScreen(const SavingsScreen()),
             ),
             const SizedBox(height: 8),
             _buildDrawerItem(
               icon: Icons.account_balance,
-              title: 'Presupuestos',
+              title: S.of(context).dashboard_drawer_budgets,
               onTap: () => _navigateToScreen(const BudgetsScreen()),
             ),
           ],
@@ -341,7 +341,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       child: ListTile(
-        leading: Icon(icon, color: context.colors.onSurface, size: 32), 
+        leading: Icon(icon, color: context.colors.onSurface, size: 32),
         title: Text(
           title,
           style: GoogleFonts.gabarito(

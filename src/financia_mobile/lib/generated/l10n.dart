@@ -1403,6 +1403,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Categories`
+  String get dashboard_drawer_categories {
+    return Intl.message(
+      'Categories',
+      name: 'dashboard_drawer_categories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Savings`
+  String get dashboard_drawer_savings {
+    return Intl.message(
+      'Savings',
+      name: 'dashboard_drawer_savings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Budgets`
+  String get dashboard_drawer_budgets {
+    return Intl.message(
+      'Budgets',
+      name: 'dashboard_drawer_budgets',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

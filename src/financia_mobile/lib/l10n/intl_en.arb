@@ -177,5 +177,8 @@
   "savings_amount_to_add": "Amount to add",
   "savings_add_money_button": "Add",
   "savings_delete_saving": "Delete goal",
-  "savings_delete_saving_confirmation": "Are you sure about deleting "
+  "savings_delete_saving_confirmation": "Are you sure about deleting ",
+  "dashboard_drawer_categories": "Categories",
+  "dashboard_drawer_savings": "Savings",
+  "dashboard_drawer_budgets": "Budgets"
 }
