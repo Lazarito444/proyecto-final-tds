@@ -1,10 +1,11 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:financia_mobile/config/app_preferences.dart';
+import 'package:financia_mobile/config/dio_factory.dart';
 import 'package:financia_mobile/models/transaction_model.dart';
 
 class TransactionService {
-  final Dio dio = Dio(BaseOptions(baseUrl: 'http://10.0.0.13:5189/api/'));
+  final Dio dio = DioFactory.createDio();
 
   Future<void> createTransaction(TransactionModel transaction) async {
     final token = await AppPreferences.getStringPreference('accessToken');

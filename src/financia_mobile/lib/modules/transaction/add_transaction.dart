@@ -1,3 +1,4 @@
+import 'package:financia_mobile/config/dio_factory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
@@ -65,15 +66,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       if (token == null) {
         throw Exception('Token de acceso no encontrado');
       }
-      final dio = Dio(
-        BaseOptions(
-          baseUrl: 'http://10.0.0.13:5189/api/',
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-          },
-        ),
-      );
+      final dio = DioFactory.createDio();
 
       final response = await dio.get('category');
       setState(() {
@@ -116,7 +109,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
     final transactionNotifier = ref.read(transactionProvider.notifier);
     await transactionNotifier.createTransaction(transaction);
-    
+
     final transactionState = ref.read(transactionProvider);
 
     if (transactionState.status == TransactionStatus.success) {
@@ -148,7 +141,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     final transactionStatus = ref.watch(transactionProvider).status;
     final bool isLoading = transactionStatus == TransactionStatus.loading;
 

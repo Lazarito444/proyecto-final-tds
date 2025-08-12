@@ -1,20 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:financia_mobile/config/dio_factory.dart';
 import 'package:flutter/foundation.dart';
 import 'package:financia_mobile/config/app_preferences.dart';
 import 'package:financia_mobile/models/analysis_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AnalysisService {
-  final Dio dio = Dio(
-    BaseOptions(
-      baseUrl: 'http://10.0.0.13:5189/api/',
-      connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 30),
-    ),
-  );
-
+  final Dio dio = DioFactory.createDio();
   static const String _SAVINGS_GOALS_KEY = 'savingsGoals';
 
   Future<void> _saveGoals(List<SavingsGoal> goals) async {
@@ -252,8 +246,7 @@ class AnalysisService {
     double currentAmount = 0.0,
   }) async {
     final newGoal = SavingsGoal(
-      id: DateTime.now().millisecondsSinceEpoch
-          .toString(), 
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
       title: title,
       currentAmount: currentAmount,
       targetAmount: targetAmount,
@@ -313,7 +306,7 @@ class AnalysisService {
         MonthlyTrend(
           month: _getMonthName(date.month),
           year: date.year,
-          amount: 1000.0 + (i * 200), 
+          amount: 1000.0 + (i * 200),
         ),
       );
     }
