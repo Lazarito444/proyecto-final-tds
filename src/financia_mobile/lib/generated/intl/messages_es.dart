@@ -261,9 +261,54 @@ class MessageLookup extends MessageLookupByLibrary {
     "retry": MessageLookupByLibrary.simpleMessage("Reintentar"),
     "salary": MessageLookupByLibrary.simpleMessage("Salario"),
     "save": MessageLookupByLibrary.simpleMessage("Guardar"),
-    "savings_goals": MessageLookupByLibrary.simpleMessage(
-      "Objetivos de Ahorro",
+    "savings_add_modal_title": MessageLookupByLibrary.simpleMessage(
+      "Nueva Meta de Ahorro",
     ),
+    "savings_add_money": MessageLookupByLibrary.simpleMessage("Agregar Dinero"),
+    "savings_add_money_button": MessageLookupByLibrary.simpleMessage("Agregar"),
+    "savings_add_money_to_saving": MessageLookupByLibrary.simpleMessage(
+      "Agregar dinero",
+    ),
+    "savings_amount_to_add": MessageLookupByLibrary.simpleMessage(
+      "Cantidad a agregar",
+    ),
+    "savings_cancel": MessageLookupByLibrary.simpleMessage("Cancelar"),
+    "savings_completed_percentage": MessageLookupByLibrary.simpleMessage(
+      "% completado",
+    ),
+    "savings_create": MessageLookupByLibrary.simpleMessage("Crear"),
+    "savings_days_left": MessageLookupByLibrary.simpleMessage("días restantes"),
+    "savings_deadline": MessageLookupByLibrary.simpleMessage("Fecha límite: "),
+    "savings_delete": MessageLookupByLibrary.simpleMessage("Eliminar"),
+    "savings_delete_saving": MessageLookupByLibrary.simpleMessage(
+      "Eliminar Meta",
+    ),
+    "savings_delete_saving_confirmation": MessageLookupByLibrary.simpleMessage(
+      "¿Estás seguro de que deseas eliminar ",
+    ),
+    "savings_edit": MessageLookupByLibrary.simpleMessage("Editar"),
+    "savings_edit_modal_title": MessageLookupByLibrary.simpleMessage(
+      "Editar Meta",
+    ),
+    "savings_error_while_fetching": MessageLookupByLibrary.simpleMessage(
+      "Error al cargar los ahorros",
+    ),
+    "savings_goals": MessageLookupByLibrary.simpleMessage("Metas de Ahorro"),
+    "savings_my_savings": MessageLookupByLibrary.simpleMessage("Mis Ahorros"),
+    "savings_name_input": MessageLookupByLibrary.simpleMessage(
+      "Nombre de la meta",
+    ),
+    "savings_no_savings_created": MessageLookupByLibrary.simpleMessage(
+      "No tienes ahorros aún.\n¡Crea tu primera meta!",
+    ),
+    "savings_percentaje": MessageLookupByLibrary.simpleMessage("% de \$"),
+    "savings_target_amount_input": MessageLookupByLibrary.simpleMessage(
+      "Cantidad objetivo",
+    ),
+    "savings_total_saved": MessageLookupByLibrary.simpleMessage(
+      "Total Ahorrado",
+    ),
+    "savings_update": MessageLookupByLibrary.simpleMessage("Actualizar"),
     "select_a_category": MessageLookupByLibrary.simpleMessage(
       "Selecciona una categoría",
     ),

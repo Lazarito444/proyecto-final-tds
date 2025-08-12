@@ -604,10 +604,10 @@ class S {
     );
   }
 
-  /// `Savings Goals`
+  /// `Saving goals`
   String get savings_goals {
     return Intl.message(
-      'Savings Goals',
+      'Saving goals',
       name: 'savings_goals',
       desc: '',
       args: [],
@@ -1197,6 +1197,211 @@ class S {
   /// `December`
   String get december {
     return Intl.message('December', name: 'december', desc: '', args: []);
+  }
+
+  /// `Error while fetching savings`
+  String get savings_error_while_fetching {
+    return Intl.message(
+      'Error while fetching savings',
+      name: 'savings_error_while_fetching',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My savings`
+  String get savings_my_savings {
+    return Intl.message(
+      'My savings',
+      name: 'savings_my_savings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You don't have any savings, create one!`
+  String get savings_no_savings_created {
+    return Intl.message(
+      'You don\'t have any savings, create one!',
+      name: 'savings_no_savings_created',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saved money`
+  String get savings_total_saved {
+    return Intl.message(
+      'Saved money',
+      name: 'savings_total_saved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `% of $`
+  String get savings_percentaje {
+    return Intl.message(
+      '% of \$',
+      name: 'savings_percentaje',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `days left`
+  String get savings_days_left {
+    return Intl.message(
+      'days left',
+      name: 'savings_days_left',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add money`
+  String get savings_add_money_to_saving {
+    return Intl.message(
+      'Add money',
+      name: 'savings_add_money_to_saving',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit`
+  String get savings_edit {
+    return Intl.message('Edit', name: 'savings_edit', desc: '', args: []);
+  }
+
+  /// `Delete`
+  String get savings_delete {
+    return Intl.message('Delete', name: 'savings_delete', desc: '', args: []);
+  }
+
+  /// `% completed`
+  String get savings_completed_percentage {
+    return Intl.message(
+      '% completed',
+      name: 'savings_completed_percentage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit saving`
+  String get savings_edit_modal_title {
+    return Intl.message(
+      'Edit saving',
+      name: 'savings_edit_modal_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New saving goal`
+  String get savings_add_modal_title {
+    return Intl.message(
+      'New saving goal',
+      name: 'savings_add_modal_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name of the goal`
+  String get savings_name_input {
+    return Intl.message(
+      'Name of the goal',
+      name: 'savings_name_input',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Target amount`
+  String get savings_target_amount_input {
+    return Intl.message(
+      'Target amount',
+      name: 'savings_target_amount_input',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deadline: `
+  String get savings_deadline {
+    return Intl.message(
+      'Deadline: ',
+      name: 'savings_deadline',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get savings_cancel {
+    return Intl.message('Cancel', name: 'savings_cancel', desc: '', args: []);
+  }
+
+  /// `Update`
+  String get savings_update {
+    return Intl.message('Update', name: 'savings_update', desc: '', args: []);
+  }
+
+  /// `Create`
+  String get savings_create {
+    return Intl.message('Create', name: 'savings_create', desc: '', args: []);
+  }
+
+  /// `Add money`
+  String get savings_add_money {
+    return Intl.message(
+      'Add money',
+      name: 'savings_add_money',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount to add`
+  String get savings_amount_to_add {
+    return Intl.message(
+      'Amount to add',
+      name: 'savings_amount_to_add',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add`
+  String get savings_add_money_button {
+    return Intl.message(
+      'Add',
+      name: 'savings_add_money_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete goal`
+  String get savings_delete_saving {
+    return Intl.message(
+      'Delete goal',
+      name: 'savings_delete_saving',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure about deleting `
+  String get savings_delete_saving_confirmation {
+    return Intl.message(
+      'Are you sure about deleting ',
+      name: 'savings_delete_saving_confirmation',
+      desc: '',
+      args: [],
+    );
   }
 }
 

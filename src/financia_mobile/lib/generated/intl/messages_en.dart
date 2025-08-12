@@ -251,7 +251,52 @@ class MessageLookup extends MessageLookupByLibrary {
     "retry": MessageLookupByLibrary.simpleMessage("Retry"),
     "salary": MessageLookupByLibrary.simpleMessage("Salary"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
-    "savings_goals": MessageLookupByLibrary.simpleMessage("Savings Goals"),
+    "savings_add_modal_title": MessageLookupByLibrary.simpleMessage(
+      "New saving goal",
+    ),
+    "savings_add_money": MessageLookupByLibrary.simpleMessage("Add money"),
+    "savings_add_money_button": MessageLookupByLibrary.simpleMessage("Add"),
+    "savings_add_money_to_saving": MessageLookupByLibrary.simpleMessage(
+      "Add money",
+    ),
+    "savings_amount_to_add": MessageLookupByLibrary.simpleMessage(
+      "Amount to add",
+    ),
+    "savings_cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "savings_completed_percentage": MessageLookupByLibrary.simpleMessage(
+      "% completed",
+    ),
+    "savings_create": MessageLookupByLibrary.simpleMessage("Create"),
+    "savings_days_left": MessageLookupByLibrary.simpleMessage("days left"),
+    "savings_deadline": MessageLookupByLibrary.simpleMessage("Deadline: "),
+    "savings_delete": MessageLookupByLibrary.simpleMessage("Delete"),
+    "savings_delete_saving": MessageLookupByLibrary.simpleMessage(
+      "Delete goal",
+    ),
+    "savings_delete_saving_confirmation": MessageLookupByLibrary.simpleMessage(
+      "Are you sure about deleting ",
+    ),
+    "savings_edit": MessageLookupByLibrary.simpleMessage("Edit"),
+    "savings_edit_modal_title": MessageLookupByLibrary.simpleMessage(
+      "Edit saving",
+    ),
+    "savings_error_while_fetching": MessageLookupByLibrary.simpleMessage(
+      "Error while fetching savings",
+    ),
+    "savings_goals": MessageLookupByLibrary.simpleMessage("Saving goals"),
+    "savings_my_savings": MessageLookupByLibrary.simpleMessage("My savings"),
+    "savings_name_input": MessageLookupByLibrary.simpleMessage(
+      "Name of the goal",
+    ),
+    "savings_no_savings_created": MessageLookupByLibrary.simpleMessage(
+      "You don\'t have any savings, create one!",
+    ),
+    "savings_percentaje": MessageLookupByLibrary.simpleMessage("% of \$"),
+    "savings_target_amount_input": MessageLookupByLibrary.simpleMessage(
+      "Target amount",
+    ),
+    "savings_total_saved": MessageLookupByLibrary.simpleMessage("Saved money"),
+    "savings_update": MessageLookupByLibrary.simpleMessage("Update"),
     "select_a_category": MessageLookupByLibrary.simpleMessage(
       "Please select a category",
     ),

@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_to_list_in_spreads, use_build_context_synchronously
 
+import 'package:financia_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:financia_mobile/extensions/navigation_extensions.dart';
@@ -49,8 +50,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
       });
     } catch (e) {
       setState(() {
-        debugPrint('Error fetching savings: $e');
-        _error = 'Error al cargar los ahorros';
+        _error = S.of(context).savings_error_while_fetching;
         _loading = false;
       });
     }
@@ -68,7 +68,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
           onPressed: () => context.pop(),
         ),
         title: Text(
-          'Mis Ahorros',
+          S.of(context).savings_my_savings,
           style: context.textStyles.titleLarge?.copyWith(fontSize: 24),
         ),
       ),
@@ -84,7 +84,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
           : _savings.isEmpty
           ? Center(
               child: Text(
-                'No tienes ahorros aún.\n¡Crea tu primera meta!',
+                S.of(context).savings_no_savings_created,
                 textAlign: TextAlign.center,
                 style: context.textStyles.titleSmall,
               ),
@@ -97,7 +97,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
                   _buildTotalSavingsCard(),
                   const SizedBox(height: 24),
                   Text(
-                    'Metas de Ahorro',
+                    S.of(context).savings_goals,
                     style: context.textStyles.titleMedium?.copyWith(
                       fontSize: 18,
                     ),
@@ -140,7 +140,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Total Ahorrado',
+            S.of(context).savings_total_saved,
             style: context.textStyles.labelMedium?.copyWith(
               color: Colors.white,
               fontSize: 14,
@@ -162,7 +162,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            '${(progress * 100).toInt()}% de \$${totalTarget.toStringAsFixed(2)}',
+            '${(progress * 100).toInt()}${S.of(context).savings_percentaje}${totalTarget.toStringAsFixed(2)}',
             style: context.textStyles.labelSmall?.copyWith(
               color: Colors.white,
               fontSize: 12,
@@ -216,7 +216,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
                       ),
                     ),
                     Text(
-                      '$daysLeft días restantes',
+                      '$daysLeft ${S.of(context).savings_days_left}',
                       style: context.textStyles.labelSmall?.copyWith(
                         color: context.colors.outline,
                         fontSize: 12,
@@ -240,7 +240,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'Agregar dinero',
+                          S.of(context).savings_add_money_to_saving,
                           style: context.textStyles.bodyMedium?.copyWith(
                             fontSize: 14,
                           ),
@@ -259,7 +259,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'Editar',
+                          S.of(context).savings_edit,
                           style: context.textStyles.bodyMedium?.copyWith(
                             fontSize: 14,
                           ),
@@ -274,7 +274,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
                         const Icon(Icons.delete, size: 20, color: Colors.red),
                         const SizedBox(width: 8),
                         Text(
-                          'Eliminar',
+                          S.of(context).savings_delete,
                           style: context.textStyles.bodyMedium?.copyWith(
                             fontSize: 14,
                           ),
@@ -314,7 +314,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            '${(progress * 100).toInt()}% completado',
+            '${(progress * 100).toInt()}${S.of(context).savings_completed_percentage}',
             style: context.textStyles.labelSmall?.copyWith(
               color: context.colors.outline,
               fontSize: 12,
@@ -354,7 +354,9 @@ class _SavingsScreenState extends State<SavingsScreen> {
         builder: (context, setDialogState) => AlertDialog(
           backgroundColor: context.colors.surface,
           title: Text(
-            isEditing ? 'Editar Meta' : 'Nueva Meta de Ahorro',
+            isEditing
+                ? S.of(context).savings_edit_modal_title
+                : S.of(context).savings_add_modal_title,
             style: context.textStyles.titleMedium?.copyWith(fontSize: 18),
           ),
           content: Column(
@@ -364,7 +366,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
                 controller: nameController,
                 style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
                 decoration: InputDecoration(
-                  labelText: 'Nombre de la meta',
+                  labelText: S.of(context).savings_name_input,
                   labelStyle: context.textStyles.bodyMedium?.copyWith(
                     fontSize: 14,
                   ),
@@ -379,7 +381,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
                 keyboardType: TextInputType.number,
                 style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
                 decoration: InputDecoration(
-                  labelText: 'Cantidad objetivo',
+                  labelText: S.of(context).savings_target_amount_input,
                   labelStyle: context.textStyles.bodyMedium?.copyWith(
                     fontSize: 14,
                   ),
@@ -393,7 +395,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
               Row(
                 children: [
                   Text(
-                    'Fecha límite: ',
+                    S.of(context).savings_deadline,
                     style: context.textStyles.bodyMedium?.copyWith(
                       fontSize: 14,
                     ),
@@ -427,7 +429,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
             TextButton(
               onPressed: () => context.pop(),
               child: Text(
-                'Cancelar',
+                S.of(context).savings_cancel,
                 style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
               ),
             ),
@@ -446,7 +448,9 @@ class _SavingsScreenState extends State<SavingsScreen> {
                 foregroundColor: Colors.white,
               ),
               child: Text(
-                isEditing ? 'Actualizar' : 'Crear',
+                isEditing
+                    ? S.of(context).savings_update
+                    : S.of(context).savings_create,
                 style: context.textStyles.bodyMedium?.copyWith(
                   fontSize: 14,
                   color: context.colors.onSurface,
@@ -466,7 +470,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
       builder: (context) => AlertDialog(
         backgroundColor: context.colors.surface,
         title: Text(
-          'Agregar Dinero',
+          S.of(context).savings_add_money,
           style: context.textStyles.titleMedium?.copyWith(fontSize: 18),
         ),
         content: TextField(
@@ -474,7 +478,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
           keyboardType: TextInputType.number,
           style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
           decoration: InputDecoration(
-            labelText: 'Cantidad a agregar',
+            labelText: S.of(context).savings_amount_to_add,
             labelStyle: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
             prefixText: '\$',
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
@@ -484,7 +488,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
           TextButton(
             onPressed: () => context.pop(),
             child: Text(
-              'Cancelar',
+              S.of(context).savings_cancel,
               style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
             ),
           ),
@@ -501,7 +505,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
               foregroundColor: Colors.white,
             ),
             child: Text(
-              'Agregar',
+              S.of(context).savings_add_money_button,
               style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
             ),
           ),
@@ -516,18 +520,18 @@ class _SavingsScreenState extends State<SavingsScreen> {
       builder: (context) => AlertDialog(
         backgroundColor: context.colors.surface,
         title: Text(
-          'Eliminar Meta',
+          S.of(context).savings_delete_saving,
           style: context.textStyles.titleMedium?.copyWith(fontSize: 18),
         ),
         content: Text(
-          '¿Estás seguro de que deseas eliminar "${saving['name']}"?',
+          '${S.of(context).savings_delete_saving_confirmation}"${saving['name']}"?',
           style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
         ),
         actions: [
           TextButton(
             onPressed: () => context.pop(),
             child: Text(
-              'Cancelar',
+              S.of(context).savings_cancel,
               style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
             ),
           ),
@@ -541,7 +545,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
               foregroundColor: Colors.white,
             ),
             child: Text(
-              'Eliminar',
+              S.of(context).savings_delete,
               style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
             ),
           ),
