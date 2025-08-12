@@ -15,8 +15,8 @@ public class CreateSavingDtoValidator : AbstractValidator<CreateSavingDto>
         RuleFor(dto => dto.CurrentAmount)
             .NotNull()
             .WithMessage("La cantidad actual es requerida.")
-            .InclusiveBetween(1m, 1_000_000_000m)
-            .WithMessage("La cantidad actual debe estar entre 1 y 1,000,0000,000.");
+            .InclusiveBetween(0m, 1_000_000_000m)
+            .WithMessage("La cantidad actual debe estar entre 0 y 1,000,0000,000.");
 
         RuleFor(dto => dto.TargetAmount)
             .NotNull()
@@ -25,7 +25,7 @@ public class CreateSavingDtoValidator : AbstractValidator<CreateSavingDto>
             .WithMessage("La cantidad meta debe estar entre 1 y 1,000,000,000.");
 
         DateOnly minDate = DateOnly.FromDateTime(DateTime.Today.AddYears(-1));
-        DateOnly maxDate = DateOnly.FromDateTime(DateTime.Today.AddYears(1));
+        DateOnly maxDate = DateOnly.FromDateTime(DateTime.Today.AddYears(10));
 
         RuleFor(dto => dto.TargetDate)
             .NotNull()

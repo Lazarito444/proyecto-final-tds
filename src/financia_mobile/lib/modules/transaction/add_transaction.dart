@@ -1,7 +1,6 @@
 import 'package:financia_mobile/config/dio_factory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:dio/dio.dart';
 import 'package:financia_mobile/config/app_preferences.dart';
 import 'package:financia_mobile/models/transaction_model.dart';
 import 'package:financia_mobile/providers/transaction_provider.dart';

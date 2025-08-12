@@ -154,7 +154,7 @@ public class SavingController : ControllerBase
 
         Saving? saving = await _context.Savings.FindAsync(id);
         if (saving is null) return NotFound();
-
+        savingDto.CurrentAmount = saving.CurrentAmount;
         _mapper.Map(savingDto, saving);
         await _context.SaveChangesAsync();
 

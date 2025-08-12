@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_to_list_in_spreads
+
 import 'package:flutter/material.dart';
 import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:financia_mobile/extensions/navigation_extensions.dart';
@@ -326,7 +328,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                     : 'Restante: \$${remaining.toStringAsFixed(2)}',
                 style: context.textStyles.labelSmall?.copyWith(
                   color: isOverBudget ? Colors.red : context.colors.primary,
-                  fontSize: 12, 
+                  fontSize: 12,
                 ),
               ),
             ],
@@ -363,23 +365,19 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
           backgroundColor: context.colors.surface,
           title: Text(
             isEditing ? 'Editar Presupuesto' : 'Nuevo Presupuesto',
-            style: context.textStyles.titleMedium?.copyWith(
-              fontSize: 18,
-            ), 
+            style: context.textStyles.titleMedium?.copyWith(fontSize: 18),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: categoryController,
-                style: context.textStyles.bodyMedium?.copyWith(
-                  fontSize: 14,
-                ), 
+                style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
                 decoration: InputDecoration(
                   labelText: 'Categoría',
                   labelStyle: context.textStyles.bodyMedium?.copyWith(
                     fontSize: 14,
-                  ), 
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -389,14 +387,12 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
               TextField(
                 controller: amountController,
                 keyboardType: TextInputType.number,
-                style: context.textStyles.bodyMedium?.copyWith(
-                  fontSize: 14,
-                ), 
+                style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
                 decoration: InputDecoration(
                   labelText: 'Cantidad presupuestada',
                   labelStyle: context.textStyles.bodyMedium?.copyWith(
                     fontSize: 14,
-                  ), 
+                  ),
                   prefixText: '\$',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -406,9 +402,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 value: selectedPeriod,
-                style: context.textStyles.bodyMedium?.copyWith(
-                  fontSize: 14,
-                ), 
+                style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
                 decoration: InputDecoration(
                   labelText: 'Período',
                   labelStyle: context.textStyles.bodyMedium?.copyWith(
@@ -427,7 +421,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                         fontSize: 14,
                       ),
                     ),
-                  ); 
+                  );
                 }).toList(),
                 onChanged: (value) {
                   if (value != null) {
@@ -443,7 +437,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
               child: Text(
                 'Cancelar',
                 style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
-              ), 
+              ),
             ),
             ElevatedButton(
               onPressed: () {
@@ -462,7 +456,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
               child: Text(
                 isEditing ? 'Actualizar' : 'Crear',
                 style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
-              ), 
+              ),
             ),
           ],
         ),
@@ -481,9 +475,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
         ),
         content: Text(
           '¿Estás seguro de que deseas eliminar el presupuesto de "${budget['category']}"?',
-          style: context.textStyles.bodyMedium?.copyWith(
-            fontSize: 14,
-          ), 
+          style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
         ),
         actions: [
           TextButton(
@@ -491,7 +483,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
             child: Text(
               'Cancelar',
               style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
-            ), 
+            ),
           ),
           ElevatedButton(
             onPressed: () {
@@ -505,7 +497,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
             child: Text(
               'Eliminar',
               style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
-            ), 
+            ),
           ),
         ],
       ),

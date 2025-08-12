@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:financia_mobile/config/app_preferences.dart';
 
 class DioFactory {
-  static const String baseUrl = "http://10.0.0.13:5189/api/";
+  static const String baseUrl = "http://10.0.2.2:5189/api/";
   static const int connectTimeoutSeconds = 30;
   static const int receiveTimeoutSeconds = 30;
   static const int sendTimeoutSeconds = 30;
@@ -25,15 +25,15 @@ class DioFactory {
       InterceptorsWrapper(
         onRequest:
             (RequestOptions options, RequestInterceptorHandler handler) async {
-              final String? accessToken =
-                  await AppPreferences.getStringPreference('accessToken');
+          final String? accessToken =
+              await AppPreferences.getStringPreference('accessToken');
 
-              if (accessToken != null && accessToken.isNotEmpty) {
-                options.headers['Authorization'] = 'Bearer $accessToken';
-              }
+          if (accessToken != null && accessToken.isNotEmpty) {
+            options.headers['Authorization'] = 'Bearer $accessToken';
+          }
 
-              handler.next(options);
-            },
+          handler.next(options);
+        },
         onResponse: (response, handler) {
           handler.next(response);
         },
