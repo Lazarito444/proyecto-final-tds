@@ -1,15 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:financia_mobile/config/app_preferences.dart';
+import 'package:financia_mobile/config/dio_factory.dart';
 import 'package:financia_mobile/models/finance_history_model.dart';
 import 'package:flutter/material.dart';
 
 class FinanceHistoryService {
-  final Dio _dio = Dio(
-    BaseOptions(
-      baseUrl: 'http://10.0.0.13:5189/api/',
-      headers: {'Content-Type': 'application/json'},
-    ),
-  );
+  final Dio _dio = DioFactory.createDio();
 
   Future<List<FinanceHistoryModel>> getFinanceHistory() async {
     try {

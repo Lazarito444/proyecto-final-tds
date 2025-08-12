@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:financia_mobile/config/dio_factory.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:financia_mobile/models/dashboard_model.dart'; 
+import 'package:financia_mobile/models/dashboard_model.dart';
 import 'package:financia_mobile/config/app_preferences.dart';
 
 final dashboardServiceProvider = Provider<DashboardService>((ref) {
@@ -19,15 +20,8 @@ final dashboardDataProvider = FutureProvider<DashboardData>((ref) async {
   }
 });
 
-class DashboardService {  
-  final Dio dio = Dio(
-    BaseOptions(
-      baseUrl: 'http://10.0.0.13:5189/api/',
-      connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 30),
-      headers: {'Content-Type': 'application/json'},
-    ),
-  );
+class DashboardService {
+  final Dio dio = DioFactory.createDio();
 
   Future<DashboardData> getDashboardData() async {
     final token = await AppPreferences.getStringPreference('accessToken');
@@ -44,7 +38,7 @@ class DashboardService {
 
       if (response.statusCode == 200) {
         final json = response.data as Map<String, dynamic>;
-        debugPrint('Respuesta de la API para el dashboard: $json');        
+        debugPrint('Respuesta de la API para el dashboard: $json');
         return DashboardData.fromJson(json);
       } else {
         throw Exception(

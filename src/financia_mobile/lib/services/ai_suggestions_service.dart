@@ -397,20 +397,14 @@ class AiSuggestionsService {
 import 'dart:io';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:financia_mobile/config/dio_factory.dart';
 import 'package:financia_mobile/generated/l10n.dart';
-import 'package:flutter/foundation.dart';
 import 'package:financia_mobile/config/app_preferences.dart';
 import 'package:financia_mobile/models/ai_suggestions_model.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class AiSuggestionsService {
-  final Dio dio = Dio(
-    BaseOptions(
-      baseUrl: 'http://10.0.0.13:5189/api/',
-      connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 30),
-    ),
-  );
+  final Dio dio = DioFactory.createDio();
 
   BuildContext? get context => null;
 
