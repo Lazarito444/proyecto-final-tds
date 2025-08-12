@@ -67,7 +67,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         elevation: 0,
         leading: Builder(
           builder: (context) => IconButton(
-            icon: Icon(Icons.menu, color: context.colors.onPrimaryContainer),
+            icon: Icon(Icons.menu, color: context.colors.onSurface),
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
         ),
@@ -80,7 +80,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               );
             },
             icon: const Icon(Icons.settings),
-            color: context.colors.onPrimaryContainer,
+            color: context.colors.onSurface,
           ),
         ],
       ),

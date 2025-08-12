@@ -157,8 +157,10 @@ class _SavingsScreenState extends State<SavingsScreen> {
           const SizedBox(height: 16),
           LinearProgressIndicator(
             value: progress,
-            backgroundColor: Colors.white,
-            valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+            backgroundColor: context.colors.surfaceContainerLow,
+            valueColor: AlwaysStoppedAnimation<Color>(
+              context.colors.surfaceContainerLowest,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
@@ -200,7 +202,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
                 ),
                 child: Icon(
                   Icons.savings, // Icono de puerquito
-                  color: context.colors.primary,
+                  color: context.colors.surfaceContainerLowest,
                   size: 24,
                 ),
               ),
@@ -293,7 +295,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
               Text(
                 '\$${saving['currentAmount'].toStringAsFixed(2)}',
                 style: context.textStyles.titleSmall?.copyWith(
-                  color: context.colors.primary,
+                  color: context.colors.surfaceContainerLowest,
                   fontSize: 16,
                 ),
               ),
@@ -310,7 +312,9 @@ class _SavingsScreenState extends State<SavingsScreen> {
           LinearProgressIndicator(
             value: progress,
             backgroundColor: context.colors.surfaceContainerLow,
-            valueColor: AlwaysStoppedAnimation<Color>(context.colors.primary),
+            valueColor: AlwaysStoppedAnimation<Color>(
+              context.colors.surfaceContainerLowest,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
@@ -453,7 +457,7 @@ class _SavingsScreenState extends State<SavingsScreen> {
                     : S.of(context).savings_create,
                 style: context.textStyles.bodyMedium?.copyWith(
                   fontSize: 14,
-                  color: context.colors.onSurface,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -546,7 +550,10 @@ class _SavingsScreenState extends State<SavingsScreen> {
             ),
             child: Text(
               S.of(context).savings_delete,
-              style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
+              style: context.textStyles.bodyMedium?.copyWith(
+                fontSize: 14,
+                color: Colors.white,
+              ),
             ),
           ),
         ],
