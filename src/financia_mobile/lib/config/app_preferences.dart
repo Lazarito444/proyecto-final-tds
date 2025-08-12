@@ -92,4 +92,33 @@ class AppPreferences {
   static Future<String?> getThemeMode() async {
     return await getStringPreference(_keyThemeMode);
   }
+
+  static const String _keyApiBaseUrl = 'api_base_url';
+  static const String _keyAuthToken = 'accessToken';
+
+  /// Guarda la URL base de la API
+  static Future<void> setApiBaseUrl(String url) async {
+    await setStringPreference(_keyApiBaseUrl, url);
+  }
+
+  /// Obtiene la URL base de la API, retorna URL por defecto si no existe
+  static Future<String> getApiBaseUrl() async {
+    final url = await getStringPreference(_keyApiBaseUrl);
+    return url ?? 'https://your-api-url.com'; // URL por defecto
+  }
+
+  /// Guarda el token de autenticación
+  static Future<void> setAuthToken(String token) async {
+    await setStringPreference(_keyAuthToken, token);
+  }
+
+  /// Obtiene el token de autenticación
+  static Future<String?> getAuthToken() async {
+    return await getStringPreference(_keyAuthToken);
+  }
+
+  /// Elimina el token de autenticación (logout)
+  static Future<void> removeAuthToken() async {
+    await removePreference(_keyAuthToken);
+  }
 }

@@ -178,7 +178,6 @@
   "savings_add_money_button": "Add",
   "savings_delete_saving": "Delete goal",
   "savings_delete_saving_confirmation": "Are you sure about deleting ",
-<<<<<<< HEAD
   "theres_no_categories_of" : "Theres no categories of",
   "edit_category" : "Edit Category",
   "new_category" : "New Catergory",
@@ -213,10 +212,9 @@
   "budgeted_amount" : "Bidgeted amount",
   "period" : "Period",
   "delete_budget" : "Delete Budget",
-  "ask_delete_budget" : "¿Are you sure you want to delete this budget of "
-=======
-  "dashboard_drawer_categories": "Categories",
+  "ask_delete_budget" : "¿Are you sure you want to delete this budget of ",
+  "dashboard_drawer_categories" : "Categories",
   "dashboard_drawer_savings": "Savings",
   "dashboard_drawer_budgets": "Budgets"
->>>>>>> a728d95a1bd5f4bd6228fe42043e0ead0c124023
+  
 }
