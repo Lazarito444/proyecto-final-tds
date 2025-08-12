@@ -178,6 +178,7 @@
   "savings_add_money_button": "Agregar",
   "savings_delete_saving": "Eliminar Meta",
   "savings_delete_saving_confirmation": "¿Estás seguro de que deseas eliminar ",
+<<<<<<< HEAD
   "theres_no_categories_of" : "No hay categorías de",
   "edit_category" : "Editar Categoría",
   "new_category" : "Nueva Categoría",
@@ -214,4 +215,9 @@
   "period" : "Período",
   "delete_budget" : "Eliminar Presupuesto",
   "ask_delete_budget" : "¿Estás seguro de que deseas eliminar el presupuesto de "
+=======
+  "dashboard_drawer_categories": "Categorías",
+  "dashboard_drawer_savings": "Ahorros",
+  "dashboard_drawer_budgets": "Presupuestos"
+>>>>>>> a728d95a1bd5f4bd6228fe42043e0ead0c124023
 }

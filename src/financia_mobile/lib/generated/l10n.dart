@@ -1404,6 +1404,7 @@ class S {
     );
   }
 
+<<<<<<< HEAD
   /// `Theres no categories of`
   String get theres_no_categories_of {
     return Intl.message(
@@ -1529,21 +1530,37 @@ class S {
     return Intl.message(
       'Feeding',
       name: 'feeding_category',
+=======
+  /// `Categories`
+  String get dashboard_drawer_categories {
+    return Intl.message(
+      'Categories',
+      name: 'dashboard_drawer_categories',
+>>>>>>> a728d95a1bd5f4bd6228fe42043e0ead0c124023
       desc: '',
       args: [],
     );
   }
 
+<<<<<<< HEAD
   /// `Transport`
   String get transport_category {
     return Intl.message(
       'Transport',
       name: 'transport_category',
+=======
+  /// `Savings`
+  String get dashboard_drawer_savings {
+    return Intl.message(
+      'Savings',
+      name: 'dashboard_drawer_savings',
+>>>>>>> a728d95a1bd5f4bd6228fe42043e0ead0c124023
       desc: '',
       args: [],
     );
   }
 
+<<<<<<< HEAD
   /// `Shopping`
   String get shopping_category {
     return Intl.message(
@@ -1664,6 +1681,13 @@ class S {
     return Intl.message(
       '¿Are you sure you want to delete this budget of ',
       name: 'ask_delete_budget',
+=======
+  /// `Budgets`
+  String get dashboard_drawer_budgets {
+    return Intl.message(
+      'Budgets',
+      name: 'dashboard_drawer_budgets',
+>>>>>>> a728d95a1bd5f4bd6228fe42043e0ead0c124023
       desc: '',
       args: [],
     );
