@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-//Tema Claro
-
 final ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   colorScheme: ColorScheme.light(
@@ -76,8 +74,6 @@ final ThemeData lightTheme = ThemeData(
     ),
   ),
 );
-
-//Tema Oscuro
 
 final ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,

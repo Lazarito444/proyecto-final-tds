@@ -1,6 +1,9 @@
+// ignore_for_file: unnecessary_to_list_in_spreads
+
 import 'package:flutter/material.dart';
 import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:financia_mobile/extensions/navigation_extensions.dart';
+import 'package:financia_mobile/generated/l10n.dart';
 
 class BudgetsScreen extends StatefulWidget {
   const BudgetsScreen({super.key});
@@ -57,7 +60,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
           onPressed: () => context.pop(),
         ),
         title: Text(
-          'Presupuestos',
+          S.of(context).budget,
           style: context.textStyles.titleLarge?.copyWith(fontSize: 20),
         ),
         actions: [
@@ -75,7 +78,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
             _buildBudgetSummaryCard(),
             const SizedBox(height: 24),
             Text(
-              'Presupuestos por Categoría',
+              S.of(context).budget_by_category,
               style: context.textStyles.titleMedium?.copyWith(fontSize: 18),
             ),
             const SizedBox(height: 16),
@@ -115,7 +118,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Presupuesto Total',
+            S.of(context).total_budget,
             style: context.textStyles.labelMedium?.copyWith(
               color: Colors.white,
               fontSize: 14,
@@ -136,7 +139,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                     ),
                   ),
                   Text(
-                    'Gastado',
+                    S.of(context).spent,
                     style: context.textStyles.labelSmall?.copyWith(
                       color: Colors.white,
                       fontSize: 12,
@@ -155,7 +158,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                     ),
                   ),
                   Text(
-                    'Restante',
+                    S.of(context).remaining,
                     style: context.textStyles.labelSmall?.copyWith(
                       color: Colors.white,
                       fontSize: 12,
@@ -175,7 +178,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            '${(progress * 100).toInt()}% del presupuesto total',
+            '${(progress * 100).toInt()}${S.of(context).percentage_total_budget}',
             style: context.textStyles.labelSmall?.copyWith(
               color: Colors.white,
               fontSize: 12,
@@ -254,7 +257,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'Editar',
+                          S.of(context).edit,
                           style: context.textStyles.bodyMedium?.copyWith(
                             fontSize: 14,
                           ),
@@ -269,7 +272,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                         const Icon(Icons.delete, size: 20, color: Colors.red),
                         const SizedBox(width: 8),
                         Text(
-                          'Eliminar',
+                          S.of(context).delete,
                           style: context.textStyles.bodyMedium?.copyWith(
                             fontSize: 14,
                           ),
@@ -314,7 +317,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${(progress * 100).toInt()}% usado',
+                '${(progress * 100).toInt()}${S.of(context).percentage_used}',
                 style: context.textStyles.labelSmall?.copyWith(
                   color: context.colors.outline,
                   fontSize: 12,
@@ -322,11 +325,11 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
               ),
               Text(
                 isOverBudget
-                    ? 'Excedido por \$${(-remaining).toStringAsFixed(2)}'
-                    : 'Restante: \$${remaining.toStringAsFixed(2)}',
+                    ? '${S.of(context).exceeded_by}: \$${(-remaining).toStringAsFixed(2)}'
+                    : '${S.of(context).remaining}: \$${remaining.toStringAsFixed(2)}',
                 style: context.textStyles.labelSmall?.copyWith(
                   color: isOverBudget ? Colors.red : context.colors.primary,
-                  fontSize: 12, 
+                  fontSize: 12,
                 ),
               ),
             ],
@@ -362,24 +365,20 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
         builder: (context, setDialogState) => AlertDialog(
           backgroundColor: context.colors.surface,
           title: Text(
-            isEditing ? 'Editar Presupuesto' : 'Nuevo Presupuesto',
-            style: context.textStyles.titleMedium?.copyWith(
-              fontSize: 18,
-            ), 
+            isEditing ? S.of(context).edit_budget : S.of(context).new_budget,
+            style: context.textStyles.titleMedium?.copyWith(fontSize: 18),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: categoryController,
-                style: context.textStyles.bodyMedium?.copyWith(
-                  fontSize: 14,
-                ), 
+                style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
                 decoration: InputDecoration(
-                  labelText: 'Categoría',
+                  labelText: S.of(context).category,
                   labelStyle: context.textStyles.bodyMedium?.copyWith(
                     fontSize: 14,
-                  ), 
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -389,14 +388,12 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
               TextField(
                 controller: amountController,
                 keyboardType: TextInputType.number,
-                style: context.textStyles.bodyMedium?.copyWith(
-                  fontSize: 14,
-                ), 
+                style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
                 decoration: InputDecoration(
-                  labelText: 'Cantidad presupuestada',
+                  labelText: S.of(context).budgeted_amount,
                   labelStyle: context.textStyles.bodyMedium?.copyWith(
                     fontSize: 14,
-                  ), 
+                  ),
                   prefixText: '\$',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -406,11 +403,9 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 value: selectedPeriod,
-                style: context.textStyles.bodyMedium?.copyWith(
-                  fontSize: 14,
-                ), 
+                style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
                 decoration: InputDecoration(
-                  labelText: 'Período',
+                  labelText: S.of(context).period,
                   labelStyle: context.textStyles.bodyMedium?.copyWith(
                     fontSize: 14,
                   ),
@@ -418,17 +413,22 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                items: ['Semanal', 'Mensual', 'Anual'].map((period) {
-                  return DropdownMenuItem(
-                    value: period,
-                    child: Text(
-                      period,
-                      style: context.textStyles.bodyMedium?.copyWith(
-                        fontSize: 14,
-                      ),
-                    ),
-                  ); 
-                }).toList(),
+                items:
+                    [
+                      S.of(context).weekly_period,
+                      S.of(context).monthly_period,
+                      S.of(context).annual_period,
+                    ].map((period) {
+                      return DropdownMenuItem(
+                        value: period,
+                        child: Text(
+                          period,
+                          style: context.textStyles.bodyMedium?.copyWith(
+                            fontSize: 14,
+                          ),
+                        ),
+                      );
+                    }).toList(),
                 onChanged: (value) {
                   if (value != null) {
                     setDialogState(() => selectedPeriod = value);
@@ -441,9 +441,9 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
             TextButton(
               onPressed: () => context.pop(),
               child: Text(
-                'Cancelar',
+                S.of(context).cancel,
                 style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
-              ), 
+              ),
             ),
             ElevatedButton(
               onPressed: () {
@@ -460,9 +460,9 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                 foregroundColor: Colors.white,
               ),
               child: Text(
-                isEditing ? 'Actualizar' : 'Crear',
+                isEditing ? S.of(context).modify : S.of(context).create,
                 style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
-              ), 
+              ),
             ),
           ],
         ),
@@ -476,22 +476,20 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
       builder: (context) => AlertDialog(
         backgroundColor: context.colors.surface,
         title: Text(
-          'Eliminar Presupuesto',
+          S.of(context).delete_budget,
           style: context.textStyles.titleMedium?.copyWith(fontSize: 18),
         ),
         content: Text(
-          '¿Estás seguro de que deseas eliminar el presupuesto de "${budget['category']}"?',
-          style: context.textStyles.bodyMedium?.copyWith(
-            fontSize: 14,
-          ), 
+          '${S.of(context).ask_delete_budget}"${budget['category']}"?',
+          style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
         ),
         actions: [
           TextButton(
             onPressed: () => context.pop(),
             child: Text(
-              'Cancelar',
+              S.of(context).cancel,
               style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
-            ), 
+            ),
           ),
           ElevatedButton(
             onPressed: () {
@@ -503,9 +501,9 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
               foregroundColor: Colors.white,
             ),
             child: Text(
-              'Eliminar',
+              S.of(context).delete,
               style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
-            ), 
+            ),
           ),
         ],
       ),

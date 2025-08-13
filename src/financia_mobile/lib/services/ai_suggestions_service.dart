@@ -1,3 +1,5 @@
+// ignore_for_file: implementation_imports
+
 /*import 'dart:io';
 import 'dart:convert';
 import 'package:dio/dio.dart';

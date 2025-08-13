@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:financia_mobile/extensions/theme_extensions.dart';
@@ -309,7 +311,9 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            S.of(context).monthly_summary_text(summary.getTranslatedMonthName(context)),
+            S
+                .of(context)
+                .monthly_summary_text(summary.getTranslatedMonthName(context)),
             style: context.textStyles.bodyLarge?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -486,7 +490,7 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
             children: trends
                 .map(
                   (trend) => Expanded(
-                    child: Text(                      
+                    child: Text(
                       trend.getTranslatedMonthName(context).substring(0, 3),
                       style: context.textStyles.bodySmall?.copyWith(
                         color: Colors.grey,

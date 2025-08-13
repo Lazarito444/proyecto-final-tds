@@ -604,10 +604,10 @@ class S {
     );
   }
 
-  /// `Savings Goals`
+  /// `Saving goals`
   String get savings_goals {
     return Intl.message(
-      'Savings Goals',
+      'Saving goals',
       name: 'savings_goals',
       desc: '',
       args: [],
@@ -1197,6 +1197,506 @@ class S {
   /// `December`
   String get december {
     return Intl.message('December', name: 'december', desc: '', args: []);
+  }
+
+  /// `Error while fetching savings`
+  String get savings_error_while_fetching {
+    return Intl.message(
+      'Error while fetching savings',
+      name: 'savings_error_while_fetching',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My savings`
+  String get savings_my_savings {
+    return Intl.message(
+      'My savings',
+      name: 'savings_my_savings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You don't have any savings, create one!`
+  String get savings_no_savings_created {
+    return Intl.message(
+      'You don\'t have any savings, create one!',
+      name: 'savings_no_savings_created',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saved money`
+  String get savings_total_saved {
+    return Intl.message(
+      'Saved money',
+      name: 'savings_total_saved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `% of $`
+  String get savings_percentaje {
+    return Intl.message(
+      '% of \$',
+      name: 'savings_percentaje',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `days left`
+  String get savings_days_left {
+    return Intl.message(
+      'days left',
+      name: 'savings_days_left',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add money`
+  String get savings_add_money_to_saving {
+    return Intl.message(
+      'Add money',
+      name: 'savings_add_money_to_saving',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit`
+  String get savings_edit {
+    return Intl.message('Edit', name: 'savings_edit', desc: '', args: []);
+  }
+
+  /// `Delete`
+  String get savings_delete {
+    return Intl.message('Delete', name: 'savings_delete', desc: '', args: []);
+  }
+
+  /// `% completed`
+  String get savings_completed_percentage {
+    return Intl.message(
+      '% completed',
+      name: 'savings_completed_percentage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit saving`
+  String get savings_edit_modal_title {
+    return Intl.message(
+      'Edit saving',
+      name: 'savings_edit_modal_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New saving goal`
+  String get savings_add_modal_title {
+    return Intl.message(
+      'New saving goal',
+      name: 'savings_add_modal_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name of the goal`
+  String get savings_name_input {
+    return Intl.message(
+      'Name of the goal',
+      name: 'savings_name_input',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Target amount`
+  String get savings_target_amount_input {
+    return Intl.message(
+      'Target amount',
+      name: 'savings_target_amount_input',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deadline: `
+  String get savings_deadline {
+    return Intl.message(
+      'Deadline: ',
+      name: 'savings_deadline',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get savings_cancel {
+    return Intl.message('Cancel', name: 'savings_cancel', desc: '', args: []);
+  }
+
+  /// `Update`
+  String get savings_update {
+    return Intl.message('Update', name: 'savings_update', desc: '', args: []);
+  }
+
+  /// `Create`
+  String get savings_create {
+    return Intl.message('Create', name: 'savings_create', desc: '', args: []);
+  }
+
+  /// `Add money`
+  String get savings_add_money {
+    return Intl.message(
+      'Add money',
+      name: 'savings_add_money',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount to add`
+  String get savings_amount_to_add {
+    return Intl.message(
+      'Amount to add',
+      name: 'savings_amount_to_add',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add`
+  String get savings_add_money_button {
+    return Intl.message(
+      'Add',
+      name: 'savings_add_money_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete goal`
+  String get savings_delete_saving {
+    return Intl.message(
+      'Delete goal',
+      name: 'savings_delete_saving',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure about deleting `
+  String get savings_delete_saving_confirmation {
+    return Intl.message(
+      'Are you sure about deleting ',
+      name: 'savings_delete_saving_confirmation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Theres no categories of`
+  String get theres_no_categories_of {
+    return Intl.message(
+      'Theres no categories of',
+      name: 'theres_no_categories_of',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Category`
+  String get edit_category {
+    return Intl.message(
+      'Edit Category',
+      name: 'edit_category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Catergory`
+  String get new_category {
+    return Intl.message(
+      'New Catergory',
+      name: 'new_category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name of category`
+  String get name_category {
+    return Intl.message(
+      'Name of category',
+      name: 'name_category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Type: `
+  String get type {
+    return Intl.message('Type: ', name: 'type', desc: '', args: []);
+  }
+
+  /// `Icon:`
+  String get icon {
+    return Intl.message('Icon:', name: 'icon', desc: '', args: []);
+  }
+
+  /// `Color:`
+  String get color {
+    return Intl.message('Color:', name: 'color', desc: '', args: []);
+  }
+
+  /// `Modify`
+  String get modify {
+    return Intl.message('Modify', name: 'modify', desc: '', args: []);
+  }
+
+  /// `Delete Category`
+  String get delete_category {
+    return Intl.message(
+      'Delete Category',
+      name: 'delete_category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `¿Are you sure you want to delete `
+  String get ask_delete_category {
+    return Intl.message(
+      '¿Are you sure you want to delete ',
+      name: 'ask_delete_category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Category Successfully Modified`
+  String get category_successfully_modified {
+    return Intl.message(
+      'Category Successfully Modified',
+      name: 'category_successfully_modified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Category Successfully Created`
+  String get category_successfully_created {
+    return Intl.message(
+      'Category Successfully Created',
+      name: 'category_successfully_created',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error`
+  String get error {
+    return Intl.message('Error', name: 'error', desc: '', args: []);
+  }
+
+  /// `Category Successfully Deleted`
+  String get category_successfully_deleted {
+    return Intl.message(
+      'Category Successfully Deleted',
+      name: 'category_successfully_deleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Categories`
+  String get categories {
+    return Intl.message('Categories', name: 'categories', desc: '', args: []);
+  }
+
+  /// `Feeding`
+  String get feeding_category {
+    return Intl.message(
+      'Feeding',
+      name: 'feeding_category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transport`
+  String get transport_category {
+    return Intl.message(
+      'Transport',
+      name: 'transport_category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shopping`
+  String get shopping_category {
+    return Intl.message(
+      'Shopping',
+      name: 'shopping_category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weekly`
+  String get weekly_period {
+    return Intl.message('Weekly', name: 'weekly_period', desc: '', args: []);
+  }
+
+  /// `Monthly`
+  String get monthly_period {
+    return Intl.message('Monthly', name: 'monthly_period', desc: '', args: []);
+  }
+
+  /// `Annual`
+  String get annual_period {
+    return Intl.message('Annual', name: 'annual_period', desc: '', args: []);
+  }
+
+  /// `Budget by Category`
+  String get budget_by_category {
+    return Intl.message(
+      'Budget by Category',
+      name: 'budget_by_category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Budget`
+  String get total_budget {
+    return Intl.message(
+      'Total Budget',
+      name: 'total_budget',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Spent`
+  String get spent {
+    return Intl.message('Spent', name: 'spent', desc: '', args: []);
+  }
+
+  /// `Remaining`
+  String get remaining {
+    return Intl.message('Remaining', name: 'remaining', desc: '', args: []);
+  }
+
+  /// `% of total budget`
+  String get percentage_total_budget {
+    return Intl.message(
+      '% of total budget',
+      name: 'percentage_total_budget',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit`
+  String get edit {
+    return Intl.message('Edit', name: 'edit', desc: '', args: []);
+  }
+
+  /// `% used`
+  String get percentage_used {
+    return Intl.message('% used', name: 'percentage_used', desc: '', args: []);
+  }
+
+  /// `Exceeded by`
+  String get exceeded_by {
+    return Intl.message('Exceeded by', name: 'exceeded_by', desc: '', args: []);
+  }
+
+  /// `Edit Budget`
+  String get edit_budget {
+    return Intl.message('Edit Budget', name: 'edit_budget', desc: '', args: []);
+  }
+
+  /// `New Budget`
+  String get new_budget {
+    return Intl.message('New Budget', name: 'new_budget', desc: '', args: []);
+  }
+
+  /// `Bidgeted amount`
+  String get budgeted_amount {
+    return Intl.message(
+      'Bidgeted amount',
+      name: 'budgeted_amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Period`
+  String get period {
+    return Intl.message('Period', name: 'period', desc: '', args: []);
+  }
+
+  /// `Delete Budget`
+  String get delete_budget {
+    return Intl.message(
+      'Delete Budget',
+      name: 'delete_budget',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `¿Are you sure you want to delete this budget of `
+  String get ask_delete_budget {
+    return Intl.message(
+      '¿Are you sure you want to delete this budget of ',
+      name: 'ask_delete_budget',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Categories`
+  String get dashboard_drawer_categories {
+    return Intl.message(
+      'Categories',
+      name: 'dashboard_drawer_categories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Savings`
+  String get dashboard_drawer_savings {
+    return Intl.message(
+      'Savings',
+      name: 'dashboard_drawer_savings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Budgets`
+  String get dashboard_drawer_budgets {
+    return Intl.message(
+      'Budgets',
+      name: 'dashboard_drawer_budgets',
+      desc: '',
+      args: [],
+    );
   }
 }
 

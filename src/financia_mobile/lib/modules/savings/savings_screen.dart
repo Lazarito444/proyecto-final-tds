@@ -1,6 +1,10 @@
+// ignore_for_file: unnecessary_to_list_in_spreads, use_build_context_synchronously
+
+import 'package:financia_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:financia_mobile/extensions/navigation_extensions.dart';
+import 'package:financia_mobile/config/dio_factory.dart';
 
 class SavingsScreen extends StatefulWidget {
   const SavingsScreen({super.key});
@@ -10,32 +14,47 @@ class SavingsScreen extends StatefulWidget {
 }
 
 class _SavingsScreenState extends State<SavingsScreen> {
-  final List<Map<String, dynamic>> _savings = [
-    {
-      'id': 1,
-      'name': 'Vacaciones 2024',
-      'targetAmount': 5000.0,
-      'currentAmount': 2500.0,
-      'deadline': DateTime(2024, 12, 31),
-      'icon': Icons.flight,
-    },
-    {
-      'id': 2,
-      'name': 'Fondo de Emergencia',
-      'targetAmount': 15000.0,
-      'currentAmount': 8750.0,
-      'deadline': DateTime(2025, 6, 30),
-      'icon': Icons.security,
-    },
-    {
-      'id': 3,
-      'name': 'Nuevo Auto',
-      'targetAmount': 25000.0,
-      'currentAmount': 5000.0,
-      'deadline': DateTime(2025, 12, 31),
-      'icon': Icons.directions_car,
-    },
-  ];
+  List<Map<String, dynamic>> _savings = [];
+  bool _loading = true;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchSavings();
+  }
+
+  Future<void> _fetchSavings() async {
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      final dio = DioFactory.createDio();
+      final response = await dio.get('/saving');
+      final List<dynamic> data = response.data as List<dynamic>;
+      setState(() {
+        _savings = data
+            .map(
+              (e) => {
+                'id': e['id'],
+                'name': e['name'],
+                'targetAmount': (e['targetAmount'] as num).toDouble(),
+                'currentAmount': (e['currentAmount'] as num).toDouble(),
+                'targetDate': DateTime.parse(e['targetDate']),
+                'icon': Icons.savings,
+              },
+            )
+            .toList();
+        _loading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _error = S.of(context).savings_error_while_fetching;
+        _loading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,45 +68,69 @@ class _SavingsScreenState extends State<SavingsScreen> {
           onPressed: () => context.pop(),
         ),
         title: Text(
-          'Mis Ahorros',
-          style: context.textStyles.titleLarge?.copyWith(fontSize: 20), 
+          S.of(context).savings_my_savings,
+          style: context.textStyles.titleLarge?.copyWith(fontSize: 24),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add, color: context.colors.primary),
-            onPressed: () => _showSavingDialog(),
-          ),
-        ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildTotalSavingsCard(),
-            const SizedBox(height: 24),
-            Text(
-              'Metas de Ahorro',
-              style: context.textStyles.titleMedium?.copyWith(fontSize: 18), 
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _showSavingDialog(),
+        backgroundColor: context.colors.primary,
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : _error != null
+          ? Center(child: Text(_error!, style: context.textStyles.bodyMedium))
+          : _savings.isEmpty
+          ? Center(
+              child: Text(
+                S.of(context).savings_no_savings_created,
+                textAlign: TextAlign.center,
+                style: context.textStyles.titleSmall,
+              ),
+            )
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildTotalSavingsCard(),
+                  const SizedBox(height: 24),
+                  Text(
+                    S.of(context).savings_goals,
+                    style: context.textStyles.titleMedium?.copyWith(
+                      fontSize: 18,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ..._savings
+                      .map((saving) => _buildSavingCard(saving))
+                      .toList(),
+                ],
+              ),
             ),
-            const SizedBox(height: 16),
-            ..._savings.map((saving) => _buildSavingCard(saving)).toList(),
-          ],
-        ),
-      ),
     );
   }
 
   Widget _buildTotalSavingsCard() {
-    final totalCurrent = _savings.fold<double>(0, (sum, saving) => sum + saving['currentAmount']);
-    final totalTarget = _savings.fold<double>(0, (sum, saving) => sum + saving['targetAmount']);
+    final totalCurrent = _savings.fold<double>(
+      0,
+      (sum, saving) => sum + saving['currentAmount'],
+    );
+    final totalTarget = _savings.fold<double>(
+      0,
+      (sum, saving) => sum + saving['targetAmount'],
+    );
     final progress = totalTarget > 0 ? totalCurrent / totalTarget : 0.0;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [context.colors.primary, context.colors.surfaceContainerLowest],
+          colors: [
+            context.colors.primary,
+            context.colors.surfaceContainerLowest,
+          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -97,10 +140,10 @@ class _SavingsScreenState extends State<SavingsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Total Ahorrado',
+            S.of(context).savings_total_saved,
             style: context.textStyles.labelMedium?.copyWith(
               color: Colors.white,
-              fontSize: 14, 
+              fontSize: 14,
             ),
           ),
           const SizedBox(height: 8),
@@ -108,21 +151,23 @@ class _SavingsScreenState extends State<SavingsScreen> {
             '\$${totalCurrent.toStringAsFixed(2)}',
             style: context.textStyles.titleLarge?.copyWith(
               color: Colors.white,
-              fontSize: 28, 
+              fontSize: 28,
             ),
           ),
           const SizedBox(height: 16),
           LinearProgressIndicator(
             value: progress,
-            backgroundColor: Colors.white,
-            valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+            backgroundColor: context.colors.surfaceContainerLow,
+            valueColor: AlwaysStoppedAnimation<Color>(
+              context.colors.surfaceContainerLowest,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
-            '${(progress * 100).toInt()}% de \$${totalTarget.toStringAsFixed(2)}',
+            '${(progress * 100).toInt()}${S.of(context).savings_percentaje}${totalTarget.toStringAsFixed(2)}',
             style: context.textStyles.labelSmall?.copyWith(
               color: Colors.white,
-              fontSize: 12, 
+              fontSize: 12,
             ),
           ),
         ],
@@ -131,8 +176,10 @@ class _SavingsScreenState extends State<SavingsScreen> {
   }
 
   Widget _buildSavingCard(Map<String, dynamic> saving) {
-    final progress = saving['currentAmount'] / saving['targetAmount'];
-    final daysLeft = saving['deadline'].difference(DateTime.now()).inDays;
+    final progress = saving['targetAmount'] > 0
+        ? saving['currentAmount'] / saving['targetAmount']
+        : 0.0;
+    final daysLeft = saving['targetDate'].difference(DateTime.now()).inDays;
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
@@ -154,8 +201,8 @@ class _SavingsScreenState extends State<SavingsScreen> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
-                  saving['icon'] as IconData,
-                  color: context.colors.primary,
+                  Icons.savings, // Icono de puerquito
+                  color: context.colors.surfaceContainerLowest,
                   size: 24,
                 ),
               ),
@@ -166,13 +213,15 @@ class _SavingsScreenState extends State<SavingsScreen> {
                   children: [
                     Text(
                       saving['name'] as String,
-                      style: context.textStyles.titleSmall?.copyWith(fontSize: 16), 
+                      style: context.textStyles.titleSmall?.copyWith(
+                        fontSize: 16,
+                      ),
                     ),
                     Text(
-                      '$daysLeft días restantes',
+                      '$daysLeft ${S.of(context).savings_days_left}',
                       style: context.textStyles.labelSmall?.copyWith(
                         color: context.colors.outline,
-                        fontSize: 12, 
+                        fontSize: 12,
                       ),
                     ),
                   ],
@@ -186,9 +235,18 @@ class _SavingsScreenState extends State<SavingsScreen> {
                     value: 'add',
                     child: Row(
                       children: [
-                        Icon(Icons.add, size: 20, color: context.colors.primary),
+                        Icon(
+                          Icons.add,
+                          size: 20,
+                          color: context.colors.primary,
+                        ),
                         const SizedBox(width: 8),
-                        Text('Agregar dinero', style: context.textStyles.bodyMedium?.copyWith(fontSize: 14)), 
+                        Text(
+                          S.of(context).savings_add_money_to_saving,
+                          style: context.textStyles.bodyMedium?.copyWith(
+                            fontSize: 14,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -196,9 +254,18 @@ class _SavingsScreenState extends State<SavingsScreen> {
                     value: 'edit',
                     child: Row(
                       children: [
-                        Icon(Icons.edit, size: 20, color: context.colors.primary),
+                        Icon(
+                          Icons.edit,
+                          size: 20,
+                          color: context.colors.primary,
+                        ),
                         const SizedBox(width: 8),
-                        Text('Editar', style: context.textStyles.bodyMedium?.copyWith(fontSize: 14)), 
+                        Text(
+                          S.of(context).savings_edit,
+                          style: context.textStyles.bodyMedium?.copyWith(
+                            fontSize: 14,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -208,7 +275,12 @@ class _SavingsScreenState extends State<SavingsScreen> {
                       children: [
                         const Icon(Icons.delete, size: 20, color: Colors.red),
                         const SizedBox(width: 8),
-                        Text('Eliminar', style: context.textStyles.bodyMedium?.copyWith(fontSize: 14)), 
+                        Text(
+                          S.of(context).savings_delete,
+                          style: context.textStyles.bodyMedium?.copyWith(
+                            fontSize: 14,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -223,15 +295,15 @@ class _SavingsScreenState extends State<SavingsScreen> {
               Text(
                 '\$${saving['currentAmount'].toStringAsFixed(2)}',
                 style: context.textStyles.titleSmall?.copyWith(
-                  color: context.colors.primary,
-                  fontSize: 16, 
+                  color: context.colors.surfaceContainerLowest,
+                  fontSize: 16,
                 ),
               ),
               Text(
                 '\$${saving['targetAmount'].toStringAsFixed(2)}',
                 style: context.textStyles.labelSmall?.copyWith(
                   color: context.colors.outline,
-                  fontSize: 12, 
+                  fontSize: 12,
                 ),
               ),
             ],
@@ -240,14 +312,16 @@ class _SavingsScreenState extends State<SavingsScreen> {
           LinearProgressIndicator(
             value: progress,
             backgroundColor: context.colors.surfaceContainerLow,
-            valueColor: AlwaysStoppedAnimation<Color>(context.colors.primary),
+            valueColor: AlwaysStoppedAnimation<Color>(
+              context.colors.surfaceContainerLowest,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
-            '${(progress * 100).toInt()}% completado',
+            '${(progress * 100).toInt()}${S.of(context).savings_completed_percentage}',
             style: context.textStyles.labelSmall?.copyWith(
               color: context.colors.outline,
-              fontSize: 12, 
+              fontSize: 12,
             ),
           ),
         ],
@@ -272,8 +346,11 @@ class _SavingsScreenState extends State<SavingsScreen> {
   void _showSavingDialog({Map<String, dynamic>? saving}) {
     final isEditing = saving != null;
     final nameController = TextEditingController(text: saving?['name'] ?? '');
-    final targetController = TextEditingController(text: saving?['targetAmount']?.toString() ?? '');
-    DateTime selectedDate = saving?['deadline'] ?? DateTime.now().add(const Duration(days: 365)); 
+    final targetController = TextEditingController(
+      text: saving?['targetAmount']?.toString() ?? '',
+    );
+    DateTime selectedDate =
+        saving?['deadline'] ?? DateTime.now().add(const Duration(days: 365));
 
     showDialog(
       context: context,
@@ -281,39 +358,51 @@ class _SavingsScreenState extends State<SavingsScreen> {
         builder: (context, setDialogState) => AlertDialog(
           backgroundColor: context.colors.surface,
           title: Text(
-            isEditing ? 'Editar Meta' : 'Nueva Meta de Ahorro',
-            style: context.textStyles.titleMedium?.copyWith(fontSize: 18), 
+            isEditing
+                ? S.of(context).savings_edit_modal_title
+                : S.of(context).savings_add_modal_title,
+            style: context.textStyles.titleMedium?.copyWith(fontSize: 18),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: nameController,
-                style: context.textStyles.bodyMedium?.copyWith(fontSize: 14), 
+                style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
                 decoration: InputDecoration(
-                  labelText: 'Nombre de la meta',
-                  labelStyle: context.textStyles.bodyMedium?.copyWith(fontSize: 14), 
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  labelText: S.of(context).savings_name_input,
+                  labelStyle: context.textStyles.bodyMedium?.copyWith(
+                    fontSize: 14,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
               TextField(
                 controller: targetController,
                 keyboardType: TextInputType.number,
-                style: context.textStyles.bodyMedium?.copyWith(fontSize: 14), 
+                style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
                 decoration: InputDecoration(
-                  labelText: 'Cantidad objetivo',
-                  labelStyle: context.textStyles.bodyMedium?.copyWith(fontSize: 14), 
+                  labelText: S.of(context).savings_target_amount_input,
+                  labelStyle: context.textStyles.bodyMedium?.copyWith(
+                    fontSize: 14,
+                  ),
                   prefixText: '\$',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
               Row(
                 children: [
                   Text(
-                    'Fecha límite: ',
-                    style: context.textStyles.bodyMedium?.copyWith(fontSize: 14), 
+                    S.of(context).savings_deadline,
+                    style: context.textStyles.bodyMedium?.copyWith(
+                      fontSize: 14,
+                    ),
                   ),
                   TextButton(
                     onPressed: () async {
@@ -321,7 +410,9 @@ class _SavingsScreenState extends State<SavingsScreen> {
                         context: context,
                         initialDate: selectedDate,
                         firstDate: DateTime.now(),
-                        lastDate: DateTime.now().add(const Duration(days: 3650)), 
+                        lastDate: DateTime.now().add(
+                          const Duration(days: 3650),
+                        ),
                       );
                       if (date != null) {
                         setDialogState(() => selectedDate = date);
@@ -329,7 +420,9 @@ class _SavingsScreenState extends State<SavingsScreen> {
                     },
                     child: Text(
                       '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
-                      style: context.textStyles.bodyMedium?.copyWith(fontSize: 14), 
+                      style: context.textStyles.bodyMedium?.copyWith(
+                        fontSize: 14,
+                      ),
                     ),
                   ),
                 ],
@@ -339,18 +432,34 @@ class _SavingsScreenState extends State<SavingsScreen> {
           actions: [
             TextButton(
               onPressed: () => context.pop(),
-              child: Text('Cancelar', style: context.textStyles.bodyMedium?.copyWith(fontSize: 14)), 
+              child: Text(
+                S.of(context).savings_cancel,
+                style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
+              ),
             ),
             ElevatedButton(
-              onPressed: () {
-                _saveSaving(nameController.text, double.tryParse(targetController.text) ?? 0, selectedDate, saving);
+              onPressed: () async {
+                await _saveSaving(
+                  nameController.text,
+                  double.tryParse(targetController.text) ?? 0,
+                  selectedDate,
+                  saving,
+                );
                 context.pop();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: context.colors.primary,
                 foregroundColor: Colors.white,
               ),
-              child: Text(isEditing ? 'Actualizar' : 'Crear', style: context.textStyles.bodyMedium?.copyWith(fontSize: 14)), 
+              child: Text(
+                isEditing
+                    ? S.of(context).savings_update
+                    : S.of(context).savings_create,
+                style: context.textStyles.bodyMedium?.copyWith(
+                  fontSize: 14,
+                  color: Colors.white,
+                ),
+              ),
             ),
           ],
         ),
@@ -364,14 +473,17 @@ class _SavingsScreenState extends State<SavingsScreen> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: context.colors.surface,
-        title: Text('Agregar Dinero', style: context.textStyles.titleMedium?.copyWith(fontSize: 18)), 
+        title: Text(
+          S.of(context).savings_add_money,
+          style: context.textStyles.titleMedium?.copyWith(fontSize: 18),
+        ),
         content: TextField(
           controller: amountController,
           keyboardType: TextInputType.number,
-          style: context.textStyles.bodyMedium?.copyWith(fontSize: 14), 
+          style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
           decoration: InputDecoration(
-            labelText: 'Cantidad a agregar',
-            labelStyle: context.textStyles.bodyMedium?.copyWith(fontSize: 14), 
+            labelText: S.of(context).savings_amount_to_add,
+            labelStyle: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
             prefixText: '\$',
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
           ),
@@ -379,13 +491,16 @@ class _SavingsScreenState extends State<SavingsScreen> {
         actions: [
           TextButton(
             onPressed: () => context.pop(),
-            child: Text('Cancelar', style: context.textStyles.bodyMedium?.copyWith(fontSize: 14)), 
+            child: Text(
+              S.of(context).savings_cancel,
+              style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
+            ),
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               final amount = double.tryParse(amountController.text) ?? 0;
               if (amount > 0) {
-                _addMoney(saving['id'], amount);
+                await _addMoney(saving['id'], amount);
                 context.pop();
               }
             },
@@ -393,7 +508,10 @@ class _SavingsScreenState extends State<SavingsScreen> {
               backgroundColor: context.colors.primary,
               foregroundColor: Colors.white,
             ),
-            child: Text('Agregar', style: context.textStyles.bodyMedium?.copyWith(fontSize: 14)), 
+            child: Text(
+              S.of(context).savings_add_money_button,
+              style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
+            ),
           ),
         ],
       ),
@@ -405,70 +523,94 @@ class _SavingsScreenState extends State<SavingsScreen> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: context.colors.surface,
-        title: Text('Eliminar Meta', style: context.textStyles.titleMedium?.copyWith(fontSize: 18)), 
+        title: Text(
+          S.of(context).savings_delete_saving,
+          style: context.textStyles.titleMedium?.copyWith(fontSize: 18),
+        ),
         content: Text(
-          '¿Estás seguro de que deseas eliminar "${saving['name']}"?',
-          style: context.textStyles.bodyMedium?.copyWith(fontSize: 14), 
+          '${S.of(context).savings_delete_saving_confirmation}"${saving['name']}"?',
+          style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
         ),
         actions: [
           TextButton(
             onPressed: () => context.pop(),
-            child: Text('Cancelar', style: context.textStyles.bodyMedium?.copyWith(fontSize: 14)),
+            child: Text(
+              S.of(context).savings_cancel,
+              style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
+            ),
           ),
           ElevatedButton(
-            onPressed: () {
-              _deleteSaving(saving['id']);
+            onPressed: () async {
+              await _deleteSaving(saving['id']);
               context.pop();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
             ),
-            child: Text('Eliminar', style: context.textStyles.bodyMedium?.copyWith(fontSize: 14)), 
+            child: Text(
+              S.of(context).savings_delete,
+              style: context.textStyles.bodyMedium?.copyWith(
+                fontSize: 14,
+                color: Colors.white,
+              ),
+            ),
           ),
         ],
       ),
     );
   }
 
-  void _saveSaving(String name, double targetAmount, DateTime deadline, Map<String, dynamic>? existingSaving) {
+  Future<void> _saveSaving(
+    String name,
+    double targetAmount,
+    DateTime deadline,
+    Map<String, dynamic>? existingSaving,
+  ) async {
     if (name.isEmpty || targetAmount <= 0) return;
-    setState(() {
-      if (existingSaving != null) {
-        final index = _savings.indexWhere((s) => s['id'] == existingSaving['id']);
-        if (index != -1) {
-          _savings[index] = {
-            ..._savings[index],
-            'name': name,
-            'targetAmount': targetAmount,
-            'deadline': deadline,
-          };
-        }
-      } else {
-        _savings.add({
-          'id': DateTime.now().millisecondsSinceEpoch,
+    final dio = DioFactory.createDio();
+    if (existingSaving != null) {
+      // Actualizar meta existente
+      await dio.put(
+        '/saving/${existingSaving['id']}',
+        data: {
+          'name': name,
+          'targetAmount': targetAmount,
+          'targetDate':
+              "${deadline.year}-${deadline.month.toString().padLeft(2, '0')}-${deadline.day.toString().padLeft(2, '0')}",
+        },
+      );
+    } else {
+      // Crear nueva meta
+      await dio.post(
+        '/saving',
+        data: {
           'name': name,
           'targetAmount': targetAmount,
           'currentAmount': 0.0,
-          'deadline': deadline,
-          'icon': Icons.savings,
-        });
-      }
-    });
+          'targetDate':
+              "${deadline.year}-${deadline.month.toString().padLeft(2, '0')}-${deadline.day.toString().padLeft(2, '0')}",
+        },
+      );
+    }
+    await _fetchSavings();
   }
 
-  void _addMoney(int id, double amount) {
-    setState(() {
-      final index = _savings.indexWhere((s) => s['id'] == id);
-      if (index != -1) {
-        _savings[index]['currentAmount'] += amount;
-      }
-    });
+  Future<void> _addMoney(String id, double amount) async {
+    final dio = DioFactory.createDio();
+    final now = DateTime.now();
+    final date =
+        "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+    await dio.post(
+      '/saving/$id/deposit',
+      data: {'amount': amount, 'date': date},
+    );
+    await _fetchSavings();
   }
 
-  void _deleteSaving(int id) {
-    setState(() {
-      _savings.removeWhere((s) => s['id'] == id);
-    });
+  Future<void> _deleteSaving(String id) async {
+    final dio = DioFactory.createDio();
+    await dio.delete('/saving/$id');
+    await _fetchSavings();
   }
 }

@@ -23,7 +23,7 @@ class _AISuggestionsScreenState extends ConsumerState<AISuggestionsScreen>
 
   AiSuggestionsResponse? _suggestions;
   AiPredictionsResponse? _predictions;
-  List<ChatMessage> _chatMessages = [];
+  final List<ChatMessage> _chatMessages = [];
 
   bool _isLoadingSuggestions = false;
   bool _isLoadingPredictions = false;
