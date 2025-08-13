@@ -1,6 +1,8 @@
 ﻿using FinancIA.Core.Application.Contracts.Repositories;
+using FinancIA.Core.Application.Contracts.Services;
 using FinancIA.Core.Application.Identity;
 using FinancIA.Infrastructure.Persistence.Repositories;
+using FinancIA.Infrastructure.Persistence.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +15,7 @@ namespace FinancIA.Infrastructure.Persistence.Extensions
         public static void AddPersistenceLayer(this IServiceCollection services, IConfiguration config)
         {
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IAiService, AiService>();
 
 
             services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
