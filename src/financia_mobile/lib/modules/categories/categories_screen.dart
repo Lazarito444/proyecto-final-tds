@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
+
 import 'package:financia_mobile/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:financia_mobile/extensions/theme_extensions.dart';
