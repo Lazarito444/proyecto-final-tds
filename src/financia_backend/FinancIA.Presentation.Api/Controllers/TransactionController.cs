@@ -68,10 +68,7 @@ public class TransactionController : ControllerBase
             query = query.Where(t => t.DateTime <= filter.ToDate.Value);
         }
 
-        List<Transaction> transactions = await _context.Transactions
-            .Include(t => t.Category)
-            .Where(t => t.UserId == userId)
-            .ToListAsync();
+        List<Transaction> transactions = await query.ToListAsync();
 
         return Ok(transactions);
     }
