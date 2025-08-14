@@ -12,7 +12,7 @@ class FinanceHistoryService {
 
   Future<List<FinanceHistoryModel>> getFinanceHistory() async {
     try {
-      final transactionResponse = await _dio.get('/transactions/history');
+      final transactionResponse = await _dio.get('/transaction');
       final categoryResponse = await _dio.get('/category');
 
       if (transactionResponse.statusCode == 200 &&
@@ -53,6 +53,28 @@ class FinanceHistoryService {
     } catch (e) {
       debugPrint('Error inesperado al obtener historial: $e');
       throw Exception('Unexpected error: $e');
+    }
+  }
+
+  Future<void> deleteTransaction(String id) async {
+    try {
+      await _dio.delete('/transaction/$id');
+    } on DioException catch (e) {
+      throw Exception('Error al borrar: ${e.message}');
+    }
+  }
+
+  Future<void> editTransaction(String id, String description, double amount, String categoryId, DateTime dateTime) async {
+    try {
+      final formData = FormData.fromMap({
+      'description': description,
+      'amount': amount,
+      'categoryId': categoryId,
+      'dateTime': dateTime.toIso8601String(),
+      });
+      await _dio.put('/transaction/$id', data: formData);
+    } on DioException catch (e) {
+      throw Exception('Error al editar: ${e.message}');
     }
   }
 }

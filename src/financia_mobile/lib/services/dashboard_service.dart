@@ -38,7 +38,7 @@ class DashboardService {
       );
 
       final categoriesResponse = await dio.get(
-        'categories',
+        'category',
         options: Options(
           headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
         ),

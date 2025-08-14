@@ -63,7 +63,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.add, color: context.colors.primary),
+            icon: Icon(Icons.add, color: context.colors.onSurface),
             onPressed: () => _showCategoryDialog(),
           ),
         ],

@@ -96,7 +96,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.add, color: context.colors.primary),
+            icon: Icon(Icons.add, color: context.colors.onSurface),
             onPressed: () => _showBudgetDialog(),
           ),
         ],
@@ -113,7 +113,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildBudgetSummaryCard(),
+                    _buildBudgetSummaryCard(context),
                     const SizedBox(height: 24),
                     Text(
                       S.of(context).budget_by_category,
@@ -202,7 +202,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
     );
   }
 
-  Widget _buildBudgetSummaryCard() {
+  Widget _buildBudgetSummaryCard(BuildContext context) {
     final totalBudget = _budgetsWithSpent.fold<double>(
       0,
       (sum, budgetWithSpent) => sum + budgetWithSpent.budget.maximumAmount,
@@ -287,7 +287,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
             value: progress,
             backgroundColor: Colors.white,
             valueColor: AlwaysStoppedAnimation<Color>(
-              progress > 1.0 ? Colors.red : Colors.white,
+              progress > 1.0 ? Colors.red : context.colors.primary,
             ),
           ),
           const SizedBox(height: 8),
@@ -332,7 +332,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                 ),
                 child: Icon(
                   budget['icon'] as IconData,
-                  color: isOverBudget ? Colors.red : context.colors.primary,
+                  color: isOverBudget ? Colors.red : context.colors.surfaceContainerLowest,
                   size: 24,
                 ),
               ),
@@ -418,7 +418,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
               Text(
                 '\$${budget['spentAmount'].toStringAsFixed(2)}',
                 style: context.textStyles.titleSmall?.copyWith(
-                  color: isOverBudget ? Colors.red : context.colors.primary,
+                  color: isOverBudget ? Colors.red : context.colors.surfaceContainerLowest,
                   fontSize: 16,
                 ),
               ),
@@ -436,7 +436,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
             value: progress > 1.0 ? 1.0 : progress,
             backgroundColor: context.colors.surfaceContainerLow,
             valueColor: AlwaysStoppedAnimation<Color>(
-              isOverBudget ? Colors.red : context.colors.primary,
+              isOverBudget ? Colors.red : context.colors.surfaceContainerLowest,
             ),
           ),
           const SizedBox(height: 8),
@@ -455,7 +455,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                     ? '${S.of(context).exceeded_by}: \$${(-remaining).toStringAsFixed(2)}'
                     : '${S.of(context).remaining}: \$${remaining.toStringAsFixed(2)}',
                 style: context.textStyles.labelSmall?.copyWith(
-                  color: isOverBudget ? Colors.red : context.colors.primary,
+                  color: isOverBudget ? Colors.red : context.colors.surfaceContainerLowest,
                   fontSize: 12,
                 ),
               ),

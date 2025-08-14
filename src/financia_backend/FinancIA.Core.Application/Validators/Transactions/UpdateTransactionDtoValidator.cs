@@ -17,7 +17,7 @@ public class UpdateTransactionDtoValidator : AbstractValidator<UpdateTransaction
 
         RuleFor(dto => dto.DateTime)
             .NotEmpty()
-            .LessThanOrEqualTo(DateTime.Now)
+            .LessThanOrEqualTo(DateTime.Today.AddDays(1))
             .WithMessage("La fecha no puede ser futura.");
 
         RuleFor(dto => dto.Description)

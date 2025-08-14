@@ -2,6 +2,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:permission_handler/permission_handler.dart';
+import 'dart:io';
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
@@ -29,14 +30,11 @@ class NotificationService {
   }
 
   Future<void> initialize() async {
-    // Initialize timezone data
     tz.initializeTimeZones();
 
-    // Android initialization settings
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    // iOS initialization settings
     const DarwinInitializationSettings initializationSettingsIOS =
         DarwinInitializationSettings(
           requestAlertPermission: true,
@@ -55,60 +53,74 @@ class NotificationService {
       onDidReceiveNotificationResponse: _onNotificationTapped,
     );
 
-    // Request permissions
     await _requestPermissions();
   }
 
   Future<void> _requestPermissions() async {
-    // Request notification permission
     await Permission.notification.request();
 
-    // For Android 13+ (API level 33+), request POST_NOTIFICATIONS permission
+    // Android 13+ POST_NOTIFICATIONS permission
     if (await Permission.notification.isDenied) {
       await Permission.notification.request();
     }
   }
 
   void _onNotificationTapped(NotificationResponse notificationResponse) {
-    // Handle notification tap
-    // You can navigate to a specific screen or perform an action here
     print('Notification tapped: ${notificationResponse.payload}');
   }
 
   Future<void> scheduleDailyTransactionReminder() async {
-    final AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-          'transaction_reminder',
-          _channelName,
-          channelDescription: _channelDescription,
-          importance: Importance.high,
-          priority: Priority.high,
-          icon: '@mipmap/ic_launcher',
-        );
-
-    const DarwinNotificationDetails iOSPlatformChannelSpecifics =
-        DarwinNotificationDetails(
-          presentAlert: true,
-          presentBadge: true,
-          presentSound: true,
-        );
-
-    final NotificationDetails platformChannelSpecifics = NotificationDetails(
-      android: androidPlatformChannelSpecifics,
-      iOS: iOSPlatformChannelSpecifics,
+    final AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+      'transaction_reminder',
+      _channelName,
+      channelDescription: _channelDescription,
+      importance: Importance.high,
+      priority: Priority.high,
+      icon: '@mipmap/ic_launcher',
     );
 
-    // Schedule notification for 8:00 PM daily
+    const DarwinNotificationDetails iOSDetails = DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    );
+
+    final NotificationDetails platformDetails = NotificationDetails(
+      android: androidDetails,
+      iOS: iOSDetails,
+    );
+
+    bool canUseExactAlarms = await _canUseExactAlarms();
+
     await _flutterLocalNotificationsPlugin.zonedSchedule(
-      0, // notification id
-      _notificationTitle, // Using localized title
-      _notificationBody, // Using localized body
+      0,
+      _notificationTitle,
+      _notificationBody,
       _nextInstanceOf8PM(),
-      platformChannelSpecifics,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      matchDateTimeComponents: DateTimeComponents.time, // Repeat daily
+      platformDetails,
+      androidScheduleMode: canUseExactAlarms
+          ? AndroidScheduleMode.exactAllowWhileIdle
+          : AndroidScheduleMode.inexact, // fallback si no hay permiso
+      matchDateTimeComponents: DateTimeComponents.time,
       payload: 'transaction_reminder',
     );
+  }
+
+  Future<bool> _canUseExactAlarms() async {
+    if (!Platform.isAndroid) return false;
+
+    final int sdkInt = (await _flutterLocalNotificationsPlugin
+            .resolvePlatformSpecificImplementation<
+                AndroidFlutterLocalNotificationsPlugin>()
+            ?.getActiveNotifications())?.length ?? 0;
+
+    // Android 12+ requiere permiso SCHEDULE_EXACT_ALARM
+    // Android 13+ debe estar habilitado manualmente por el usuario
+    if (await Permission.scheduleExactAlarm.isGranted) {
+      return true;
+    }
+
+    return false; // fallback si no está permitido
   }
 
   tz.TZDateTime _nextInstanceOf8PM() {
@@ -118,11 +130,10 @@ class NotificationService {
       now.year,
       now.month,
       now.day,
-      20, // 8 PM (20:00)
+      20,
       0,
     );
 
-    // If 8 PM has already passed today, schedule for tomorrow
     if (scheduledDate.isBefore(now)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
