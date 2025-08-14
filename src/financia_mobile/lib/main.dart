@@ -1,3 +1,4 @@
+import 'package:financia_mobile/providers/locale_provider.dart';
 import 'package:financia_mobile/config/app_preferences.dart';
 import 'package:financia_mobile/config/themes.dart';
 import 'package:financia_mobile/modules/auth/auth_screen.dart';
@@ -13,7 +14,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'generated/l10n.dart';
-import 'package:financia_mobile/providers/locale_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
