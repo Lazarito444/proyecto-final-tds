@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+body {
+  background-color: rgb(31,133,119);
+  transition: background-color 0.3s ease;
+}
+
+/* Modo dark */
+body.dark-mode {
+  background-color: #3F464E;
+}
