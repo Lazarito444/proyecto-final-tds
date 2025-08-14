@@ -70,18 +70,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "budget_by_category": MessageLookupByLibrary.simpleMessage(
       "Presupuestos por Categoría",
     ),
-    "budget_complete_fields": MessageLookupByLibrary.simpleMessage(
-      "Por favor completa todos los campos correctamente",
-    ),
-    "budget_successfully_created": MessageLookupByLibrary.simpleMessage(
-      "Presupuesto creado exitosamente",
-    ),
-    "budget_successfully_deleted": MessageLookupByLibrary.simpleMessage(
-      "Presupuesto eliminado exitosamente",
-    ),
-    "budget_successfully_updated": MessageLookupByLibrary.simpleMessage(
-      "Presupuesto actualizado exitosamente",
-    ),
     "budgeted_amount": MessageLookupByLibrary.simpleMessage(
       "Cantidad presupuestada",
     ),
@@ -109,9 +97,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "create": MessageLookupByLibrary.simpleMessage("Crear"),
     "create_account": MessageLookupByLibrary.simpleMessage("Crear cuenta"),
-    "create_first_budget": MessageLookupByLibrary.simpleMessage(
-      "Crea tu primer presupuesto para controlar tus gastos",
-    ),
     "create_first_goal": MessageLookupByLibrary.simpleMessage(
       "Crea tu primer objetivo de ahorro para comenzar a planificar tus metas financieras",
     ),
@@ -167,9 +152,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "error": MessageLookupByLibrary.simpleMessage("Error"),
     "error_create_goal": MessageLookupByLibrary.simpleMessage(
       "Error al crear objetivo:",
-    ),
-    "error_loading_budgets": MessageLookupByLibrary.simpleMessage(
-      "Error al cargar los presupuestos",
     ),
     "error_loading_categories": MessageLookupByLibrary.simpleMessage(
       "Error al cargar categorías",
@@ -268,9 +250,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_analysis_data": MessageLookupByLibrary.simpleMessage(
       "No hay datos de análisis disponibles",
     ),
-    "no_budgets": MessageLookupByLibrary.simpleMessage(
-      "No tienes presupuestos",
-    ),
     "no_predictions_loaded": MessageLookupByLibrary.simpleMessage(
       "No se pudieron cargar las predicciones",
     ),
@@ -313,18 +292,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_trends": MessageLookupByLibrary.simpleMessage(
       "No hay datos de tendencias disponibles",
     ),
-    "notification_channel_description": MessageLookupByLibrary.simpleMessage(
-      "Recordatorio diario para añadir transacciones",
-    ),
-    "notification_channel_name": MessageLookupByLibrary.simpleMessage(
-      "Recordatorios",
-    ),
-    "notification_reminder_body": MessageLookupByLibrary.simpleMessage(
-      "Recuerda añadir tus transacciones del día de hoy",
-    ),
-    "notification_reminder_title": MessageLookupByLibrary.simpleMessage(
-      "Recordatorio de Transacciones",
-    ),
     "november": MessageLookupByLibrary.simpleMessage("Noviembre"),
     "october": MessageLookupByLibrary.simpleMessage("Octubre"),
     "other": MessageLookupByLibrary.simpleMessage("Otro"),
@@ -345,9 +312,6 @@ class MessageLookup extends MessageLookupByLibrary {
       "Por favor completa todos los campos",
     ),
     "predictions_tab": MessageLookupByLibrary.simpleMessage("Predicciones"),
-    "recurring_budget": MessageLookupByLibrary.simpleMessage(
-      "Presupuesto recurrente",
-    ),
     "remaining": MessageLookupByLibrary.simpleMessage("Restante"),
     "restaurant": MessageLookupByLibrary.simpleMessage("Restaurante"),
     "restaurants": MessageLookupByLibrary.simpleMessage("Restaurantes"),
@@ -435,7 +399,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "transport": MessageLookupByLibrary.simpleMessage("Transporte"),
     "transport_category": MessageLookupByLibrary.simpleMessage("Transporte"),
     "type": MessageLookupByLibrary.simpleMessage("Tipo: "),
-    "unknown_error": MessageLookupByLibrary.simpleMessage("Error desconocido"),
     "vacation": MessageLookupByLibrary.simpleMessage("Vacaciones"),
     "validations_login_email": MessageLookupByLibrary.simpleMessage(
       "Por favor ingrese un correo electrónico válido",

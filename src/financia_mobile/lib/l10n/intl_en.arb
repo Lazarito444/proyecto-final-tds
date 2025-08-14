@@ -215,18 +215,6 @@
   "ask_delete_budget" : "¿Are you sure you want to delete this budget of ",
   "dashboard_drawer_categories" : "Categories",
   "dashboard_drawer_savings": "Savings",
-  "dashboard_drawer_budgets": "Budgets",
-  "error_loading_budgets":"Error loading budgets",
-  "unknown_error" : "Unknown error",
-  "no_budgets" : "You don't have budgets",
-  "create_first_budget" : "Create your first budget to manage your expenses",
-  "recurring_budget" : "Recurring budget",
-  "budget_complete_fields" : "Please complete all fields correctly",
-  "budget_successfully_updated" : "Budget successfully updated",
-  "budget_successfully_created" : "Budget successfully created",
-  "budget_successfully_deleted" : "Budget successfully deleted",
-  "notification_reminder_title": "Transaction Reminder",
-  "notification_reminder_body": "Remember to add your transactions for today",
-  "notification_channel_name": "Reminders", 
-  "notification_channel_description": "Daily reminder to add transactions"
+  "dashboard_drawer_budgets": "Budgets"
+  
 }

@@ -1,3 +1,4 @@
+import 'package:financia_mobile/providers/locale_provider.dart';
 import 'package:financia_mobile/config/app_preferences.dart';
 import 'package:financia_mobile/config/themes.dart';
 import 'package:financia_mobile/modules/auth/auth_screen.dart';
@@ -13,7 +14,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'generated/l10n.dart';
-import 'package:financia_mobile/providers/locale_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +23,7 @@ void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   await NotificationService().initialize();
+  await NotificationService().scheduleDailyTransactionReminder();
 
   runApp(
     ProviderScope(
@@ -77,25 +78,6 @@ class MainApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      builder: (context, child) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          _setupLocalizedNotifications(context);
-        });
-        return child!;
-      },
     );
-  }
-
-  void _setupLocalizedNotifications(BuildContext context) {
-    final notificationService = NotificationService();
-
-    notificationService.updateLocalizedStrings(
-      title: S.of(context).notification_reminder_title,
-      body: S.of(context).notification_reminder_body,
-      channelName: S.of(context).notification_channel_name,
-      channelDescription: S.of(context).notification_channel_description,
-    );
-
-    notificationService.scheduleDailyTransactionReminder();
   }
 }
