@@ -1698,6 +1698,136 @@ class S {
       args: [],
     );
   }
+
+  /// `Error loading budgets`
+  String get error_loading_budgets {
+    return Intl.message(
+      'Error loading budgets',
+      name: 'error_loading_budgets',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown error`
+  String get unknown_error {
+    return Intl.message(
+      'Unknown error',
+      name: 'unknown_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You don't have budgets`
+  String get no_budgets {
+    return Intl.message(
+      'You don\'t have budgets',
+      name: 'no_budgets',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create your first budget to manage your expenses`
+  String get create_first_budget {
+    return Intl.message(
+      'Create your first budget to manage your expenses',
+      name: 'create_first_budget',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recurring budget`
+  String get recurring_budget {
+    return Intl.message(
+      'Recurring budget',
+      name: 'recurring_budget',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please complete all fields correctly`
+  String get budget_complete_fields {
+    return Intl.message(
+      'Please complete all fields correctly',
+      name: 'budget_complete_fields',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Budget successfully updated`
+  String get budget_successfully_updated {
+    return Intl.message(
+      'Budget successfully updated',
+      name: 'budget_successfully_updated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Budget successfully created`
+  String get budget_successfully_created {
+    return Intl.message(
+      'Budget successfully created',
+      name: 'budget_successfully_created',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Budget successfully deleted`
+  String get budget_successfully_deleted {
+    return Intl.message(
+      'Budget successfully deleted',
+      name: 'budget_successfully_deleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transaction Reminder`
+  String get notification_reminder_title {
+    return Intl.message(
+      'Transaction Reminder',
+      name: 'notification_reminder_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remember to add your transactions for today`
+  String get notification_reminder_body {
+    return Intl.message(
+      'Remember to add your transactions for today',
+      name: 'notification_reminder_body',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reminders`
+  String get notification_channel_name {
+    return Intl.message(
+      'Reminders',
+      name: 'notification_channel_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Daily reminder to add transactions`
+  String get notification_channel_description {
+    return Intl.message(
+      'Daily reminder to add transactions',
+      name: 'notification_channel_description',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

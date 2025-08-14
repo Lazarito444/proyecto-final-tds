@@ -216,5 +216,19 @@
   "ask_delete_budget" : "¿Estás seguro de que deseas eliminar el presupuesto de ",
   "dashboard_drawer_categories" : "Categorías",
   "dashboard_drawer_savings": "Ahorros",
-  "dashboard_drawer_budgets": "Presupuestos"
+  "dashboard_drawer_budgets": "Presupuestos",
+  "error_loading_budgets":"Error al cargar los presupuestos",
+  "unknown_error" : "Error desconocido",
+  "no_budgets" : "No tienes presupuestos",
+  "create_first_budget" : "Crea tu primer presupuesto para controlar tus gastos",
+  "recurring_budget" : "Presupuesto recurrente",
+  "budget_complete_fields" : "Por favor completa todos los campos correctamente",
+  "budget_successfully_updated" : "Presupuesto actualizado exitosamente",
+  "budget_successfully_created" : "Presupuesto creado exitosamente",
+  "budget_successfully_deleted" : "Presupuesto eliminado exitosamente",
+  "notification_reminder_title": "Recordatorio de Transacciones",
+  "notification_reminder_body": "Recuerda añadir tus transacciones del día de hoy",
+  "notification_channel_name": "Recordatorios",
+  "notification_channel_description": "Recordatorio diario para añadir transacciones"
+
 }

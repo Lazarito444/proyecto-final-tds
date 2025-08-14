@@ -19,7 +19,170 @@ class _HistorialScreenState extends State<HistorialScreen> {
   @override
   void initState() {
     super.initState();
-    _historyFuture = FinanceHistoryService().getFinanceHistory();
+    _loadHistory();
+  }
+
+  void _loadHistory() {
+    setState(() {
+      _historyFuture = FinanceHistoryService().getFinanceHistory();
+    });
+  }
+
+  Future<void> _deleteTransaction(String id) async {
+    try {
+      await FinanceHistoryService().deleteTransaction(id);
+      _loadHistory();
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text('Transacción eliminada')));
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text('Error al eliminar: $e')));
+    }
+  }
+
+  void _editTransaction(FinanceHistoryModel transaction) async {
+    final descController = TextEditingController(text: transaction.description);
+    final amountController = TextEditingController(text: transaction.amount.toString());
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: context.colors.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                S.of(context).edit,
+                style: context.textStyles.titleMedium?.copyWith(fontSize: 20),
+              ),
+              const SizedBox(height: 18),
+              TextField(
+                controller: descController,
+                decoration: InputDecoration(
+                  labelText: S.of(context).description, 
+                  labelStyle: context.textStyles.bodyMedium,
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                ),
+                style: context.textStyles.bodyMedium,
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: amountController,
+                decoration: InputDecoration(
+                  labelText: S.of(context).amount, 
+                  labelStyle: context.textStyles.bodyMedium,
+                  prefixText: '\$',
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                ),
+                keyboardType: TextInputType.number,
+                style: context.textStyles.bodyMedium,
+              ),
+              const SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(S.of(context).cancel, style: context.textStyles.bodyMedium), 
+                  ),
+                  const SizedBox(width: 12),
+                  ElevatedButton(
+                    onPressed: () async {
+                      try {
+                        await FinanceHistoryService().editTransaction(
+                          transaction.id,
+                          descController.text,
+                          double.tryParse(amountController.text) ?? transaction.amount,
+                          transaction.categoryId,
+                          transaction.dateTime,
+                        );
+                        Navigator.pop(context);
+                        _loadHistory();
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()
+                          ..showSnackBar(SnackBar(content: Text(S.of(context).budget_successfully_updated))); 
+                      } catch (e) {
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()
+                          ..showSnackBar(SnackBar(content: Text('${S.of(context).error}: $e'))); 
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: context.colors.primary,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    child: Text(S.of(context).save, style: context.textStyles.bodyMedium),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showDeleteDialog(FinanceHistoryModel transaction) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: context.colors.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.warning_amber_rounded, color: Colors.red, size: 40),
+              const SizedBox(height: 16),
+              Text(
+                S.of(context).delete,
+                style: context.textStyles.titleMedium?.copyWith(fontSize: 20),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                S.of(context).delete_goal_ask,
+                style: context.textStyles.bodyMedium?.copyWith(color: context.colors.onSurfaceVariant),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(S.of(context).cancel, style: context.textStyles.bodyMedium),
+                  ),
+                  const SizedBox(width: 12),
+                  ElevatedButton(
+                    onPressed: () async {
+                      Navigator.pop(context);
+                      await _deleteTransaction(transaction.id);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    child: Text(S.of(context).delete, style: context.textStyles.bodyMedium),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   IconData _getIconData(String categoryName) {
@@ -51,7 +214,7 @@ class _HistorialScreenState extends State<HistorialScreen> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: context.colors.onSurface),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.pop(context, true),
         ),
       ),
       backgroundColor: context.colors.surface,
@@ -141,6 +304,25 @@ class _HistorialScreenState extends State<HistorialScreen> {
                                       : Colors.red,
                                   fontWeight: FontWeight.w600,
                                 ),
+                              ),
+                              PopupMenuButton<String>(
+                                onSelected: (value) {
+                                  if (value == 'edit') {
+                                    _editTransaction(transaccion);
+                                  } else if (value == 'delete') {
+                                    _showDeleteDialog(transaccion);
+                                  }
+                                },
+                                itemBuilder: (context) => [
+                                  PopupMenuItem(
+                                    value: 'edit',
+                                    child: Text(S.of(context).edit),
+                                  ),
+                                  PopupMenuItem(
+                                    value: 'delete',
+                                    child: Text(S.of(context).delete),
+                                  ),
+                                ],
                               ),
                             ],
                           ),

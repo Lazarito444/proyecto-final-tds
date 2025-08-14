@@ -1,31 +1,54 @@
+import 'package:flutter/material.dart';
+import 'package:financia_mobile/models/category_model.dart';
+
 class FinanceHistoryModel {
   final String id;
   final String description;
   final double amount;
   final DateTime dateTime;
-  final bool isEarning;
   final String categoryName;
-  final String categoryIconName;
+  final String categoryId;
+  final bool isEarning;
+  final String? categoryIconName;
+  final String? categoryColorHex;
 
   FinanceHistoryModel({
     required this.id,
     required this.description,
     required this.amount,
     required this.dateTime,
-    required this.isEarning,
     required this.categoryName,
-    required this.categoryIconName,
+    required this.categoryId,
+    required this.isEarning,
+    this.categoryIconName,
+    this.categoryColorHex,
   });
 
-  factory FinanceHistoryModel.fromJson(Map<String, dynamic> json, Map<String, dynamic> categoryJson) {
+  factory FinanceHistoryModel.fromJson(Map<String, dynamic> json) {
     return FinanceHistoryModel(
-      id: json['id'] as String,
-      description: json['description'] as String,
-      amount: json['amount'] as double,
-      dateTime: DateTime.parse(json['dateTime'] as String),
-      isEarning: json['isEarning'] as bool,
-      categoryName: categoryJson['name'] as String,
-      categoryIconName: categoryJson['iconName'] as String,
+      id: json['id'] ?? '',
+      description: json['description'] ?? '',
+      amount: (json['amount'] ?? 0.0).toDouble(),
+      dateTime: DateTime.tryParse(json['dateTime'] ?? '') ?? DateTime.now(),
+      categoryName: json['categoryName'] ?? '',
+      categoryId: json['categoryId'] ?? '',
+      isEarning: json['isEarning'] ?? false,
+      categoryIconName: json['categoryIconName'],
+      categoryColorHex: json['categoryColorHex'],
     );
+  }
+
+  IconData get toIconData {
+    if (categoryIconName != null) {
+      return Category.getIconFromName(categoryIconName!);
+    }
+    return Icons.category;
+  }
+
+  Color get toColor {
+    if (categoryColorHex != null) {
+      return Category.getColorFromHex(categoryColorHex!);
+    }
+    return const Color(0xFF4A9B8E);
   }
 }
