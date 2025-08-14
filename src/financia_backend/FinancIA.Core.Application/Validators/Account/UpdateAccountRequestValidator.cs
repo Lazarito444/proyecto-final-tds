@@ -6,6 +6,6 @@ public class UpdateAccountRequestValidator : AbstractValidator<UpdateAccountRequ
 {
     public UpdateAccountRequestValidator()
     {
-        RuleFor(dto => dto.FullName).NotEmpty();
+        RuleFor(dto => dto.FullName).NotEmpty().When(dto => dto.FullName is not null);
     }
 }
