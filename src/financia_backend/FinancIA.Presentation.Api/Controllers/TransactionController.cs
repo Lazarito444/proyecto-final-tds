@@ -60,12 +60,12 @@ public class TransactionController : ControllerBase
 
         if (filter.FromDate.HasValue)
         {
-            query = query.Where(t => t.DateTime >= filter.FromDate.Value);
+            query = query.Where(t => t.DateTime.Date >= filter.FromDate.Value);
         }
 
         if (filter.ToDate.HasValue)
         {
-            query = query.Where(t => t.DateTime <= filter.ToDate.Value);
+            query = query.Where(t => t.DateTime.Date <= filter.ToDate.Value);
         }
 
         List<Transaction> transactions = await query.ToListAsync();
