@@ -68,6 +68,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "budget_by_category": MessageLookupByLibrary.simpleMessage(
       "Budget by Category",
     ),
+    "budget_complete_fields": MessageLookupByLibrary.simpleMessage(
+      "Please complete all fields correctly",
+    ),
+    "budget_successfully_created": MessageLookupByLibrary.simpleMessage(
+      "Budget successfully created",
+    ),
+    "budget_successfully_deleted": MessageLookupByLibrary.simpleMessage(
+      "Budget successfully deleted",
+    ),
+    "budget_successfully_updated": MessageLookupByLibrary.simpleMessage(
+      "Budget successfully updated",
+    ),
     "budgeted_amount": MessageLookupByLibrary.simpleMessage("Bidgeted amount"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "categories": MessageLookupByLibrary.simpleMessage("Categories"),
@@ -93,6 +105,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "create": MessageLookupByLibrary.simpleMessage("Create"),
     "create_account": MessageLookupByLibrary.simpleMessage("Create account"),
+    "create_first_budget": MessageLookupByLibrary.simpleMessage(
+      "Create your first budget to manage your expenses",
+    ),
     "create_first_goal": MessageLookupByLibrary.simpleMessage(
       "Create your first savings goal to start planning your financial goals.",
     ),
@@ -138,6 +153,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "error": MessageLookupByLibrary.simpleMessage("Error"),
     "error_create_goal": MessageLookupByLibrary.simpleMessage(
       "Error creating goal:",
+    ),
+    "error_loading_budgets": MessageLookupByLibrary.simpleMessage(
+      "Error loading budgets",
     ),
     "error_loading_categories": MessageLookupByLibrary.simpleMessage(
       "Error loading categories",
@@ -230,6 +248,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_analysis_data": MessageLookupByLibrary.simpleMessage(
       "No analysis data available",
     ),
+    "no_budgets": MessageLookupByLibrary.simpleMessage(
+      "You don\'t have budgets",
+    ),
     "no_predictions_loaded": MessageLookupByLibrary.simpleMessage(
       "Could not load predictions",
     ),
@@ -272,6 +293,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_trends": MessageLookupByLibrary.simpleMessage(
       "There is no trend data available",
     ),
+    "notification_channel_description": MessageLookupByLibrary.simpleMessage(
+      "Daily reminder to add transactions",
+    ),
+    "notification_channel_name": MessageLookupByLibrary.simpleMessage(
+      "Reminders",
+    ),
+    "notification_reminder_body": MessageLookupByLibrary.simpleMessage(
+      "Remember to add your transactions for today",
+    ),
+    "notification_reminder_title": MessageLookupByLibrary.simpleMessage(
+      "Transaction Reminder",
+    ),
     "november": MessageLookupByLibrary.simpleMessage("November"),
     "october": MessageLookupByLibrary.simpleMessage("October"),
     "other": MessageLookupByLibrary.simpleMessage("Other"),
@@ -292,6 +325,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Please complete all fields",
     ),
     "predictions_tab": MessageLookupByLibrary.simpleMessage("Predictions"),
+    "recurring_budget": MessageLookupByLibrary.simpleMessage(
+      "Recurring budget",
+    ),
     "remaining": MessageLookupByLibrary.simpleMessage("Remaining"),
     "restaurant": MessageLookupByLibrary.simpleMessage("Restaurant"),
     "restaurants": MessageLookupByLibrary.simpleMessage("Restaurants"),
@@ -377,6 +413,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "transport": MessageLookupByLibrary.simpleMessage("Transport"),
     "transport_category": MessageLookupByLibrary.simpleMessage("Transport"),
     "type": MessageLookupByLibrary.simpleMessage("Type: "),
+    "unknown_error": MessageLookupByLibrary.simpleMessage("Unknown error"),
     "vacation": MessageLookupByLibrary.simpleMessage("Vacation"),
     "validations_login_email": MessageLookupByLibrary.simpleMessage(
       "Please type a valid email",
