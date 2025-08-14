@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:financia_mobile/config/dio_factory.dart';
 import 'package:financia_mobile/models/user_model.dart';
 import 'package:financia_mobile/config/app_preferences.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class UserService {
   late final Dio _dio;
@@ -14,10 +15,12 @@ class UserService {
   Future<User?> getCurrentUser() async {
     try {
       // Get current user ID from preferences
-      final userId = await AppPreferences.getStringPreference('user_id');
-      if (userId == null) return null;
+      var token = await AppPreferences.getAuthToken();
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
+      var _currentUserId = decodedToken['sub']?.toString();
+      if (_currentUserId == null) return null;
 
-      final response = await _dio.get('/account/$userId');
+      final response = await _dio.get('/account/$_currentUserId');
 
       if (response.statusCode == 200) {
         return User.fromJson(response.data);
