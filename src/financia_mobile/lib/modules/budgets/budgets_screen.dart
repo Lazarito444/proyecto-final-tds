@@ -149,13 +149,13 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
             Icon(Icons.error_outline, size: 64, color: context.colors.error),
             const SizedBox(height: 16),
             Text(
-              'Error al cargar los presupuestos',
+              S.of(context).error_loading_budgets,
               style: context.textStyles.titleMedium,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
             Text(
-              _errorMessage ?? 'Error desconocido',
+              _errorMessage ?? S.of(context).unknown_error,
               style: context.textStyles.bodyMedium?.copyWith(
                 color: context.colors.onSurfaceVariant,
               ),
@@ -164,7 +164,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _loadData,
-              child: const Text('Reintentar'),
+              child: Text(S.of(context).retry),
             ),
           ],
         ),
@@ -185,13 +185,13 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
           ),
           const SizedBox(height: 16),
           Text(
-            'No tienes presupuestos',
+            S.of(context).no_budgets,
             style: context.textStyles.titleMedium,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
           Text(
-            'Crea tu primer presupuesto para controlar tus gastos',
+            S.of(context).create_first_budget,
             style: context.textStyles.bodyMedium?.copyWith(
               color: context.colors.onSurfaceVariant,
             ),
@@ -589,7 +589,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                 const SizedBox(height: 16),
                 CheckboxListTile(
                   title: Text(
-                    'Presupuesto recurrente',
+                    S.of(context).recurring_budget,
                     style: context.textStyles.bodyMedium?.copyWith(
                       fontSize: 14,
                     ),
@@ -685,8 +685,8 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
   ) async {
     if (categoryId == null || categoryId.isEmpty || amount <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Por favor completa todos los campos correctamente'),
+        SnackBar(
+          content: Text(S.of(context).budget_complete_fields),
           backgroundColor: Colors.red,
         ),
       );
@@ -728,8 +728,8 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
           SnackBar(
             content: Text(
               existingBudget != null
-                  ? 'Presupuesto actualizado exitosamente'
-                  : 'Presupuesto creado exitosamente',
+                  ? S.of(context).budget_successfully_updated
+                  : S.of(context).budget_successfully_created,
             ),
             backgroundColor: Colors.green,
           ),
@@ -754,8 +754,8 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Presupuesto eliminado exitosamente'),
+          SnackBar(
+            content: Text(S.of(context).budget_successfully_deleted),
             backgroundColor: Colors.green,
           ),
         );
@@ -764,7 +764,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error al eliminar: ${e.toString()}'),
+            content: Text('${S.of(context).error_to_delete}: ${e.toString()}'),
             backgroundColor: Colors.red,
           ),
         );
