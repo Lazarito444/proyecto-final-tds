@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:financia_mobile/config/app_preferences.dart';
 
 class DioFactory {
-  static const String baseUrl = "http://10.0.2.2:5189/api/";
+  static const String baseUrl = "http://10.0.0.13:5189/api/";
   static const int connectTimeoutSeconds = 30;
   static const int receiveTimeoutSeconds = 30;
   static const int sendTimeoutSeconds = 30;
