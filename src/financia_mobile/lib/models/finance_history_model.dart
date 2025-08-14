@@ -1,5 +1,5 @@
-import 'package:financia_mobile/models/category_model.dart';
 import 'package:flutter/material.dart';
+import 'package:financia_mobile/models/category_model.dart';
 
 class FinanceHistoryModel {
   final String id;

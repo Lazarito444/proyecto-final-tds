@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:financia_mobile/models/finance_history_model.dart';
 import 'package:financia_mobile/config/dio_factory.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 
 class FinanceHistoryService {
   late final Dio _dio;
