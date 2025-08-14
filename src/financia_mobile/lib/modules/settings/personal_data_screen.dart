@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:io';
+import 'package:financia_mobile/config/app_preferences.dart';
 import 'package:financia_mobile/widgets/full_width_button.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,6 +9,7 @@ import 'package:financia_mobile/extensions/theme_extensions.dart';
 import 'package:financia_mobile/generated/l10n.dart';
 import 'package:financia_mobile/models/user_model.dart';
 import 'package:financia_mobile/services/user_service.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class PersonalDataScreen extends StatefulWidget {
   const PersonalDataScreen({super.key});
@@ -83,7 +85,10 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
   }
 
   Future<void> _saveData() async {
-    if (_currentUser == null) {
+    var token = await AppPreferences.getAuthToken();
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
+    var _currentUserId = decodedToken['sub']?.toString();
+    if (_currentUserId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('No se pudo obtener la información del usuario'),
@@ -105,7 +110,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
       );
 
       final updatedUser = await _userService.updateUser(
-        _currentUser!.id,
+        _currentUserId,
         updateRequest,
       );
 
