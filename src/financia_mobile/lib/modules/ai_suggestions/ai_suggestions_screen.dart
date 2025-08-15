@@ -1,4 +1,5 @@
 import 'package:financia_mobile/generated/l10n.dart';
+import 'package:financia_mobile/providers/locale_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:financia_mobile/extensions/theme_extensions.dart';
@@ -28,6 +29,10 @@ class _AISuggestionsScreenState extends ConsumerState<AISuggestionsScreen>
   bool _isLoadingSuggestions = false;
   bool _isLoadingPredictions = false;
   bool _isLoadingChat = false;
+  String get langParam {
+    final locale = ref.read(localeProvider);
+    return locale?.languageCode == "en" ? "en" : "es";
+  }
 
   @override
   void initState() {
@@ -54,7 +59,7 @@ class _AISuggestionsScreenState extends ConsumerState<AISuggestionsScreen>
     });
 
     try {
-      final suggestions = await _aiService.getSuggestions();
+      final suggestions = await _aiService.getSuggestions(lang: langParam);
       setState(() {
         _suggestions = suggestions;
       });
@@ -81,7 +86,7 @@ class _AISuggestionsScreenState extends ConsumerState<AISuggestionsScreen>
     });
 
     try {
-      final predictions = await _aiService.getPredictions();
+      final predictions = await _aiService.getPredictions(lang: langParam);
       setState(() {
         _predictions = predictions;
       });
@@ -119,7 +124,7 @@ class _AISuggestionsScreenState extends ConsumerState<AISuggestionsScreen>
 
     try {
       final request = ChatWithAiRequest(prompt: message);
-      final response = await _aiService.chatWithAi(request);
+      final response = await _aiService.chatWithAi(request, lang: langParam);
 
       setState(() {
         _chatMessages.add(

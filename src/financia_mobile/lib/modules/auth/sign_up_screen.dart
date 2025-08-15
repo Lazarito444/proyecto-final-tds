@@ -113,6 +113,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               passwordConfirmation: passwordConfirmation,
                             ),
                           );
+
+                      Navigator.of(context).popUntil((route) => route.isFirst);
                     } on DioException catch (e) {
                       if ((e.response?.statusCode ?? 400) == 400) {
                         for (var error in e.response!.data) {

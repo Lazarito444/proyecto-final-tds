@@ -3,6 +3,7 @@ import 'package:financia_mobile/generated/l10n.dart';
 import 'package:dio/dio.dart';
 import 'package:financia_mobile/extensions/navigation_extensions.dart';
 import 'package:financia_mobile/extensions/theme_extensions.dart';
+import 'package:financia_mobile/modules/dashboard/dashboard_screen.dart';
 import 'package:financia_mobile/providers/auth_provider.dart';
 import 'package:financia_mobile/widgets/full_width_button.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +72,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           .read(authProvider.notifier)
                           .login(email, password);
 
-                      context.pop();
+                      Navigator.of(context).popUntil((route) => route.isFirst);
+                      context.push(DashboardScreen());
                     } on DioException {
                       ScaffoldMessenger.of(context)
                         ..hideCurrentSnackBar()

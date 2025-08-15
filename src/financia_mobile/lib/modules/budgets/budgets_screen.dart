@@ -332,7 +332,9 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                 ),
                 child: Icon(
                   budget['icon'] as IconData,
-                  color: isOverBudget ? Colors.red : context.colors.surfaceContainerLowest,
+                  color: isOverBudget
+                      ? Colors.red
+                      : context.colors.surfaceContainerLowest,
                   size: 24,
                 ),
               ),
@@ -418,7 +420,9 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
               Text(
                 '\$${budget['spentAmount'].toStringAsFixed(2)}',
                 style: context.textStyles.titleSmall?.copyWith(
-                  color: isOverBudget ? Colors.red : context.colors.surfaceContainerLowest,
+                  color: isOverBudget
+                      ? Colors.red
+                      : context.colors.surfaceContainerLowest,
                   fontSize: 16,
                 ),
               ),
@@ -455,7 +459,9 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                     ? '${S.of(context).exceeded_by}: \$${(-remaining).toStringAsFixed(2)}'
                     : '${S.of(context).remaining}: \$${remaining.toStringAsFixed(2)}',
                 style: context.textStyles.labelSmall?.copyWith(
-                  color: isOverBudget ? Colors.red : context.colors.surfaceContainerLowest,
+                  color: isOverBudget
+                      ? Colors.red
+                      : context.colors.surfaceContainerLowest,
                   fontSize: 12,
                 ),
               ),
@@ -483,7 +489,16 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
     final amountController = TextEditingController(
       text: budget?['budgetAmount']?.toString() ?? '',
     );
-    String selectedPeriod = budget?['period'] ?? 'Mensual';
+    // Define las claves internas
+    final periodKeys = ['weekly', 'monthly', 'annual'];
+    final periodOptions = {
+      'weekly': S.of(context).weekly_period,
+      'monthly': S.of(context).monthly_period,
+      'annual': S.of(context).annual_period,
+    };
+
+    // Inicializa con la clave
+    String selectedPeriodKey = budget?['periodKey'] ?? 'monthly';
     bool isRecurring = budget?['isRecurring'] ?? true;
 
     showDialog(
@@ -553,7 +568,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<String>(
-                  value: selectedPeriod,
+                  value: selectedPeriodKey,
                   style: context.textStyles.bodyMedium?.copyWith(fontSize: 14),
                   decoration: InputDecoration(
                     labelText: S.of(context).period,
@@ -564,25 +579,20 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  items:
-                      [
-                        S.of(context).weekly_period,
-                        S.of(context).monthly_period,
-                        S.of(context).annual_period,
-                      ].map((period) {
-                        return DropdownMenuItem(
-                          value: period,
-                          child: Text(
-                            period,
-                            style: context.textStyles.bodyMedium?.copyWith(
-                              fontSize: 14,
-                            ),
-                          ),
-                        );
-                      }).toList(),
+                  items: periodKeys.map((key) {
+                    return DropdownMenuItem(
+                      value: key,
+                      child: Text(
+                        periodOptions[key]!,
+                        style: context.textStyles.bodyMedium?.copyWith(
+                          fontSize: 14,
+                        ),
+                      ),
+                    );
+                  }).toList(),
                   onChanged: (value) {
                     if (value != null) {
-                      setDialogState(() => selectedPeriod = value);
+                      setDialogState(() => selectedPeriodKey = value);
                     }
                   },
                 ),
@@ -615,7 +625,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                 _saveBudget(
                   selectedCategoryId,
                   double.tryParse(amountController.text) ?? 0,
-                  selectedPeriod,
+                  selectedPeriodKey,
                   isRecurring,
                   budget,
                 );

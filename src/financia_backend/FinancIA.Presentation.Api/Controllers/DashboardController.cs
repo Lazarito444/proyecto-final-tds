@@ -28,7 +28,7 @@ public class DashboardController : ControllerBase
         DateTime endOfMonth = startOfMonth.AddMonths(1).AddSeconds(-1);
 
         var userLastTransactions = await _context.Transactions
-            .Where(t => t.UserId == userId)
+            .Where(t => t.UserId == userId && t.DateTime.Date >= startOfMonth && t.DateTime.Date <= endOfMonth)
             .Include(t => t.Category)
             .OrderByDescending(t => t.DateTime)
             .Take(5)

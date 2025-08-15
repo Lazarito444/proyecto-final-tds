@@ -124,14 +124,15 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           final currentBalance = data.earnings - data.expenses;
           String circleText;
           Color circleTextColor = context.colors.onSurface;
-          if (data.earnings == 0 && data.expenses == 0) {
-            circleText = '0%';
-          } else if (data.earnings > 0) {
-            final percentage = (currentBalance / data.earnings) * 100;
-            circleText = '${percentage.toStringAsFixed(0)}%';
-          } else {
-            circleText = '0%';
+          double earningsPercent = 0;
+          if (data.earnings + data.expenses > 0) {
+            earningsPercent =
+                (data.earnings / (data.earnings + data.expenses)) * 100;
           }
+          double incomeExpenseRatio = data.expenses > 0
+              ? (data.earnings / data.expenses) * 100
+              : 0;
+          circleText = '${incomeExpenseRatio.toStringAsFixed(0)}%';
           return Column(
             children: [
               Container(
