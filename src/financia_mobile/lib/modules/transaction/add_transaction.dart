@@ -174,11 +174,21 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                   segments: <ButtonSegment<bool>>[
                     ButtonSegment(
                       value: true,
-                      label: Text(S.of(context).income),
+                      label: Text(
+                        S.of(context).income,
+                        style: context.textStyles.labelSmall?.copyWith(
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
                     ButtonSegment(
                       value: false,
-                      label: Text(S.of(context).expenses),
+                      label: Text(
+                        S.of(context).expenses,
+                        style: context.textStyles.labelSmall?.copyWith(
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
                   ],
                   selected: <bool>{_isEarning},

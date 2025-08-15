@@ -44,7 +44,9 @@ class _HistorialScreenState extends State<HistorialScreen> {
 
   void _editTransaction(FinanceHistoryModel transaction) async {
     final descController = TextEditingController(text: transaction.description);
-    final amountController = TextEditingController(text: transaction.amount.toString());
+    final amountController = TextEditingController(
+      text: transaction.amount.toString(),
+    );
     showDialog(
       context: context,
       builder: (context) => Dialog(
@@ -63,10 +65,15 @@ class _HistorialScreenState extends State<HistorialScreen> {
               TextField(
                 controller: descController,
                 decoration: InputDecoration(
-                  labelText: S.of(context).description, 
+                  labelText: S.of(context).description,
                   labelStyle: context.textStyles.bodyMedium,
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 10,
+                  ),
                 ),
                 style: context.textStyles.bodyMedium,
               ),
@@ -74,11 +81,16 @@ class _HistorialScreenState extends State<HistorialScreen> {
               TextField(
                 controller: amountController,
                 decoration: InputDecoration(
-                  labelText: S.of(context).amount, 
+                  labelText: S.of(context).amount,
                   labelStyle: context.textStyles.bodyMedium,
                   prefixText: '\$',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 10,
+                  ),
                 ),
                 keyboardType: TextInputType.number,
                 style: context.textStyles.bodyMedium,
@@ -89,7 +101,10 @@ class _HistorialScreenState extends State<HistorialScreen> {
                 children: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: Text(S.of(context).cancel, style: context.textStyles.bodyMedium), 
+                    child: Text(
+                      S.of(context).cancel,
+                      style: context.textStyles.bodyMedium,
+                    ),
                   ),
                   const SizedBox(width: 12),
                   ElevatedButton(
@@ -98,7 +113,8 @@ class _HistorialScreenState extends State<HistorialScreen> {
                         await FinanceHistoryService().editTransaction(
                           transaction.id,
                           descController.text,
-                          double.tryParse(amountController.text) ?? transaction.amount,
+                          double.tryParse(amountController.text) ??
+                              transaction.amount,
                           transaction.categoryId,
                           transaction.dateTime,
                         );
@@ -106,21 +122,39 @@ class _HistorialScreenState extends State<HistorialScreen> {
                         _loadHistory();
                         ScaffoldMessenger.of(context)
                           ..hideCurrentSnackBar()
-                          ..showSnackBar(SnackBar(content: Text(S.of(context).budget_successfully_updated))); 
+                          ..showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                S.of(context).budget_successfully_updated,
+                              ),
+                            ),
+                          );
                       } catch (e) {
                         Navigator.pop(context);
                         ScaffoldMessenger.of(context)
                           ..hideCurrentSnackBar()
-                          ..showSnackBar(SnackBar(content: Text('${S.of(context).error}: $e'))); 
+                          ..showSnackBar(
+                            SnackBar(
+                              content: Text('${S.of(context).error}: $e'),
+                            ),
+                          );
                       }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: context.colors.primary,
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                    child: Text(S.of(context).save, style: context.textStyles.bodyMedium),
+                    child: Text(
+                      S.of(context).save,
+                      style: context.textStyles.bodyMedium,
+                    ),
                   ),
                 ],
               ),
@@ -151,7 +185,9 @@ class _HistorialScreenState extends State<HistorialScreen> {
               const SizedBox(height: 12),
               Text(
                 S.of(context).delete_goal_ask,
-                style: context.textStyles.bodyMedium?.copyWith(color: context.colors.onSurfaceVariant),
+                style: context.textStyles.bodyMedium?.copyWith(
+                  color: context.colors.onSurfaceVariant,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 24),
@@ -160,7 +196,10 @@ class _HistorialScreenState extends State<HistorialScreen> {
                 children: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: Text(S.of(context).cancel, style: context.textStyles.bodyMedium),
+                    child: Text(
+                      S.of(context).cancel,
+                      style: context.textStyles.bodyMedium,
+                    ),
                   ),
                   const SizedBox(width: 12),
                   ElevatedButton(
@@ -171,10 +210,18 @@ class _HistorialScreenState extends State<HistorialScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                    child: Text(S.of(context).delete, style: context.textStyles.bodyMedium),
+                    child: Text(
+                      S.of(context).delete,
+                      style: context.textStyles.bodyMedium,
+                    ),
                   ),
                 ],
               ),
@@ -228,7 +275,6 @@ class _HistorialScreenState extends State<HistorialScreen> {
               style: context.textStyles.titleMedium,
             ),
             const SizedBox(height: 8),
-            Text(currentMonthFormatted, style: context.textStyles.titleMedium),
             const SizedBox(height: 16),
             Expanded(
               child: FutureBuilder<List<FinanceHistoryModel>>(

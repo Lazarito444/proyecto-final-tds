@@ -45,6 +45,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         context,
         MaterialPageRoute(builder: (context) => const HistorialScreen()),
       );
+      ref.invalidate(dashboardDataProvider);
     } else if (index == 4) {
       Navigator.push(
         context,
